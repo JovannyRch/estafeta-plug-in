@@ -1,5 +1,5 @@
 import React from "react";
-import { BaseTableContainer } from "./styled-components";
+import { BaseTableContainer, Th } from "./styled-components";
 
 interface Header {
   title: string;
@@ -17,7 +17,9 @@ const BaseTable = ({ headers, children }: Props) => {
       <thead>
         <tr>
           {headers.map((header) => (
-            <th key={header.key}>{header.title}</th>
+            <Th key={header.key} align="left">
+              {header.title}
+            </Th>
           ))}
         </tr>
       </thead>

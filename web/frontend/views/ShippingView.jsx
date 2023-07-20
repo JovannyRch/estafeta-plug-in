@@ -6,6 +6,7 @@ import ShippingTable from '../components/ShippingTable/ShippingTable';
 import Spacer from '../components/Spacer/Index';
 import Pagination from '../components/Pagination';
 import EstafetaLogo from '../icons/EstafetaLogo';
+import Typography from '../components/Typography/Index';
 
 
 const Container = styled.div`
@@ -15,41 +16,6 @@ const Container = styled.div`
     width: 100%;
     padding: 24px 24px;
     border-radius: 8px;
-`;
-
-
-const HeaderContainer = styled.div`
-    display: flex;
-    justify-content: space-between;
-`;
-
-
-const BodyContainer = styled.div`
-    display: flex;
-    flex-direction: row;
-    gap: 24px;
-    width: 100%;
-    border-radius: 8px;
-`;
-
-
-const SideBarPanel = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    width: 160px;
-    border-radius: 8px;
-`;
-const SideButtonContainer = styled.div` 
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-direction: column;
-    padding: 8px 16px;
-    border-radius: 8px;
-    height: 80px;
-    background-color: #fff;
-    cursor: pointer;
 `;
 
 
@@ -108,6 +74,11 @@ const ShippingView = () => {
             <LogoContainer>
                 <EstafetaLogo />
             </LogoContainer>
+
+            <Typography.Title>
+                Envíos
+            </Typography.Title>
+            <Spacer height={22} />
             <InputContainer >
                 <Input placeholder='Buscar por número de order o destinatario' />
                 <SelectContainer>

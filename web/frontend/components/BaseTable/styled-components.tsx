@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React from "react";
 import styled from "styled-components";
 
 export const BaseTableContainer = styled.table`
@@ -7,11 +7,19 @@ export const BaseTableContainer = styled.table`
 `;
 
 export const Th = styled.th`
+  color: var(--tipografa, #12263c);
   font-family: Montserrat;
   font-size: 15px;
   font-style: normal;
   font-weight: 700;
   line-height: normal;
+  &:first-child {
+    padding-left: 19px;
+  }
+
+  &:last-child {
+    padding-right: 19px;
+  }
 `;
 
 export const Tr = styled.tr`

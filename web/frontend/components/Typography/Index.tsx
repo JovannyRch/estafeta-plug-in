@@ -47,6 +47,12 @@ export const Label = styled(BaseText)`
   font-weight: 500;
 `;
 
+const Title = styled(BaseText)`
+  font-weight: 800;
+  font-size: 25px;
+  ${(props) => SizeParam(props.size)}
+`;
+
 interface Props {
   children: React.ReactNode;
   size?: number;
@@ -55,7 +61,7 @@ interface Props {
 
 const Typography = {
   Title: ({ children }: Props) => {
-    return <h1>{children}</h1>;
+    return <Title>{children}</Title>;
   },
   Link: ({ children, size }: Props) => {
     return <Link size={size}>{children}</Link>;
