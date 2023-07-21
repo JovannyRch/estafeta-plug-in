@@ -6,6 +6,7 @@ import Pagination from '../components/Pagination';
 import Typography from '../components/Typography/Index';
 import Logo from '../components/Logo';
 import SearchInput from '../components/SearchInput/SearchInput';
+import ViewWrapper from '../components/ViewWrapper/ViewWrapper';
 
 
 const Container = styled.div`
@@ -24,15 +25,6 @@ const InputContainer = styled.div`
     width: 100%;
     border-radius: 8px;
     margin-bottom: 57px;
-`;
-
-
-const Input = styled.input`
-    width: 400px;
-    height: 40px;
-    border-radius: 8px;
-    padding: 0 19px;
-    border: 1px solid #12263C;
 `;
 
 
@@ -60,22 +52,24 @@ const ShippingView = () => {
 
 
     return (
-        <Container>
-            <LogoContainer>
-                <Logo />
-            </LogoContainer>
+        <ViewWrapper>
+            <Container>
+                <LogoContainer>
+                    <Logo />
+                </LogoContainer>
 
-            <Typography.Title>
-                Envíos
-            </Typography.Title>
-            <Spacer height={22} />
-            <InputContainer >
-                <SearchInput width={400} placeholder='Buscar por número de orden o destinatario' />
-            </InputContainer>
-            <ShippingTable />
-            <Spacer height={22} />
-            <Pagination />
-        </Container>
+                <Typography.Title>
+                    Envíos
+                </Typography.Title>
+                <Spacer height={22} />
+                <InputContainer >
+                    <SearchInput width={400} placeholder='Buscar por número de orden o destinatario' />
+                </InputContainer>
+                <ShippingTable />
+                <Spacer height={22} />
+                <Pagination />
+            </Container>
+        </ViewWrapper>
     )
 }
 
