@@ -9,6 +9,8 @@ import SearchInput from '../components/SearchInput/SearchInput';
 import ViewWrapper from '../components/ViewWrapper/ViewWrapper';
 import { data } from '../components/ShippingTable/const';
 import Button from '../components/Button/Button';
+import Dropdown from '../components/Dropdown/Dropdown';
+import ShipmentDropdownFilter from '../components/ShipmentDropdownFilter/ShipmentDropdownFilter';
 
 
 const Container = styled.div`
@@ -104,6 +106,7 @@ const ShippingView = ({ title = "Envíos" }) => {
                             value={searchValue}
                             onChange={({ target }) => setSearchValue(target.value)}
                         />
+                        <ShipmentDropdownFilter />
                     </FilterContainer>
                     <Button>
                         Actualizar
