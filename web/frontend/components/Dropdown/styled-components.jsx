@@ -29,13 +29,14 @@ export const Menu = styled.ul`
     font-style: normal;
     font-weight: 500;
     line-height: normal;
-   
+    user-select: none;
     
 
     &:hover {
       background-color: lightgray;
     }
     button {
+      user-select: none;
       width: 100%;
       height: 100%;
       text-align: left;
@@ -76,4 +77,5 @@ export const Label = styled.div`
   font-weight: 500;
   line-height: normal;
   flex: 1;
+  user-select: none;
 `;

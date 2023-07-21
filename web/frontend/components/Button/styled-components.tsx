@@ -11,4 +11,5 @@ export const Container = styled(BaseText)`
   font-weight: 600;
   height: 40px;
   border-radius: 8px;
+  user-select: none;
 `;
