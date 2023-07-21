@@ -1,12 +1,11 @@
-import { AlphaCard, Autocomplete, Heading, Icon, List, Select } from '@shopify/polaris';
-import React, { useState, useCallback, useEffect } from 'react'
+import React, { useState, useCallback, } from 'react'
 import styled from 'styled-components';
-import { HomeMinor, SendMajor, OrdersMinor, SearchMinor } from '@shopify/polaris-icons';
 import ShippingTable from '../components/ShippingTable/ShippingTable';
 import Spacer from '../components/Spacer/Index';
 import Pagination from '../components/Pagination';
-import EstafetaLogo from '../icons/EstafetaLogo';
 import Typography from '../components/Typography/Index';
+import Logo from '../components/Logo';
+import SearchInput from '../components/SearchInput/SearchInput';
 
 
 const Container = styled.div`
@@ -37,10 +36,6 @@ const Input = styled.input`
 `;
 
 
-const SelectContainer = styled.div`
-    width: 168px;
-`;
-
 const LogoContainer = styled.div`
     width: 100%;
     display: flex;
@@ -61,18 +56,13 @@ const ShippingView = () => {
         [],
     );
 
-    const options = [
-        { label: 'Filtrar por', value: 'today' },
-        { label: 'Yesterday', value: 'yesterday' },
-        { label: 'Last 7 days', value: 'lastWeek' },
-    ];
 
 
 
     return (
         <Container>
             <LogoContainer>
-                <EstafetaLogo />
+                <Logo />
             </LogoContainer>
 
             <Typography.Title>
@@ -80,14 +70,7 @@ const ShippingView = () => {
             </Typography.Title>
             <Spacer height={22} />
             <InputContainer >
-                <Input placeholder='Buscar por número de order o destinatario' />
-                <SelectContainer>
-                    <Select
-                        options={options}
-                        onChange={handleSelectChange}
-                        value={selected}
-                    />
-                </SelectContainer>
+                <SearchInput width={400} placeholder='Buscar por número de orden o destinatario' />
             </InputContainer>
             <ShippingTable />
             <Spacer height={22} />

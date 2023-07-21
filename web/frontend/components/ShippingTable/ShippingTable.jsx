@@ -6,6 +6,7 @@ import Typography from '../Typography/Index';
 import Spacer from '../Spacer/Index';
 import ShipmentStatus from './Status';
 import styled from 'styled-components';
+import DownloadIcon from '../../icons/DownloadIcon';
 
 const ShipmentsContainer = styled.div`
     display: flex;
@@ -81,7 +82,7 @@ const ShippingTable = () => {
                             </Typography.Text>
                         </TableComponents.Cell>
                         <TableComponents.Cell>
-
+                            <DownloadIcon />
                         </TableComponents.Cell>
                     </TableComponents.Row>
                 ))

@@ -20,8 +20,8 @@ const headers = [
     key: "cost",
   },
   {
-    title: "Crear envío",
-    key: "createShipping",
+    title: "Acciones",
+    key: "actions",
   },
 ];
 
