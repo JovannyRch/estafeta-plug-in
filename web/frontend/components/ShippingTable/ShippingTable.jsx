@@ -1,12 +1,13 @@
 import React from 'react'
 import BaseTable from '../BaseTable/Index';
 import { TableComponents } from '../BaseTable/styled-components';
-import { data, headers } from './const';
+import { headers } from './const';
 import Typography from '../Typography/Index';
 import Spacer from '../Spacer/Index';
 import ShipmentStatus from './Status';
 import styled from 'styled-components';
 import DownloadIcon from '../../icons/DownloadIcon';
+import IconButton from '../IconButton/IconButton';
 
 const ShipmentsContainer = styled.div`
     display: flex;
@@ -21,14 +22,23 @@ const ShipmentsItem = styled.div`
     min-height: 38px;
 `;
 
-const ShippingTable = () => {
+const ActionsContainers = styled.div`
+    display: flex;
+    justify-content: center;
+`;
+
+const ShippingTable = ({ data = [] }) => {
+
+    const handleDownload = () => {
+        window.open('https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf');
+    };
 
 
     return (
         <BaseTable headers={headers}>
             {
                 data.map((shipment) => (
-                    <TableComponents.Row>
+                    <TableComponents.Row key={shipment.id}>
                         <TableComponents.Cell>
                             <Typography.Link size={15} >
                                 {shipment.orderNumber}
@@ -82,7 +92,11 @@ const ShippingTable = () => {
                             </Typography.Text>
                         </TableComponents.Cell>
                         <TableComponents.Cell>
-                            <DownloadIcon />
+                            <ActionsContainers>
+                                <IconButton onClick={handleDownload}>
+                                    <DownloadIcon />
+                                </IconButton>
+                            </ActionsContainers>
                         </TableComponents.Cell>
                     </TableComponents.Row>
                 ))

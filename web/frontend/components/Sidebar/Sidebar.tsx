@@ -8,6 +8,7 @@ import {
 import OrdersIcon from "../../icons/OrdersIcon";
 import PickUpsIcon from "../../icons/PickUpsIcon";
 import ShipmentsIcon from "../../icons/ShipmentsIcon";
+import { Link } from "@shopify/polaris";
 
 interface LinkProps {
   icon: React.ReactNode;
@@ -15,11 +16,11 @@ interface LinkProps {
   url?: string;
 }
 
-const SidebarLink = ({ icon, title }: LinkProps) => {
+const SidebarLink = ({ icon, title, url }: LinkProps) => {
   return (
     <SidebarLinkContainer>
       {icon}
-      <LinkTitle>{title}</LinkTitle>
+      <Link url={url}>{title}</Link>
     </SidebarLinkContainer>
   );
 };
@@ -28,9 +29,13 @@ const Sidebar = () => {
   return (
     <Container>
       <Title>¿Qué haremos hoy?</Title>
-      <SidebarLink icon={<OrdersIcon />} title="Órdenes" />
-      <SidebarLink icon={<ShipmentsIcon />} title="Envíos" />
-      <SidebarLink icon={<PickUpsIcon />} title="Recolecciones" />
+      <SidebarLink icon={<OrdersIcon />} url="/orders" title="Órdenes" />
+      <SidebarLink icon={<ShipmentsIcon />} url="/shipments" title="Envíos" />
+      <SidebarLink
+        icon={<PickUpsIcon />}
+        url="/pickups"
+        title="Recolecciones"
+      />
     </Container>
   );
 };

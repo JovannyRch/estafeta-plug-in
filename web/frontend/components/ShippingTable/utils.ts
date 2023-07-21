@@ -2,7 +2,7 @@ export const getStatusData = (code: number) => {
   switch (code) {
     case 1:
       return {
-        label: "Recibido por Estafeta",
+        label: "Recibido",
         color: "red",
       };
     case 2:
@@ -12,12 +12,12 @@ export const getStatusData = (code: number) => {
       };
     case 3:
       return {
-        label: "En proceso de entrega a domicilio",
+        label: "En proceso de entrega",
         color: "#274C89",
       };
     case 4:
       return {
-        label: "En proceso de entrega a oficina",
+        label: "En proceso de entrega",
         color: "#274C89",
       };
     case 5: {
@@ -28,19 +28,19 @@ export const getStatusData = (code: number) => {
     }
     case 6: {
       return {
-        label: "Entregado en Domicilio Destino",
+        label: "Entregado",
         color: "#46BB98",
       };
     }
     case 7: {
       return {
-        label: "Entregado en sucursal Estafeta",
+        label: "Entregado",
         color: "#46BB98",
       };
     }
     case 8: {
       return {
-        label: "En proceso de devolución",
+        label: "En devolución",
         color: "red",
       };
     }

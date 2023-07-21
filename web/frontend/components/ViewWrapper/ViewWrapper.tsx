@@ -1,5 +1,5 @@
 import React from "react";
-import { Container } from "./styled-components";
+import { Container, ViewContainer } from "./styled-components";
 import Sidebar from "../Sidebar/Sidebar";
 
 interface Props {
@@ -10,7 +10,7 @@ const ViewWrapper = ({ children }: Props) => {
   return (
     <Container>
       <Sidebar />
-      {children}
+      <ViewContainer>{children}</ViewContainer>
     </Container>
   );
 };

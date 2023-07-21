@@ -1,4 +1,4 @@
-import React, { useState, useCallback, } from 'react'
+import React, { useState, useCallback, useEffect, } from 'react'
 import styled from 'styled-components';
 import ShippingTable from '../components/ShippingTable/ShippingTable';
 import Spacer from '../components/Spacer/Index';
@@ -7,6 +7,7 @@ import Typography from '../components/Typography/Index';
 import Logo from '../components/Logo';
 import SearchInput from '../components/SearchInput/SearchInput';
 import ViewWrapper from '../components/ViewWrapper/ViewWrapper';
+import { data } from '../components/ShippingTable/const';
 
 
 const Container = styled.div`
@@ -39,14 +40,40 @@ const LogoContainer = styled.div`
 
 
 
-const ShippingView = () => {
+const ShippingView = ({ title = "Envíos" }) => {
 
-    const [selected, setSelected] = useState('today');
+    const [searchValue, setSearchValue] = useState('');
+    const [filteredData, setFilteredData] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
 
-    const handleSelectChange = useCallback(
-        (value) => setSelected(value),
-        [],
-    );
+    useEffect(() => {
+
+        if (searchValue.length === 0) {
+            setFilteredData(data);
+            return;
+        }
+        const lowerValue = searchValue.toLowerCase();
+        setFilteredData(data.filter((shipment) => {
+            return shipment.orderNumber.toLowerCase().includes(lowerValue) || shipment.customer.name.toLowerCase().includes(lowerValue);
+        }));
+
+    }, [searchValue])
+
+    useEffect(() => {
+
+        //Data with random ids
+        const dataWidthRandomIds = data.map((shipment) => {
+            return {
+                ...shipment,
+                id: Math.random().toString(36).substr(2, 9)
+            }
+        });
+        const orderedData = dataWidthRandomIds.sort((a, b) => {
+            return a.id.localeCompare(b.id);
+        });
+        setFilteredData(orderedData);
+
+    }, [currentPage])
 
 
 
@@ -59,15 +86,20 @@ const ShippingView = () => {
                 </LogoContainer>
 
                 <Typography.Title>
-                    Envíos
+                    {title}
                 </Typography.Title>
                 <Spacer height={22} />
                 <InputContainer >
-                    <SearchInput width={400} placeholder='Buscar por número de orden o destinatario' />
+                    <SearchInput
+                        width={400}
+                        placeholder='Buscar por número de orden o destinatario'
+                        value={searchValue}
+                        onChange={({ target }) => setSearchValue(target.value)}
+                    />
                 </InputContainer>
-                <ShippingTable />
+                <ShippingTable data={filteredData} />
                 <Spacer height={22} />
-                <Pagination />
+                <Pagination totalPages={4} currentPage={currentPage} setCurrentPage={setCurrentPage} />
             </Container>
         </ViewWrapper>
     )

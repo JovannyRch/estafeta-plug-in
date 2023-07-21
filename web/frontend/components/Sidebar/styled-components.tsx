@@ -1,11 +1,12 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-  width: 289px;
+  width: 270px;
   background-color: #475968;
   padding-top: 96px;
-  padding-left: 25px;
+  padding-left: 20px;
   box-shadow: 4px 0px 6px 0px rgba(132, 155, 204, 0.5);
+  min-height: 100vh;
 `;
 
 export const Title = styled.div`
@@ -24,6 +25,14 @@ export const SidebarLinkContainer = styled.div`
   margin-bottom: 20px;
   cursor: pointer;
   align-items: center;
+  a {
+    text-decoration: none;
+    color: var(--backgorunds, #fff);
+    &:hover {
+      text-decoration: underline;
+      color: var(--backgorunds, #fff);
+    }
+  }
 `;
 
 export const LinkTitle = styled.div`
