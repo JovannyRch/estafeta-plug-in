@@ -67,7 +67,7 @@ const data = [
     ],
     cost: "$ 150.00",
   },
-  {
+  /* {
     id: 3,
     orderNumber: "#100000003",
     date: "2023-05-05 a las 00:22",
@@ -112,7 +112,7 @@ const data = [
       },
     ],
     cost: "$ 150.00",
-  },
+  }, */
 ];
 
 export { headers, data };

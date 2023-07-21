@@ -19,7 +19,7 @@ const FontWeight = (weight?: number) => {
   return {};
 };
 
-const BaseText = styled.span`
+export const BaseText = styled.span`
   color: #12263c;
   font-family: Montserrat;
   font-size: 12px;
@@ -35,6 +35,7 @@ export const Link = styled(BaseText)`
   font-size: 15px;
   font-weight: 800;
   text-decoration-line: underline;
+  cursor: pointer;
   ${(props) => SizeParam(props.size)}
 `;
 
@@ -59,12 +60,19 @@ interface Props {
   weight?: number;
 }
 
+const handleGoToEstafeta = () => {
+  window.open("https://www.estafeta.com/herramientas/rastreo");
+};
 const Typography = {
   Title: ({ children }: Props) => {
     return <Title>{children}</Title>;
   },
   Link: ({ children, size }: Props) => {
-    return <Link size={size}>{children}</Link>;
+    return (
+      <Link size={size} onClick={handleGoToEstafeta}>
+        {children}
+      </Link>
+    );
   },
   Bold: ({ children, size }: Props) => {
     return <Bold size={size}>{children}</Bold>;

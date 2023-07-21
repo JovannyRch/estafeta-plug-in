@@ -8,6 +8,7 @@ import Logo from '../components/Logo';
 import SearchInput from '../components/SearchInput/SearchInput';
 import ViewWrapper from '../components/ViewWrapper/ViewWrapper';
 import { data } from '../components/ShippingTable/const';
+import Button from '../components/Button/Button';
 
 
 const Container = styled.div`
@@ -20,13 +21,19 @@ const Container = styled.div`
 `;
 
 
-const InputContainer = styled.div`
+const FilterContainer = styled.div`
     display: flex;
     gap: 21px;
     width: 100%;
     border-radius: 8px;
     margin-bottom: 57px;
 `;
+
+const TopActionsContainer = styled.div`
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+`
 
 
 const LogoContainer = styled.div`
@@ -89,14 +96,20 @@ const ShippingView = ({ title = "Envíos" }) => {
                     {title}
                 </Typography.Title>
                 <Spacer height={22} />
-                <InputContainer >
-                    <SearchInput
-                        width={400}
-                        placeholder='Buscar por número de orden o destinatario'
-                        value={searchValue}
-                        onChange={({ target }) => setSearchValue(target.value)}
-                    />
-                </InputContainer>
+                <TopActionsContainer>
+                    <FilterContainer >
+                        <SearchInput
+                            width={400}
+                            placeholder='Buscar por número de orden'
+                            value={searchValue}
+                            onChange={({ target }) => setSearchValue(target.value)}
+                        />
+                    </FilterContainer>
+                    <Button>
+                        Actualizar
+                    </Button>
+                </TopActionsContainer>
+
                 <ShippingTable data={filteredData} />
                 <Spacer height={22} />
                 <Pagination totalPages={4} currentPage={currentPage} setCurrentPage={setCurrentPage} />

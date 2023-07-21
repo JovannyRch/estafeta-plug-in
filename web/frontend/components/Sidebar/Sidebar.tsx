@@ -1,15 +1,8 @@
 import React from "react";
-import {
-  Container,
-  SidebarLinkContainer,
-  Title,
-  LinkTitle,
-} from "./styled-components";
+import { Container, Title, StyledNavLink } from "./styled-components";
 import OrdersIcon from "../../icons/OrdersIcon";
 import PickUpsIcon from "../../icons/PickUpsIcon";
 import ShipmentsIcon from "../../icons/ShipmentsIcon";
-import { Link } from "@shopify/polaris";
-
 interface LinkProps {
   icon: React.ReactNode;
   title: string;
@@ -18,24 +11,49 @@ interface LinkProps {
 
 const SidebarLink = ({ icon, title, url }: LinkProps) => {
   return (
-    <SidebarLinkContainer>
+    <StyledNavLink
+      className={({ isActive }) => (isActive ? "active" : "")}
+      to={url ?? "/"}
+    >
+      <div className="active-line" />
       {icon}
-      <Link url={url}>{title}</Link>
-    </SidebarLinkContainer>
+      {title}
+    </StyledNavLink>
   );
 };
+
+const links = [
+  {
+    icon: <OrdersIcon />,
+    title: "Órdenes",
+    url: "/orders",
+  },
+  {
+    icon: <ShipmentsIcon />,
+    title: "Envíos",
+    url: "/shipments",
+  },
+  {
+    icon: <PickUpsIcon />,
+    title: "Recolecciones",
+    url: "/pickups",
+  },
+];
 
 const Sidebar = () => {
   return (
     <Container>
       <Title>¿Qué haremos hoy?</Title>
-      <SidebarLink icon={<OrdersIcon />} url="/orders" title="Órdenes" />
-      <SidebarLink icon={<ShipmentsIcon />} url="/shipments" title="Envíos" />
-      <SidebarLink
-        icon={<PickUpsIcon />}
-        url="/pickups"
-        title="Recolecciones"
-      />
+      {links.map((link) => {
+        return (
+          <SidebarLink
+            key={link.url}
+            icon={link.icon}
+            url={link.url}
+            title={link.title}
+          />
+        );
+      })}
     </Container>
   );
 };
