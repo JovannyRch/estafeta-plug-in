@@ -41,6 +41,10 @@ export const StyledNavLink = styled(NavLink)`
     background-color: transparent;
     margin-left: 0.5px;
   }
+  &:hover {
+    background: rgba(255, 255, 255, 0.10000000149011612);
+    cursor: pointer;
+  }
 
   a {
     text-decoration: none;
