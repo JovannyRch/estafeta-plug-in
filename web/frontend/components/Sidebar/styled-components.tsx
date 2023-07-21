@@ -23,6 +23,7 @@ export const SidebarLinkContainer = styled.div`
   column-gap: 10px;
   margin-bottom: 20px;
   cursor: pointer;
+  align-items: center;
 `;
 
 export const LinkTitle = styled.div`
