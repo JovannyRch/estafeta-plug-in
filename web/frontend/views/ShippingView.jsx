@@ -93,13 +93,17 @@ const ShippingView = ({ title = "Envíos" }) => {
 
     }, [currentPage])
 
-
-    useEffect(() => {
+    const loadData = () => {
         setLoading(true);
         setTimeout(() => {
             setFirstLoading(true);
             setLoading(false);
         }, Math.floor(Math.random() * 1000) + 500);
+    }
+
+
+    useEffect(() => {
+        loadData()
     }, [currentPage])
 
 
@@ -117,7 +121,7 @@ const ShippingView = ({ title = "Envíos" }) => {
                 </Typography.Title>
                 <Spacer height={22} />
                 <TopButtonsContainer>
-                    <Button>
+                    <Button onClick={loadData}>
                         Actualizar
                     </Button>
                 </TopButtonsContainer>
