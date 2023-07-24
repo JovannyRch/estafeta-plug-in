@@ -4,6 +4,7 @@ import { BaseTableContainer, Th } from "./styled-components";
 interface Header {
   title: string;
   key: string;
+  align?: "left" | "center" | "right";
 }
 
 interface Props {
@@ -17,7 +18,7 @@ const BaseTable = ({ headers, children }: Props) => {
       <thead>
         <tr>
           {headers.map((header) => (
-            <Th key={header.key} align="left">
+            <Th key={header.key} align={header?.align ?? "left"}>
               {header.title}
             </Th>
           ))}

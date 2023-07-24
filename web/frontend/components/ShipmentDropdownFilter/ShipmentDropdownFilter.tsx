@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Dropdown from "../Dropdown/Dropdown";
 
 const menu = [
@@ -25,11 +25,18 @@ const menu = [
 ];
 
 const ShipmentDropdownFilter = () => {
+  const [filterByValue, setFilterByValue] = useState("");
   return (
     <Dropdown
       label={"Filtrar por"}
+      value={filterByValue}
       menu={menu.map((item) => (
-        <button className={item.className}>{item.label}</button>
+        <button
+          className={item.className}
+          onClick={() => setFilterByValue(item.label)}
+        >
+          {item.label}
+        </button>
       ))}
     />
   );

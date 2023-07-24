@@ -3,6 +3,7 @@ import styled from "styled-components";
 export const Container = styled.div`
   display: flex;
   column-gap: 10px;
+  align-items: center;
 `;
 
 export const IconButton = styled.div`
@@ -33,4 +34,9 @@ export const NumberButton = styled.div`
     active.toString() === "true"
       ? "background-color: #46BB98;color: #fff;"
       : "background-color: transparent; color: #12263C;"}
+`;
+
+export const DropdownContainer = styled.div`
+  width: 77px;
+  margin-left: 23px;
 `;

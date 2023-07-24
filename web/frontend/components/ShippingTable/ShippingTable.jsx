@@ -8,6 +8,8 @@ import ShipmentStatus from './Status';
 import styled from 'styled-components';
 import DownloadIcon from '../../icons/DownloadIcon';
 import IconButton from '../IconButton/IconButton';
+import Loader from '../Loader/Loader';
+import EstafetaLogo from '../../icons/EstafetaLogo';
 
 const ShipmentsContainer = styled.div`
     display: flex;
@@ -27,17 +29,23 @@ const ActionsContainers = styled.div`
     justify-content: center;
 `;
 
-const ShippingTable = ({ data = [] }) => {
+const ShippingTable = ({ data = [], loading }) => {
 
     const handleDownload = () => {
         window.open('https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf');
     };
 
 
+    if (loading) {
+        return <Loader height={400}>
+            <EstafetaLogo />
+        </Loader>
+    }
+
     return (
         <BaseTable headers={headers}>
             {
-                data.map((shipment) => (
+                data.map((shipment, index) => (
                     <TableComponents.Row key={shipment.id}>
                         <TableComponents.Cell>
                             <Typography.Link size={15} >

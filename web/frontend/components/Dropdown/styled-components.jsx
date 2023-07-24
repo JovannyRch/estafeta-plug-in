@@ -30,6 +30,7 @@ export const Menu = styled.ul`
     font-weight: 500;
     line-height: normal;
     user-select: none;
+    height: 34px;
     
 
     &:hover {
@@ -67,6 +68,7 @@ export const Trigger = styled.div`
   padding: 0 14px;
   border: 1px solid #12263c;
   border-radius: 8px;
+  ${({ width }) => (width ? `min-width: ${width}px;` : "")}
 `;
 
 export const Label = styled.div`

@@ -1,18 +1,21 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Container, Menu, Trigger, Label } from "./styled-components";
 import ArrowDownIcon from "../../icons/ArrowDownIcon";
+import ArrowUpIcon from "../../icons/ArrowUpIcon";
 
-const TriggerComponent = ({ label, onClick }) => {
+const TriggerComponent = ({ label, onClick, width = 168, menuPosition = "bottom" }) => {
   return (
-    <Trigger onClick={onClick}>
+    <Trigger onClick={onClick} width={width}>
       <Label>{label}</Label>
-      <ArrowDownIcon />
+      {
+        menuPosition === "bottom" ? <ArrowDownIcon /> : <ArrowUpIcon />
+      }
     </Trigger>
   );
 }
 
 
-const Dropdown = ({ label, menu }) => {
+const Dropdown = ({ label, menu, width = 168, menuPosition = "bottom", value = '' }) => {
   const [open, setOpen] = useState(false);
 
   const node = useRef();
@@ -35,8 +38,19 @@ const Dropdown = ({ label, menu }) => {
     setOpen(!open);
   };
 
-  const trigger = <TriggerComponent label={label} />
+  const trigger = <TriggerComponent width={width} label={value || label} menuPosition={menuPosition} />
 
+  const menuProps = useMemo(() => {
+    if (menuPosition === "top") {
+      return {
+        paddingTop: "0",
+        top: `-${menu.length * 34}px`,
+        paddingBottom: `15px`,
+      }
+    }
+
+    return {};
+  }, [menuPosition]);
 
   return (
     <Container ref={node}>
@@ -44,7 +58,7 @@ const Dropdown = ({ label, menu }) => {
         onClick: handleOpen,
       })}
       {open ? (
-        <Menu className="menu">
+        <Menu className="menu" position={menuPosition} style={menuProps}>
           {menu.map((menuItem, index) => (
             <li key={index} className="menu-item">
               {React.cloneElement(menuItem, {

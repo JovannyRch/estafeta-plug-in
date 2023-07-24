@@ -37,6 +37,13 @@ const TopActionsContainer = styled.div`
     justify-content: space-between;
 `
 
+const TopButtonsContainer = styled.div`
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 28px;
+`;
+
 
 const LogoContainer = styled.div`
     width: 100%;
@@ -54,6 +61,8 @@ const ShippingView = ({ title = "Envíos" }) => {
     const [searchValue, setSearchValue] = useState('');
     const [filteredData, setFilteredData] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
+    const [loading, setLoading] = useState(false);
+    const [firstLoading, setFirstLoading] = useState(false);
 
     useEffect(() => {
 
@@ -85,6 +94,15 @@ const ShippingView = ({ title = "Envíos" }) => {
     }, [currentPage])
 
 
+    useEffect(() => {
+        setLoading(true);
+        setTimeout(() => {
+            setFirstLoading(true);
+            setLoading(false);
+        }, Math.floor(Math.random() * 1000) + 500);
+    }, [currentPage])
+
+
 
 
     return (
@@ -98,6 +116,11 @@ const ShippingView = ({ title = "Envíos" }) => {
                     {title}
                 </Typography.Title>
                 <Spacer height={22} />
+                <TopButtonsContainer>
+                    <Button>
+                        Actualizar
+                    </Button>
+                </TopButtonsContainer>
                 <TopActionsContainer>
                     <FilterContainer >
                         <SearchInput
@@ -108,14 +131,14 @@ const ShippingView = ({ title = "Envíos" }) => {
                         />
                         <ShipmentDropdownFilter />
                     </FilterContainer>
-                    <Button>
-                        Actualizar
-                    </Button>
+
                 </TopActionsContainer>
 
-                <ShippingTable data={filteredData} />
+                <ShippingTable loading={loading} data={filteredData} />
                 <Spacer height={22} />
-                <Pagination totalPages={4} currentPage={currentPage} setCurrentPage={setCurrentPage} />
+                {
+                    firstLoading && <Pagination totalPages={4} currentPage={currentPage} setCurrentPage={setCurrentPage} />
+                }
             </Container>
         </ViewWrapper>
     )
