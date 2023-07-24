@@ -133,7 +133,7 @@ const ShippingView = ({ title = "Envíos" }) => {
                             value={searchValue}
                             onChange={({ target }) => setSearchValue(target.value)}
                         />
-                        <ShipmentDropdownFilter />
+                        <ShipmentDropdownFilter onChangeFilter={loadData} />
                     </FilterContainer>
 
                 </TopActionsContainer>

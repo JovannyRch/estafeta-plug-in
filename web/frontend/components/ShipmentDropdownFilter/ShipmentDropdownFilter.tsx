@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Dropdown from "../Dropdown/Dropdown";
 import {
   Container,
@@ -45,8 +45,14 @@ const DateInput = ({ children }) => {
   );
 };
 
-const ShipmentDropdownFilter = () => {
+const ShipmentDropdownFilter = ({ onChangeFilter }) => {
   const [filterByValue, setFilterByValue] = useState("");
+
+  useEffect(() => {
+    if (filterByValue !== "Personalizar...") {
+      onChangeFilter?.(filterByValue);
+    }
+  }, [filterByValue]);
 
   return (
     <Container>
