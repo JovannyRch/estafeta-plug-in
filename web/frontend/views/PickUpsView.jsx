@@ -6,10 +6,11 @@ import Typography from '../components/Typography/Index';
 import Logo from '../components/Logo';
 import SearchInput from '../components/SearchInput/SearchInput';
 import ViewWrapper from '../components/ViewWrapper/ViewWrapper';
-import { data } from '../components/ShippingTable/const';
+import { data } from '../components/PickUpsTable/const';
 import Button from '../components/Button/Button';
 import ShipmentDropdownFilter from '../components/ShipmentDropdownFilter/ShipmentDropdownFilter';
-import OrdersTable from '../components/OrdersTable/OrdersTable';
+
+import PickUpsTable from '../components/PickUpsTable/PickUpsTable';
 
 
 const Container = styled.div`
@@ -55,7 +56,7 @@ const LogoContainer = styled.div`
 
 
 
-const ShippingView = ({ title = "Envíos" }) => {
+const PickUpsView = ({ title = "Recolecciones" }) => {
 
     const [searchValue, setSearchValue] = useState('');
     const [filteredData, setFilteredData] = useState([]);
@@ -119,16 +120,11 @@ const ShippingView = ({ title = "Envíos" }) => {
                     {title}
                 </Typography.Title>
                 <Spacer height={22} />
-                <TopButtonsContainer>
-                    <Button onClick={loadData}>
-                        Actualizar
-                    </Button>
-                </TopButtonsContainer>
                 <TopActionsContainer>
                     <FilterContainer >
                         <SearchInput
                             width={400}
-                            placeholder='Buscar por número de orden'
+                            placeholder='Buscar por número de recolección, orden o guía'
                             value={searchValue}
                             onChange={({ target }) => setSearchValue(target.value)}
                         />
@@ -137,7 +133,7 @@ const ShippingView = ({ title = "Envíos" }) => {
 
                 </TopActionsContainer>
 
-                <OrdersTable loading={loading} data={filteredData} />
+                <PickUpsTable loading={loading} data={filteredData} />
                 <Spacer height={22} />
                 {
                     firstLoading && <Pagination totalPages={4} currentPage={currentPage} setCurrentPage={setCurrentPage} />
@@ -147,4 +143,4 @@ const ShippingView = ({ title = "Envíos" }) => {
     )
 }
 
-export default ShippingView;
+export default PickUpsView;

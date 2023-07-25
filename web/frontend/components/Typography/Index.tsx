@@ -60,16 +60,20 @@ interface Props {
   weight?: number;
 }
 
-const handleGoToEstafeta = () => {
-  window.open("https://www.estafeta.com/herramientas/rastreo");
-};
+interface LinkProps {
+  children: React.ReactNode;
+  size?: number;
+  weight?: number;
+  onClick?: () => void;
+}
+
 const Typography = {
   Title: ({ children }: Props) => {
     return <Title>{children}</Title>;
   },
-  Link: ({ children, size }: Props) => {
+  Link: ({ children, size, onClick }: LinkProps) => {
     return (
-      <Link size={size} onClick={handleGoToEstafeta}>
+      <Link size={size} onClick={onClick}>
         {children}
       </Link>
     );

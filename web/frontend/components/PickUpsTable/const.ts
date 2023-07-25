@@ -1,28 +1,23 @@
 const headers = [
   {
-    title: "Datos de envío",
+    title: "Número de recoleción",
     key: "shippingData",
   },
   {
-    title: "Datos de destino",
+    title: "Fecha de recolección",
     key: "destinationData",
   },
   {
-    title: "Número de guía",
+    title: "Orden",
     key: "guideNumber",
   },
   {
-    title: "Estatus de envío",
+    title: "Número de guía",
     key: "shippingStatus",
   },
   {
-    title: "Costo",
-    key: "cost",
-  },
-  {
-    title: "Descargar PDF",
-    key: "actions",
-    align: "center",
+    title: "Estatus",
+    key: "status",
   },
 ];
 
@@ -40,10 +35,12 @@ const data = [
       {
         number: "123456789",
         measure: "100 cm x 56 cm x 70 cm / 23 kg",
-        status: 2,
+        guideNumber: "6789067543216785698763",
+        status: 1,
+        date: "2023-05-05",
       },
     ],
-    cost: "$ 150.00",
+    status: 1,
   },
   {
     id: 2,
@@ -58,15 +55,12 @@ const data = [
       {
         number: "123456789",
         measure: "100 cm x 56 cm x 70 cm / 23 kg",
+        guideNumber: "6789067543216785698763",
         status: 2,
-      },
-      {
-        number: "123456789",
-        measure: "100 cm x 56 cm x 70 cm / 23 kg",
-        status: 2,
+        date: "2023-05-05",
       },
     ],
-    cost: "$ 150.00",
+    status: 2,
   },
   {
     id: 3,
@@ -81,15 +75,12 @@ const data = [
       {
         number: "123456789",
         measure: "100 cm x 56 cm x 70 cm / 23 kg",
-        status: 6,
-      },
-      {
-        number: "123456789",
-        measure: "100 cm x 56 cm x 70 cm / 23 kg",
-        status: 6,
+        guideNumber: "6789067543216785698763",
+        status: 3,
+        date: "2023-05-05",
       },
     ],
-    cost: "$ 150.00",
+    status: 3,
   },
   {
     id: 4,
@@ -104,15 +95,17 @@ const data = [
       {
         number: "123456789",
         measure: "100 cm x 56 cm x 70 cm / 23 kg",
-        status: 6,
+        guideNumber: "6789067543216785698763",
+        date: "2023-05-05",
       },
       {
         number: "123456789",
         measure: "100 cm x 56 cm x 70 cm / 23 kg",
-        status: 6,
+        guideNumber: "6789067543216785698763",
+        date: "2023-05-05",
       },
     ],
-    cost: "$ 150.00",
+    status: 4,
   },
   {
     id: 5,
@@ -127,15 +120,17 @@ const data = [
       {
         number: "123456789",
         measure: "100 cm x 56 cm x 70 cm / 23 kg",
-        status: 6,
+        guideNumber: "6789067543216785698763",
+        date: "2023-05-05",
       },
       {
         number: "123456789",
         measure: "100 cm x 56 cm x 70 cm / 23 kg",
-        status: 6,
+        guideNumber: "6789067543216785698763",
+        date: "2023-05-05",
       },
     ],
-    cost: "$ 150.00",
+    status: 5,
   },
 ];
 

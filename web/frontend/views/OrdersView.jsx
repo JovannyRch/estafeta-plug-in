@@ -1,5 +1,6 @@
 import React, { useState, useCallback, useEffect, } from 'react'
 import styled from 'styled-components';
+import ShippingTable from '../components/ShippingTable/ShippingTable';
 import Spacer from '../components/Spacer/Index';
 import Pagination from '../components/Pagination';
 import Typography from '../components/Typography/Index';
@@ -8,8 +9,9 @@ import SearchInput from '../components/SearchInput/SearchInput';
 import ViewWrapper from '../components/ViewWrapper/ViewWrapper';
 import { data } from '../components/ShippingTable/const';
 import Button from '../components/Button/Button';
+import Dropdown from '../components/Dropdown/Dropdown';
 import ShipmentDropdownFilter from '../components/ShipmentDropdownFilter/ShipmentDropdownFilter';
-import OrdersTable from '../components/OrdersTable/OrdersTable';
+import PickUpsTable from '../components/PickUpsTable/PickUpsTable';
 
 
 const Container = styled.div`
@@ -55,7 +57,7 @@ const LogoContainer = styled.div`
 
 
 
-const ShippingView = ({ title = "Envíos" }) => {
+const OrdersView = ({ title = "Órdenes" }) => {
 
     const [searchValue, setSearchValue] = useState('');
     const [filteredData, setFilteredData] = useState([]);
@@ -137,7 +139,7 @@ const ShippingView = ({ title = "Envíos" }) => {
 
                 </TopActionsContainer>
 
-                <OrdersTable loading={loading} data={filteredData} />
+                <PickUpsTable loading={loading} data={filteredData} />
                 <Spacer height={22} />
                 {
                     firstLoading && <Pagination totalPages={4} currentPage={currentPage} setCurrentPage={setCurrentPage} />
@@ -147,4 +149,4 @@ const ShippingView = ({ title = "Envíos" }) => {
     )
 }
 
-export default ShippingView;
+export default OrdersView;
