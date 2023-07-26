@@ -1,10 +1,10 @@
 const headers = [
   {
-    title: "Datos de envío",
+    title: "Número de orden",
     key: "shippingData",
   },
   {
-    title: "Datos de destino",
+    title: "Destino",
     key: "destinationData",
   },
   {
@@ -12,7 +12,7 @@ const headers = [
     key: "guideNumber",
   },
   {
-    title: "Estatus de envío",
+    title: "Estado",
     key: "shippingStatus",
   },
   {

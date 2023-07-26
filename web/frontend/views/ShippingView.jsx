@@ -11,12 +11,12 @@ import Button from '../components/Button/Button';
 import ShipmentDropdownFilter from '../components/ShipmentDropdownFilter/ShipmentDropdownFilter';
 import OrdersTable from '../components/OrdersTable/OrdersTable';
 import ShippingTable from '../components/ShippingTable/ShippingTable';
+import { SyncButton } from './styled-components';
 
 
 const Container = styled.div`
     display: flex;
     flex-direction: column;
-    gap: 8px;
     width: 100%;
     padding: 24px 24px;
     border-radius: 8px;
@@ -28,7 +28,7 @@ const FilterContainer = styled.div`
     gap: 21px;
     width: 100%;
     border-radius: 8px;
-    margin-bottom: 57px;
+    margin-bottom: 2px;
 `;
 
 const TopActionsContainer = styled.div`
@@ -37,12 +37,7 @@ const TopActionsContainer = styled.div`
     justify-content: space-between;
 `
 
-const TopButtonsContainer = styled.div`
-    width: 100%;
-    display: flex;
-    justify-content: flex-end;
-    margin-bottom: 28px;
-`;
+
 
 
 const LogoContainer = styled.div`
@@ -120,11 +115,6 @@ const ShippingView = ({ title = "Envíos" }) => {
                     {title}
                 </Typography.Title>
                 <Spacer height={22} />
-                <TopButtonsContainer>
-                    <Button onClick={loadData}>
-                        Actualizar
-                    </Button>
-                </TopButtonsContainer>
                 <TopActionsContainer>
                     <FilterContainer >
                         <SearchInput
@@ -137,6 +127,9 @@ const ShippingView = ({ title = "Envíos" }) => {
                     </FilterContainer>
 
                 </TopActionsContainer>
+                <SyncButton>
+                    Actualizar manualmente
+                </SyncButton>
 
                 <ShippingTable loading={loading} data={filteredData} />
                 <Spacer height={22} />
