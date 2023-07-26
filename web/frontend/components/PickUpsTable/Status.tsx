@@ -27,6 +27,14 @@ interface Status {
   color: string;
 }
 
+const getTooltipText = (status: string) => {
+  switch (status) {
+    case "pending":
+      return "Orden de recolección excepecionada. Se sugiere reprogramar.";
+  }
+  return "";
+};
+
 const PickUpStatus = ({ code }: { code: number }) => {
   const status: Status = useMemo(() => getStatusData(code), [code]);
 
@@ -41,7 +49,7 @@ const PickUpStatus = ({ code }: { code: number }) => {
         <Typography.Text size={12} weight={700}>
           {status.label}
         </Typography.Text>
-        <Tooltip message="Orden de recolección recibida por Estafeta y generada con éxito." />
+        <Tooltip message={"Envíos ya recolectados por Estafeta."} />
       </Container>
 
       {[4, 5].includes(code) && (

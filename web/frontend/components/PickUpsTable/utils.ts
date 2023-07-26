@@ -2,7 +2,7 @@ export const getStatusData = (code: number) => {
   switch (code) {
     case 1:
       return {
-        label: "Recibido por Estafeta",
+        label: "Recolectada",
         color: "#274C89",
       };
     case 2:

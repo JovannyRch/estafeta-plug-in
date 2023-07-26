@@ -39,13 +39,6 @@ const TooltipText = styled.div`
   }
 `;
 
-const Container = styled.div`
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
 interface Props {
   message?: string;
 }
