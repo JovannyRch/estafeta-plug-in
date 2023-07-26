@@ -128,7 +128,7 @@ const ShippingView = ({ title = "Envíos" }) => {
 
                 </TopActionsContainer>
                 <SyncButton>
-                    Actualizar manualmente
+                    Actualizar órdenes manualmente
                 </SyncButton>
 
                 <ShippingTable loading={loading} data={filteredData} />
