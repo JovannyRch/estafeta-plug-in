@@ -10,6 +10,7 @@ import { data } from '../components/ShippingTable/const';
 import Button from '../components/Button/Button';
 import ShipmentDropdownFilter from '../components/ShipmentDropdownFilter/ShipmentDropdownFilter';
 import OrdersTable from '../components/OrdersTable/OrdersTable';
+import ShippingTable from '../components/ShippingTable/ShippingTable';
 
 
 const Container = styled.div`
@@ -137,7 +138,7 @@ const ShippingView = ({ title = "Envíos" }) => {
 
                 </TopActionsContainer>
 
-                <OrdersTable loading={loading} data={filteredData} />
+                <ShippingTable loading={loading} data={filteredData} />
                 <Spacer height={22} />
                 {
                     firstLoading && <Pagination totalPages={4} currentPage={currentPage} setCurrentPage={setCurrentPage} />

@@ -28,9 +28,7 @@ const ActionsContainers = styled.div`
 
 const PickUpsTable = ({ data = [], loading }) => {
 
-    const handleDownload = () => {
-        window.open('https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf');
-    };
+
 
     const handleGoToEstafeta = () => {
         window.open("https://www.estafeta.com/herramientas/rastreo");

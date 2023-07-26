@@ -1,23 +1,21 @@
-import React, { useState, useCallback, useEffect, } from 'react'
+import React, { useState, useEffect, } from 'react'
 import styled from 'styled-components';
-import ShippingTable from '../components/ShippingTable/ShippingTable';
 import Spacer from '../components/Spacer/Index';
 import Pagination from '../components/Pagination';
 import Typography from '../components/Typography/Index';
 import Logo from '../components/Logo';
 import SearchInput from '../components/SearchInput/SearchInput';
 import ViewWrapper from '../components/ViewWrapper/ViewWrapper';
-import { data } from '../components/ShippingTable/const';
+import { data } from '../components/OrdersTable/const';
 import Button from '../components/Button/Button';
-import Dropdown from '../components/Dropdown/Dropdown';
 import ShipmentDropdownFilter from '../components/ShipmentDropdownFilter/ShipmentDropdownFilter';
-import PickUpsTable from '../components/PickUpsTable/PickUpsTable';
-
+import Tabs from '../components/Tabs/Tabs';
+import { SyncButton } from './styled-components';
+import OrdersTable from '../components/OrdersTable/OrdersTable';
 
 const Container = styled.div`
     display: flex;
     flex-direction: column;
-    gap: 8px;
     width: 100%;
     padding: 24px 24px;
     border-radius: 8px;
@@ -29,7 +27,7 @@ const FilterContainer = styled.div`
     gap: 21px;
     width: 100%;
     border-radius: 8px;
-    margin-bottom: 57px;
+    margin-bottom: 3px;
 `;
 
 const TopActionsContainer = styled.div`
@@ -41,8 +39,8 @@ const TopActionsContainer = styled.div`
 const TopButtonsContainer = styled.div`
     width: 100%;
     display: flex;
-    justify-content: flex-end;
     margin-bottom: 28px;
+    justify-content: space-between;
 `;
 
 
@@ -53,7 +51,6 @@ const LogoContainer = styled.div`
     align-items: center;
     height: 68px;
 `;
-
 
 
 
@@ -120,11 +117,24 @@ const OrdersView = ({ title = "Órdenes" }) => {
                 <Typography.Title>
                     {title}
                 </Typography.Title>
-                <Spacer height={22} />
+                <Spacer height={33} />
                 <TopButtonsContainer>
-                    <Button onClick={loadData}>
-                        Actualizar
-                    </Button>
+                    <Tabs tabs={[
+                        {
+                            label: "Todos",
+                            value: "all"
+                        },
+                        {
+                            label: "Creado",
+                            value: "created"
+                        },
+                        {
+                            label: "No creado",
+                            value: "not-created"
+                        }
+                    ]}
+                        onChange={loadData}
+                    />
                 </TopButtonsContainer>
                 <TopActionsContainer>
                     <FilterContainer >
@@ -136,10 +146,12 @@ const OrdersView = ({ title = "Órdenes" }) => {
                         />
                         <ShipmentDropdownFilter onChangeFilter={loadData} />
                     </FilterContainer>
-
+                    <Button  >
+                        Nuevo envío
+                    </Button>
                 </TopActionsContainer>
-
-                <PickUpsTable loading={loading} data={filteredData} />
+                <SyncButton onClick={loadData} >Sincronizar órdenes manualmente</SyncButton>
+                <OrdersTable loading={loading} data={filteredData} />
                 <Spacer height={22} />
                 {
                     firstLoading && <Pagination totalPages={4} currentPage={currentPage} setCurrentPage={setCurrentPage} />

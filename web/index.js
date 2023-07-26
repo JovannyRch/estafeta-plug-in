@@ -7,6 +7,7 @@ import serveStatic from "serve-static";
 import shopify from "./shopify.js";
 import productCreator from "./product-creator.js";
 import GDPRWebhookHandlers from "./gdpr.js";
+import axios from "axios";
 
 const PORT = parseInt(
   process.env.BACKEND_PORT || process.env.PORT || "3000",
@@ -32,6 +33,11 @@ app.post(
   shopify.processWebhooks({ webhookHandlers: GDPRWebhookHandlers })
 );
 
+/* app.post(
+  shopify.config.webhooks.path,
+  shopify.processWebhooks({ webhookHandlers: GDPRWebhookHandlers })
+); */
+
 // If you are adding routes outside of the /api path, remember to
 // also add a proxy rule for them in web/frontend/vite.config.js
 
@@ -43,6 +49,7 @@ app.get("/api/products/count", async (_req, res) => {
   const countData = await shopify.api.rest.Product.count({
     session: res.locals.shopify.session,
   });
+
   res.status(200).send(countData);
 });
 
@@ -58,6 +65,20 @@ app.get("/api/products/create", async (_req, res) => {
     error = e.message;
   }
   res.status(status).send({ success: status === 200, error });
+});
+
+app.get("/api/token", async (_req, res) => {
+  /* const data = {
+    client_id: "228f9b3648e05552580fc62e32cd8b1f",
+    client_secret: "a54b2f31c9720a6571d112603f0ac9cb",
+    code: "CODE_FROM_REDIRECT_URL",
+  };
+  const response = await axios.post(
+    "https://{shop}.myshopify.com/admin/oauth/access_token",
+    data
+  );
+  console.log("response.data", response.data); */
+  res.status(200).send({});
 });
 
 app.use(shopify.cspHeaders());

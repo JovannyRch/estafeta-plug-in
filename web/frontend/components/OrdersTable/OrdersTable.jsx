@@ -4,25 +4,13 @@ import { TableComponents } from '../BaseTable/styled-components';
 import { headers } from './const';
 import Typography from '../Typography/Index';
 import Spacer from '../Spacer/Index';
-import ShipmentStatus from './Status';
+import { OrderStatus, PaymentStatus } from './Status';
 import styled from 'styled-components';
-import DownloadIcon from '../../icons/DownloadIcon';
 import IconButton from '../IconButton/IconButton';
 import Loader from '../Loader/Loader';
 import EstafetaLogo from '../../icons/EstafetaLogo';
+import PlusIcon from '../../icons/PlusIcon';
 
-const ShipmentsContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-`;
-
-const ShipmentsItem = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    min-height: 38px;
-`;
 
 const ActionsContainers = styled.div`
     display: flex;
@@ -31,8 +19,12 @@ const ActionsContainers = styled.div`
 
 const OrdersTable = ({ data = [], loading }) => {
 
-    const handleDownload = () => {
-        window.open('https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf');
+    const handleCreateShipment = () => {
+        window.open('https://www.estafeta.com/herramientas/rastreo');
+    };
+
+    const handleOpenOrder = (link) => {
+        window.open(link);
     };
 
 
@@ -55,54 +47,55 @@ const OrdersTable = ({ data = [], loading }) => {
                             <Typography.Label size={12} >
                                 {shipment.date}
                             </Typography.Label>
+                            <Spacer height={6} />
+                            <PaymentStatus status={shipment.paymentStatus} />
                         </TableComponents.Cell>
                         <TableComponents.Cell>
                             <Typography.Bold size={15} >
                                 {shipment.customer.name}
                             </Typography.Bold>
                             <Typography.Label size={12} >
-                                {shipment.customer.address}
+                                {shipment.customer.email}
+                            </Typography.Label>
+                        </TableComponents.Cell>
+                        <TableComponents.Cell>
+                            <Typography.Bold size={15} >
+                                {shipment.destination.customer}
+                            </Typography.Bold>
+                            <Typography.Label size={12} >
+                                {shipment.destination.address}
                             </Typography.Label>
                             <Typography.Label size={12} >
-                                {shipment.customer.neighborhood}
+                                {shipment.destination.neighborhood}
                             </Typography.Label>
                         </TableComponents.Cell>
                         <TableComponents.Cell>
-                            <ShipmentsContainer>
-                                {
-                                    shipment.shipments.map((item) => <>
-                                        <ShipmentsItem>
-                                            <Typography.Link size={15} >
-                                                {item.number}
-                                            </Typography.Link>
-                                            <Typography.Label size={12} >
-                                                {item.measure}
-                                            </Typography.Label>
-                                        </ShipmentsItem>
-                                    </>)
-                                }
-                            </ShipmentsContainer>
+                            <OrderStatus status={shipment.shipment.status} />
+                            {
+                                shipment.shipment.status === 'Creado' && <>
+                                    <Spacer height={5} />
+                                    <Typography.Bold size={12}>
+                                        {`${shipment.shipment.type} (${shipment.shipment.cost})`}
+                                    </Typography.Bold>
+                                </>
+                            }
+
                         </TableComponents.Cell>
                         <TableComponents.Cell>
-                            <ShipmentsContainer>
-                                {
-                                    shipment.shipments.map((item) => <>
-                                        <ShipmentsItem>
-                                            <ShipmentStatus code={item.status} />
-                                        </ShipmentsItem>
-                                    </>)
-                                }
-                            </ShipmentsContainer>
-                        </TableComponents.Cell>
-                        <TableComponents.Cell>
-                            <Typography.Text size={15} weight={700}  >
-                                {shipment.cost}
+                            <Typography.Text size={12} weight={700}  >
+                                {`${shipment.details.products} producto${shipment.details.products !== 1 ? 's' : ''}`}
                             </Typography.Text>
+                            <Typography.Text size={12} weight={500}  >
+                                {`${shipment.details.price}`}
+                            </Typography.Text>
+                            <Typography.Link size={12} onClick={() => handleOpenOrder(shipment.details.link)} >
+                                Ver orden
+                            </Typography.Link>
                         </TableComponents.Cell>
                         <TableComponents.Cell>
                             <ActionsContainers>
-                                <IconButton onClick={handleDownload}>
-                                    <DownloadIcon />
+                                <IconButton onClick={handleCreateShipment}>
+                                    <PlusIcon />
                                 </IconButton>
                             </ActionsContainers>
                         </TableComponents.Cell>

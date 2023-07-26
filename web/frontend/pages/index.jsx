@@ -1,9 +1,20 @@
-
-import { useTranslation } from "react-i18next";
 import ShippingView from "../views/ShippingView";
+/* import { useAppQuery } from "../hooks"; */
 
 export default function HomePage() {
-  const { t } = useTranslation();
+
+  /* const {
+    data,
+  } = useAppQuery({
+    url: "/api/token",
+    reactQueryOptions: {
+      onSuccess: () => {
+        console.log("data", data);
+      },
+    },
+  }); */
+
+
   return (
     <ShippingView />
   );

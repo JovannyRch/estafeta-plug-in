@@ -1,5 +1,5 @@
 import React from "react";
-import { Container } from "./styled-components";
+import { Container, BodyContainer } from "./styled-components";
 
 type ButtonType = "primary" | "secondary" | "danger";
 
@@ -28,7 +28,7 @@ const Button = ({ children, onClick, type = "primary" }: Props) => {
 
   return (
     <Container style={styles} onClick={onClick}>
-      {children}
+      <BodyContainer>{children}</BodyContainer>
     </Container>
   );
 };

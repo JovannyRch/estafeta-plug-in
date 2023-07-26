@@ -1,26 +1,26 @@
 const headers = [
   {
-    title: "Datos de envío",
+    title: "Número de orden",
     key: "shippingData",
   },
   {
-    title: "Datos de destino",
+    title: "Cliente",
     key: "destinationData",
   },
   {
-    title: "Número de guía",
+    title: "Destino",
     key: "guideNumber",
   },
   {
-    title: "Estatus de envío",
+    title: "Envío",
     key: "shippingStatus",
   },
   {
-    title: "Costo",
+    title: "Pedido",
     key: "cost",
   },
   {
-    title: "Descargar PDF",
+    title: "Crear envío",
     key: "actions",
     align: "center",
   },
@@ -35,7 +35,9 @@ const data = [
       name: "Manuel Rodríguez",
       address: "Tabasco 262",
       neighborhood: "Col. Roma Norte",
+      email: "manuelrdz@gmail.com",
     },
+    paymentStatus: "Pagado",
     shipments: [
       {
         number: "123456789",
@@ -43,7 +45,22 @@ const data = [
         status: 2,
       },
     ],
+    destination: {
+      customer: "Manuel Rodríguez",
+      address: "Tabasco 262",
+      neighborhood: "Ciudad de México 06700",
+    },
     cost: "$ 150.00",
+    shipment: {
+      status: "Creado",
+      type: "Terrestre",
+      cost: "$180",
+    },
+    details: {
+      products: 3,
+      price: "$470",
+      link: "https://www.google.com",
+    },
   },
   {
     id: 2,
@@ -53,7 +70,9 @@ const data = [
       name: "José Pérez",
       address: "Tabasco 262",
       neighborhood: "Col. Roma Norte",
+      email: "manuelrdz@gmail.com",
     },
+    paymentStatus: "Pagado",
     shipments: [
       {
         number: "123456789",
@@ -67,6 +86,21 @@ const data = [
       },
     ],
     cost: "$ 150.00",
+    destination: {
+      customer: "Manuel Rodríguez",
+      address: "Tabasco 262",
+      neighborhood: "Ciudad de México 06700",
+    },
+    shipment: {
+      status: "Creado",
+      type: "Día siguiente",
+      cost: "$150",
+    },
+    details: {
+      products: 3,
+      price: "$470",
+      link: "https://www.google.com",
+    },
   },
   {
     id: 3,
@@ -76,7 +110,9 @@ const data = [
       name: "María Sánchez",
       address: "Tabasco 262",
       neighborhood: "Col. Roma Norte",
+      email: "manuelrdz@gmail.com",
     },
+    paymentStatus: "Pagado",
     shipments: [
       {
         number: "123456789",
@@ -90,6 +126,19 @@ const data = [
       },
     ],
     cost: "$ 150.00",
+    destination: {
+      customer: "Manuel Rodríguez",
+      address: "Tabasco 262",
+      neighborhood: "Ciudad de México 06700",
+    },
+    shipment: {
+      status: "No creado",
+    },
+    details: {
+      products: 3,
+      price: "$470",
+      link: "https://www.google.com",
+    },
   },
   {
     id: 4,
@@ -99,7 +148,9 @@ const data = [
       name: "Diego López",
       address: "Tabasco 262",
       neighborhood: "Col. Roma Norte",
+      email: "manuelrdz@gmail.com",
     },
+    paymentStatus: "Pagado",
     shipments: [
       {
         number: "123456789",
@@ -113,6 +164,19 @@ const data = [
       },
     ],
     cost: "$ 150.00",
+    destination: {
+      customer: "Manuel Rodríguez",
+      address: "Tabasco 262",
+      neighborhood: "Ciudad de México 06700",
+    },
+    shipment: {
+      status: "No creado",
+    },
+    details: {
+      products: 3,
+      price: "$470",
+      link: "https://www.google.com",
+    },
   },
   {
     id: 5,
@@ -122,7 +186,9 @@ const data = [
       name: "Diego López",
       address: "Tabasco 262",
       neighborhood: "Col. Roma Norte",
+      email: "manuelrdz@gmail.com",
     },
+    paymentStatus: "Pagado",
     shipments: [
       {
         number: "123456789",
@@ -136,6 +202,19 @@ const data = [
       },
     ],
     cost: "$ 150.00",
+    destination: {
+      customer: "Manuel Rodríguez",
+      address: "Tabasco 262",
+      neighborhood: "Ciudad de México 06700",
+    },
+    shipment: {
+      status: "No creado",
+    },
+    details: {
+      products: 3,
+      price: "$470",
+      link: "https://www.google.com",
+    },
   },
 ];
 
