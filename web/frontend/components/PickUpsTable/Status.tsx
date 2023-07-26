@@ -41,7 +41,7 @@ const PickUpStatus = ({ code }: { code: number }) => {
         <Typography.Text size={12} weight={700}>
           {status.label}
         </Typography.Text>
-        <Tooltip />
+        <Tooltip message="Orden de recolección recibida por Estafeta y generada con éxito." />
       </Container>
 
       {[4, 5].includes(code) && (
