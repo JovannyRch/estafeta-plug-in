@@ -7,6 +7,7 @@ import styled from 'styled-components';
 import Loader from '../Loader/Loader';
 import EstafetaLogo from '../../icons/EstafetaLogo';
 import PickUpStatus from './Status';
+import ZeroState from '../ZeroState/ZeroState';
 
 const ShipmentsContainer = styled.div`
     display: flex;
@@ -21,10 +22,6 @@ const ShipmentsItem = styled.div`
     min-height: 38px;
 `;
 
-const ActionsContainers = styled.div`
-    display: flex;
-    justify-content: center;
-`;
 
 const PickUpsTable = ({ data = [], loading }) => {
 
@@ -35,11 +32,17 @@ const PickUpsTable = ({ data = [], loading }) => {
     };
 
 
+
     if (loading) {
         return <Loader height={400}>
             <EstafetaLogo />
         </Loader>
     }
+
+    if (data.length === 0) {
+        return <ZeroState />
+    }
+
 
     return (
         <BaseTable headers={headers}>

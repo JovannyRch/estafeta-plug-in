@@ -101,6 +101,8 @@ const ShippingView = ({ title = "Envíos" }) => {
         loadData()
     }, [currentPage])
 
+    const hasData = filteredData.length > 0;
+
 
 
 
@@ -131,10 +133,12 @@ const ShippingView = ({ title = "Envíos" }) => {
                     Actualizar órdenes manualmente
                 </SyncButton>
 
-                <ShippingTable loading={loading} data={filteredData} />
+                <ShippingTable data={filteredData} loading={loading} />
+
+
                 <Spacer height={22} />
                 {
-                    firstLoading && <Pagination totalPages={4} currentPage={currentPage} setCurrentPage={setCurrentPage} />
+                    hasData && firstLoading && <Pagination totalPages={4} currentPage={currentPage} setCurrentPage={setCurrentPage} />
                 }
             </Container>
         </ViewWrapper>

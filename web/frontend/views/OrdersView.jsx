@@ -104,7 +104,7 @@ const OrdersView = ({ title = "Órdenes" }) => {
         loadData()
     }, [currentPage])
 
-
+    const hasData = filteredData.length > 0;
 
 
     return (
@@ -154,7 +154,7 @@ const OrdersView = ({ title = "Órdenes" }) => {
                 <OrdersTable loading={loading} data={filteredData} />
                 <Spacer height={22} />
                 {
-                    firstLoading && <Pagination totalPages={4} currentPage={currentPage} setCurrentPage={setCurrentPage} />
+                    firstLoading && hasData && <Pagination totalPages={4} currentPage={currentPage} setCurrentPage={setCurrentPage} />
                 }
             </Container>
         </ViewWrapper>

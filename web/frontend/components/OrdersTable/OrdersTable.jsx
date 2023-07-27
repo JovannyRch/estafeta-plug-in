@@ -10,6 +10,7 @@ import IconButton from '../IconButton/IconButton';
 import Loader from '../Loader/Loader';
 import EstafetaLogo from '../../icons/EstafetaLogo';
 import PlusIcon from '../../icons/PlusIcon';
+import ZeroState from '../ZeroState/ZeroState';
 
 
 const ActionsContainers = styled.div`
@@ -32,6 +33,10 @@ const OrdersTable = ({ data = [], loading }) => {
         return <Loader height={400}>
             <EstafetaLogo />
         </Loader>
+    }
+
+    if (data.length === 0) {
+        return <ZeroState />
     }
 
     return (

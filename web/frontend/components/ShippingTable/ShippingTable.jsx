@@ -10,6 +10,7 @@ import DownloadIcon from '../../icons/DownloadIcon';
 import IconButton from '../IconButton/IconButton';
 import Loader from '../Loader/Loader';
 import EstafetaLogo from '../../icons/EstafetaLogo';
+import ZeroState from '../ZeroState/ZeroState';
 
 const ShipmentsContainer = styled.div`
     display: flex;
@@ -40,6 +41,10 @@ const ShippingTable = ({ data = [], loading }) => {
         return <Loader height={400}>
             <EstafetaLogo />
         </Loader>
+    }
+
+    if (data.length === 0) {
+        return <ZeroState />
     }
 
     return (
