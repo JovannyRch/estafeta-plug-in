@@ -17,6 +17,7 @@ const stylesMap = {
   secondary: {
     backgroundColor: "##FFFFFF",
     color: "#12263C",
+    border: "1px solid #849BCC",
   },
   danger: {
     backgroundColor: "#D90202",
