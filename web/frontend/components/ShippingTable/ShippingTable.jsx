@@ -36,6 +36,7 @@ const ShippingTable = ({ data = [], loading }) => {
     };
 
 
+
     if (loading) {
         return <Loader height={400}>
             <EstafetaLogo />
@@ -101,9 +102,15 @@ const ShippingTable = ({ data = [], loading }) => {
                         </TableComponents.Cell>
                         <TableComponents.Cell>
                             <ActionsContainers>
-                                <IconButton onClick={handleDownload}>
-                                    <DownloadIcon />
-                                </IconButton>
+                                <ShipmentsContainer>
+                                    {
+                                        shipment.shipments.map((item) => <>
+                                            <IconButton onClick={handleDownload}>
+                                                <DownloadIcon />
+                                            </IconButton>
+                                        </>)
+                                    }
+                                </ShipmentsContainer>
                             </ActionsContainers>
                         </TableComponents.Cell>
                     </TableComponents.Row>

@@ -7,7 +7,6 @@ import Logo from '../components/Logo';
 import SearchInput from '../components/SearchInput/SearchInput';
 import ViewWrapper from '../components/ViewWrapper/ViewWrapper';
 import { data } from '../components/ShippingTable/const';
-import Button from '../components/Button/Button';
 import ShipmentDropdownFilter from '../components/ShipmentDropdownFilter/ShipmentDropdownFilter';
 import OrdersTable from '../components/OrdersTable/OrdersTable';
 import ShippingTable from '../components/ShippingTable/ShippingTable';
@@ -127,7 +126,7 @@ const ShippingView = ({ title = "Envíos" }) => {
                     </FilterContainer>
 
                 </TopActionsContainer>
-                <SyncButton>
+                <SyncButton onClick={loadData}>
                     Actualizar órdenes manualmente
                 </SyncButton>
 
