@@ -3,17 +3,21 @@ import { Container, Title, StyledNavLink } from "./styled-components";
 import OrdersIcon from "../../icons/OrdersIcon";
 import PickUpsIcon from "../../icons/PickUpsIcon";
 import ShipmentsIcon from "../../icons/ShipmentsIcon";
+import Spacer from "../Spacer/Index";
+import EstafetaIcon from "../../icons/EstafetaIcon";
 interface LinkProps {
   icon: React.ReactNode;
   title: string;
   url?: string;
+  onClick?: () => void;
 }
 
-const SidebarLink = ({ icon, title, url }: LinkProps) => {
+const SidebarLink = ({ icon, title, url, onClick }: LinkProps) => {
   return (
     <StyledNavLink
       className={({ isActive }) => (isActive ? "active" : "")}
       to={url ?? "/"}
+      onClick={() => onClick?.()}
     >
       <div className="active-line" />
       {icon}
@@ -41,6 +45,10 @@ const links = [
 ];
 
 const Sidebar = () => {
+  const handleGoToEstafeta = () => {
+    window.open("https://www.estafeta.com/");
+  };
+
   return (
     <Container>
       <Title>¿Qué haremos hoy?</Title>
@@ -54,6 +62,12 @@ const Sidebar = () => {
           />
         );
       })}
+      <Spacer height={50} />
+      <SidebarLink
+        icon={<EstafetaIcon />}
+        onClick={handleGoToEstafeta}
+        title={"Estafeta Plugin"}
+      />
     </Container>
   );
 };

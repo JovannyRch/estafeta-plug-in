@@ -18,10 +18,11 @@ const ActionsContainers = styled.div`
     justify-content: center;
 `;
 
-const OrdersTable = ({ data = [], loading }) => {
+const OrdersTable = ({ data = [], loading, onCreateShipment = () => { } }) => {
 
     const handleCreateShipment = () => {
-        window.open('https://www.estafeta.com/herramientas/rastreo');
+        onCreateShipment?.();
+        //window.open('https://www.estafeta.com/herramientas/rastreo');
     };
 
     const handleOpenOrder = (link) => {

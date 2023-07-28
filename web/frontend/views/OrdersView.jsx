@@ -12,6 +12,8 @@ import ShipmentDropdownFilter from '../components/ShipmentDropdownFilter/Shipmen
 import Tabs from '../components/Tabs/Tabs';
 import { SyncButton } from './styled-components';
 import OrdersTable from '../components/OrdersTable/OrdersTable';
+import useLocalStorage from '../hooks/useLocalStorage';
+import ShipmentsConfirmationModal from '../components/ShipmentsConfirmationModal/ShipmentsConfirmationModal';
 
 const Container = styled.div`
     display: flex;
@@ -61,6 +63,12 @@ const OrdersView = ({ title = "Órdenes" }) => {
     const [currentPage, setCurrentPage] = useState(1);
     const [loading, setLoading] = useState(false);
     const [firstLoading, setFirstLoading] = useState(false);
+
+    const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+
+    const handleGoToEstafeta = () => {
+        window.open('https://www.estafeta.com/herramientas/rastreo');
+    }
 
     useEffect(() => {
 
@@ -146,17 +154,23 @@ const OrdersView = ({ title = "Órdenes" }) => {
                         />
                         <ShipmentDropdownFilter onChangeFilter={loadData} />
                     </FilterContainer>
-                    <Button  >
+                    <Button onClick={() => setShowConfirmationModal(true)} >
                         Nuevo envío
                     </Button>
                 </TopActionsContainer>
                 <SyncButton onClick={loadData} >Sincronizar órdenes manualmente</SyncButton>
-                <OrdersTable loading={loading} data={filteredData} />
+                <OrdersTable loading={loading} data={filteredData} onCreateShipment={() => setShowConfirmationModal(true)} />
                 <Spacer height={22} />
                 {
                     firstLoading && hasData && <Pagination totalPages={4} currentPage={currentPage} setCurrentPage={setCurrentPage} />
                 }
             </Container>
+            <ShipmentsConfirmationModal
+                onClose={() => setShowConfirmationModal(false)}
+                onOk={handleGoToEstafeta}
+                isOpen={showConfirmationModal}
+                localKey='shipments-confirmation-modal-2'
+            />
         </ViewWrapper>
     )
 }

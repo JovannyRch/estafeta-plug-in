@@ -53,7 +53,7 @@ const ModalActions = styled.div`
 const ConfirmationModal = ({
   isOpen,
   handleClose,
-  title,
+  title = "",
   children,
   confirmText = 'Ok',
   cancelText = 'Cancelar',
