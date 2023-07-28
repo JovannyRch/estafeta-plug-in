@@ -5,6 +5,7 @@ import {
   CustomDateContainer,
   IconContainer,
   InputContainer,
+  ApplyButton,
 } from "./styled-components";
 import DropdownIcon from "../../icons/DropdownIcon";
 
@@ -73,6 +74,8 @@ const ShipmentDropdownFilter = ({ onChangeFilter }) => {
         <>
           <DateInput>Desde</DateInput>
           <DateInput>Hasta</DateInput>
+
+          <ApplyButton>Aplicar filtro</ApplyButton>
         </>
       )}
     </Container>

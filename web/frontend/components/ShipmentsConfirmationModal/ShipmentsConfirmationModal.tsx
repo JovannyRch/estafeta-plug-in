@@ -44,7 +44,7 @@ const ShipmentsConfirmationModal = ({
   };
 
   useEffect(() => {
-    if (localValue) {
+    if (isOpen && localValue) {
       onOk?.();
       onClose?.();
     }

@@ -143,6 +143,9 @@ const OrdersView = ({ title = "Órdenes" }) => {
                     ]}
                         onChange={loadData}
                     />
+                    <Button onClick={() => setShowConfirmationModal(true)} >
+                        Nuevo envío
+                    </Button>
                 </TopButtonsContainer>
                 <TopActionsContainer>
                     <FilterContainer >
@@ -154,9 +157,7 @@ const OrdersView = ({ title = "Órdenes" }) => {
                         />
                         <ShipmentDropdownFilter onChangeFilter={loadData} />
                     </FilterContainer>
-                    <Button onClick={() => setShowConfirmationModal(true)} >
-                        Nuevo envío
-                    </Button>
+
                 </TopActionsContainer>
                 <SyncButton onClick={loadData} >Sincronizar órdenes manualmente</SyncButton>
                 <OrdersTable loading={loading} data={filteredData} onCreateShipment={() => setShowConfirmationModal(true)} />

@@ -46,7 +46,9 @@ const links = [
 
 const Sidebar = () => {
   const handleGoToEstafeta = () => {
-    window.open("https://www.estafeta.com/");
+    /* window.open(
+      "https://estafetap10-dev.estafeta.com/EstafetaPlugIn_UI/PruebaConexion"
+    ); */
   };
 
   return (

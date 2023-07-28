@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 export const Container = styled.div`
   display: flex;
+  align-items: center;
   gap: 22px;
 `;
 
@@ -65,4 +66,18 @@ export const CustomDateContainer = styled.div`
       line-height: normal;
     }
   }
+`;
+
+export const ApplyButton = styled.div`
+  color: var(--btns, #849bcc);
+  text-align: right;
+  font-family: Montserrat;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 800;
+  line-height: normal;
+  text-decoration-line: underline;
+  cursor: pointer;
+  margin-left: 20px;
+  user-select: none;
 `;

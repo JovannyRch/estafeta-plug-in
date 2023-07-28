@@ -26,7 +26,7 @@ const OrdersTable = ({ data = [], loading, onCreateShipment = () => { } }) => {
     };
 
     const handleOpenOrder = (link) => {
-        window.open(link);
+        window.open('https://www.estafeta.com/herramientas/rastreo');
     };
 
 

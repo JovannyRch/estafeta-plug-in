@@ -74,7 +74,6 @@ const ShippingView = ({ title = "Envíos" }) => {
 
     useEffect(() => {
 
-        //Data with random ids
         const dataWidthRandomIds = data.map((shipment) => {
             return {
                 ...shipment,
@@ -129,7 +128,7 @@ const ShippingView = ({ title = "Envíos" }) => {
                     </FilterContainer>
 
                 </TopActionsContainer>
-                <SyncButton>
+                <SyncButton onClick={loadData}>
                     Actualizar órdenes manualmente
                 </SyncButton>
 
