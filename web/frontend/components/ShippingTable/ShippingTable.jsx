@@ -25,9 +25,19 @@ const ShipmentsItem = styled.div`
     min-height: 38px;
 `;
 
+const ShipmentActionItem = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    min-height: 38px;
+`;
+
 const ActionsContainers = styled.div`
     display: flex;
     justify-content: center;
+    flex-direction: column;
 `;
 
 const ShippingTable = ({ data = [], loading }) => {
@@ -106,9 +116,18 @@ const ShippingTable = ({ data = [], loading }) => {
                         </TableComponents.Cell>
                         <TableComponents.Cell>
                             <ActionsContainers>
-                                <IconButton onClick={handleDownload}>
-                                    <DownloadIcon />
-                                </IconButton>
+
+
+                                {
+                                    shipment.shipments.map((item) => <>
+                                        <ShipmentActionItem>
+                                            <IconButton onClick={handleDownload}>
+                                                <DownloadIcon />
+                                            </IconButton>
+                                        </ShipmentActionItem>
+
+                                    </>)
+                                }
                             </ActionsContainers>
                         </TableComponents.Cell>
                     </TableComponents.Row>
