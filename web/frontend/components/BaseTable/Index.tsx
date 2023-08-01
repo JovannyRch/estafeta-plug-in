@@ -1,7 +1,7 @@
 import React from "react";
 import { BaseTableContainer, Th } from "./styled-components";
 
-interface Header {
+export interface Header {
   title: string;
   key: string;
   align?: "left" | "center" | "right";

@@ -14,6 +14,7 @@ import { SyncButton } from './styled-components';
 import OrdersTable from '../components/OrdersTable/OrdersTable';
 import useLocalStorage from '../hooks/useLocalStorage';
 import ShipmentsConfirmationModal from '../components/ShipmentsConfirmationModal/ShipmentsConfirmationModal';
+import userOrders from '../hooks/userOrders';
 
 const Container = styled.div`
     display: flex;
@@ -61,10 +62,11 @@ const OrdersView = ({ title = "Órdenes" }) => {
     const [searchValue, setSearchValue] = useState('');
     const [filteredData, setFilteredData] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
-    const [loading, setLoading] = useState(false);
-    const [firstLoading, setFirstLoading] = useState(false);
 
     const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+
+    const { ordersResponse, isLoading } = userOrders();
+    const orders = ordersResponse?.orders ?? [];
 
     const handleGoToEstafeta = () => {
         window.open('https://www.estafeta.com/herramientas/rastreo');
@@ -100,11 +102,11 @@ const OrdersView = ({ title = "Órdenes" }) => {
     }, [currentPage])
 
     const loadData = () => {
-        setLoading(true);
+        /* setLoading(true);
         setTimeout(() => {
             setFirstLoading(true);
             setLoading(false);
-        }, Math.floor(Math.random() * 1000) + 500);
+        }, Math.floor(Math.random() * 1000) + 500); */
     }
 
 
@@ -112,7 +114,7 @@ const OrdersView = ({ title = "Órdenes" }) => {
         loadData()
     }, [currentPage])
 
-    const hasData = filteredData.length > 0;
+    const hasData = orders.length > 0;
 
 
     return (
@@ -160,10 +162,10 @@ const OrdersView = ({ title = "Órdenes" }) => {
 
                 </TopActionsContainer>
                 <SyncButton onClick={loadData} >Sincronizar órdenes manualmente</SyncButton>
-                <OrdersTable loading={loading} data={filteredData} onCreateShipment={() => setShowConfirmationModal(true)} />
+                <OrdersTable loading={isLoading} data={ordersResponse?.orders ?? []} onCreateShipment={() => setShowConfirmationModal(true)} />
                 <Spacer height={22} />
                 {
-                    firstLoading && hasData && <Pagination totalPages={4} currentPage={currentPage} setCurrentPage={setCurrentPage} />
+                    hasData && ordersResponse?.totalPages > 1 && <Pagination totalPages={4} currentPage={currentPage} setCurrentPage={setCurrentPage} />
                 }
             </Container>
             <ShipmentsConfirmationModal
@@ -172,7 +174,7 @@ const OrdersView = ({ title = "Órdenes" }) => {
                 isOpen={showConfirmationModal}
                 localKey='shipments-confirmation-modal-2'
             />
-        </ViewWrapper>
+        </ViewWrapper >
     )
 }
 

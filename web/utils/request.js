@@ -1,6 +1,7 @@
 import axios from "axios";
 
 const client = axios.create({
+  baseURL: "https://csrestqa.estafeta.com/Dev",
   headers: {
     "Content-Type": "application/json",
     "Access-Control-Allow-Origin": "*",
@@ -10,7 +11,7 @@ const client = axios.create({
 
 async function getOrders(accessToken) {
   const serviceUrl =
-    "https://csrestqa.estafeta.com/Dev/shopify/order?eSellerCode=1234567890&optionCode=1&page=0&creationStartDate=2023/07/20&creationEndDate=2023/07/23&orderCode=3234928966";
+    "/shopify/order?eSellerCode=1234567890&optionCode=1&page=0&creationStartDate=2023/07/20&creationEndDate=2023/07/23&orderCode=3234928966";
 
   try {
     const response = await client.get(serviceUrl, {
@@ -26,7 +27,7 @@ async function getOrders(accessToken) {
 }
 
 const estafetaRequest = {
-  getOrders: getOrders,
+  getOrders,
 };
 
 export default estafetaRequest;

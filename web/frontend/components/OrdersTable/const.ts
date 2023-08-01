@@ -1,4 +1,6 @@
-const headers = [
+import { Header } from "../BaseTable/Index";
+
+const headers: Header[] = [
   {
     title: "Número de orden",
     key: "shippingData",

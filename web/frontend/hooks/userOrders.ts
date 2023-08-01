@@ -1,13 +1,24 @@
+import { useState } from "react";
 import { useAppQuery } from "./useAppQuery";
+import { OrdersResponse } from "../types/Responses/OrdersResponse";
 
 const userOrders = () => {
-  const { data: orders } = useAppQuery({
+  const [ordersResponse, setOrdersResponse] = useState<OrdersResponse | null>(
+    null
+  );
+
+  const { isLoading } = useAppQuery({
     url: "/api/orders",
-    reactQueryOptions: {},
+    reactQueryOptions: {
+      onSuccess: (data) => {
+        setOrdersResponse(data);
+      },
+    },
   });
 
   return {
-    orders,
+    ordersResponse,
+    isLoading,
   };
 };
 
