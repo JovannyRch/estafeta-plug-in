@@ -20,14 +20,14 @@ interface Status {
   color: string;
 }
 
-const ShipmentStatus = ({ code }: { code: number }) => {
-  const status: Status = useMemo(() => getStatusData(code), [code]);
+const ShipmentStatus = ({ status }: { status: string }) => {
+  /* const status: Status = useMemo(() => getStatusData(code), [code]); */
 
   return (
     <Container>
-      <Dot style={{ backgroundColor: status.color }} />
+      <Dot style={{ backgroundColor: 'red' }} />
       <Typography.Text size={12} weight={700}>
-        {status.label}
+        {status}
       </Typography.Text>
     </Container>
   );

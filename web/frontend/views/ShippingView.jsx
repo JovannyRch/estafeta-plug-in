@@ -12,6 +12,7 @@ import ShipmentDropdownFilter from '../components/ShipmentDropdownFilter/Shipmen
 import OrdersTable from '../components/OrdersTable/OrdersTable';
 import ShippingTable from '../components/ShippingTable/ShippingTable';
 import { SyncButton } from './styled-components';
+import useShipments from '../hooks/useShipments';
 
 
 const Container = styled.div`
@@ -54,56 +55,10 @@ const LogoContainer = styled.div`
 const ShippingView = ({ title = "Envíos" }) => {
 
     const [searchValue, setSearchValue] = useState('');
-    const [filteredData, setFilteredData] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
-    const [loading, setLoading] = useState(false);
-    const [firstLoading, setFirstLoading] = useState(false);
+    const { shipmentsResponse, isLoading } = useShipments();
 
-    useEffect(() => {
-
-        if (searchValue.length === 0) {
-            setFilteredData(data);
-            return;
-        }
-        const lowerValue = searchValue.toLowerCase();
-        setFilteredData(data.filter((shipment) => {
-            return shipment.orderNumber.toLowerCase().includes(lowerValue) || shipment.customer.name.toLowerCase().includes(lowerValue);
-        }));
-
-    }, [searchValue])
-
-    useEffect(() => {
-
-        const dataWidthRandomIds = data.map((shipment) => {
-            return {
-                ...shipment,
-                id: Math.random().toString(36).substr(2, 9)
-            }
-        });
-        const orderedData = dataWidthRandomIds.sort((a, b) => {
-            return a.id.localeCompare(b.id);
-        });
-        setFilteredData(orderedData);
-
-    }, [currentPage])
-
-    const loadData = () => {
-        setLoading(true);
-        setTimeout(() => {
-            setFirstLoading(true);
-            setLoading(false);
-        }, Math.floor(Math.random() * 1000) + 500);
-    }
-
-
-    useEffect(() => {
-        loadData()
-    }, [currentPage])
-
-    const hasData = filteredData.length > 0;
-
-
-
+    const hasData = shipmentsResponse?.orders?.length > 0;
 
     return (
         <ViewWrapper>
@@ -124,20 +79,20 @@ const ShippingView = ({ title = "Envíos" }) => {
                             value={searchValue}
                             onChange={({ target }) => setSearchValue(target.value)}
                         />
-                        <ShipmentDropdownFilter onChangeFilter={loadData} />
+                        <ShipmentDropdownFilter onChangeFilter={() => { }} />
                     </FilterContainer>
 
                 </TopActionsContainer>
-                <SyncButton onClick={loadData}>
+                <SyncButton onClick={() => { }}>
                     Actualizar órdenes manualmente
                 </SyncButton>
 
-                <ShippingTable data={filteredData} loading={loading} />
+                <ShippingTable data={shipmentsResponse?.orders} loading={isLoading} />
 
 
                 <Spacer height={22} />
                 {
-                    hasData && firstLoading && <Pagination totalPages={4} currentPage={currentPage} setCurrentPage={setCurrentPage} />
+                    hasData && <Pagination totalPages={4} currentPage={currentPage} setCurrentPage={setCurrentPage} />
                 }
             </Container>
         </ViewWrapper>

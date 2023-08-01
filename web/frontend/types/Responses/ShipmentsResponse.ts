@@ -1,9 +1,9 @@
 export interface ShipmentsResponse {
-  orders: Order[];
+  orders: ShipmentOrder[];
   totalPage: number;
 }
 
-export interface Order {
+export interface ShipmentOrder {
   code: string;
   creationDateTime: string;
   client: Client;
