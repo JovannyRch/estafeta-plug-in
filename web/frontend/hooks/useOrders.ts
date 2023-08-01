@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useAppQuery } from "./useAppQuery";
 import { OrdersResponse } from "../types/Responses/OrdersResponse";
 
-const userOrders = () => {
+const useOrders = () => {
   const [ordersResponse, setOrdersResponse] = useState<OrdersResponse | null>(
     null
   );
@@ -11,7 +11,11 @@ const userOrders = () => {
     url: "/api/orders",
     reactQueryOptions: {
       onSuccess: (data) => {
+        console.log("data: ", data);
         setOrdersResponse(data);
+      },
+      onerror: (error) => {
+        console.log("error: ", error);
       },
     },
   });
@@ -22,4 +26,4 @@ const userOrders = () => {
   };
 };
 
-export default userOrders;
+export default useOrders;

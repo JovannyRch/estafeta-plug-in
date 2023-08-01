@@ -35,9 +35,7 @@ const getTooltipText = (status: string) => {
   return "";
 };
 
-const PickUpStatus = ({ code }: { code: number }) => {
-  const status: Status = useMemo(() => getStatusData(code), [code]);
-
+const PickUpStatus = ({ status }: { status: string }) => {
   const handleReprogram = () => {
     window.open("https://www.estafeta.com/herramientas/rastreo");
   };
@@ -45,18 +43,18 @@ const PickUpStatus = ({ code }: { code: number }) => {
   return (
     <Wrapper>
       <Container>
-        <Dot style={{ backgroundColor: status.color }} />
+        <Dot style={{ backgroundColor: "red" }} />
         <Typography.Text size={12} weight={700}>
-          {status.label}
+          {status}
         </Typography.Text>
         <Tooltip message={"Envíos ya recolectados por Estafeta."} />
       </Container>
 
-      {[4, 5].includes(code) && (
+      {/*  {[4, 5].includes(code) && (
         <Typography.Link size={15} weight={800} onClick={handleReprogram}>
           Reprogramar
         </Typography.Link>
-      )}
+      )} */}
     </Wrapper>
   );
 };

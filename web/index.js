@@ -7,6 +7,8 @@ import serveStatic from "serve-static";
 import shopify from "./shopify.js";
 import GDPRWebhookHandlers from "./gdpr.js";
 import ordersRoutes from "./routes/orders/index.js";
+import pickupsRoutes from "./routes/pickups/index.js";
+import shipmentsRoutes from "./routes/shipments/index.js";
 
 const PORT = parseInt(
   process.env.BACKEND_PORT || process.env.PORT || "3000",
@@ -40,6 +42,8 @@ app.use("/api/*", shopify.validateAuthenticatedSession());
 app.use(express.json());
 
 app.use("/api/orders", ordersRoutes);
+app.use("/api/pickups", pickupsRoutes);
+app.use("/api/shipments", shipmentsRoutes);
 
 app.use(shopify.cspHeaders());
 app.use(serveStatic(STATIC_PATH, { index: false }));

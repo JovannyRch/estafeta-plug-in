@@ -12,9 +12,10 @@ import ShipmentDropdownFilter from '../components/ShipmentDropdownFilter/Shipmen
 import Tabs from '../components/Tabs/Tabs';
 import { SyncButton } from './styled-components';
 import OrdersTable from '../components/OrdersTable/OrdersTable';
-import useLocalStorage from '../hooks/useLocalStorage';
+/* import useLocalStorage from '../hooks/useLocalStorage'; */
 import ShipmentsConfirmationModal from '../components/ShipmentsConfirmationModal/ShipmentsConfirmationModal';
-import userOrders from '../hooks/userOrders';
+import useOrders from '../hooks/useOrders';
+
 
 const Container = styled.div`
     display: flex;
@@ -65,7 +66,8 @@ const OrdersView = ({ title = "Órdenes" }) => {
 
     const [showConfirmationModal, setShowConfirmationModal] = useState(false);
 
-    const { ordersResponse, isLoading } = userOrders();
+    const { ordersResponse, isLoading } = useOrders();
+    console.log("ordersResponse", ordersResponse);
     const orders = ordersResponse?.orders ?? [];
 
     const handleGoToEstafeta = () => {
@@ -162,7 +164,7 @@ const OrdersView = ({ title = "Órdenes" }) => {
 
                 </TopActionsContainer>
                 <SyncButton onClick={loadData} >Sincronizar órdenes manualmente</SyncButton>
-                <OrdersTable loading={isLoading} data={ordersResponse?.orders ?? []} onCreateShipment={() => setShowConfirmationModal(true)} />
+                <OrdersTable loading={isLoading} data={orders ?? []} onCreateShipment={() => setShowConfirmationModal(true)} />
                 <Spacer height={22} />
                 {
                     hasData && ordersResponse?.totalPages > 1 && <Pagination totalPages={4} currentPage={currentPage} setCurrentPage={setCurrentPage} />

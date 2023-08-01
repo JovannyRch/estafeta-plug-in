@@ -12,4 +12,18 @@ router.get("/", oauthMiddleware, async (req, res) => {
   res.json(orders);
 });
 
+router.get("/shopify", async (_, res) => {
+  const session = res.locals.shopify.session;
+  /* const orders = await estafetaRequest.getOrders(token); */
+  const shopifyOrders = await estafetaRequest.getShopifyOrders(session);
+  res.json(shopifyOrders);
+});
+
+//count
+router.get("/count", async (_, res) => {
+  const session = res.locals.shopify.session;
+  const count = await estafetaRequest.getShopifyOrdersCount(session);
+  res.json(count);
+});
+
 export default router;
