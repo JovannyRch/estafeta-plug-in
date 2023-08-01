@@ -52,6 +52,14 @@ async function getShopifyOrders(session) {
   return orders;
 }
 
+async function getShopifyOrder(session, id) {
+  const order = await shopify.api.rest.Order.find({
+    id,
+    session,
+  });
+  return order;
+}
+
 async function getShopifyOrdersCount(session) {
   const count = await shopify.api.rest.Order.count({ session: session });
   return count;
@@ -63,6 +71,7 @@ const estafetaRequest = {
   getShipments,
   getShopifyOrders,
   getShopifyOrdersCount,
+  getShopifyOrder,
 };
 
 export default estafetaRequest;

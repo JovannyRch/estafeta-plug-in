@@ -9,7 +9,20 @@ config({ path: "./../../.env" });
 router.get("/", oauthMiddleware, async (req, res) => {
   const token = req.token;
   const orders = await estafetaRequest.getOrders(token);
-  res.json(orders);
+
+  const session = res.locals.shopify.session;
+  const shopifyOrders = await estafetaRequest.getShopifyOrders(session);
+
+  const ordersWithShopify = orders.orders.map((order) => {
+    const randomIndex = Math.floor(Math.random() * shopifyOrders.data.length);
+    const shopifyOrder = shopifyOrders.data[randomIndex];
+    return { ...order, shopify: shopifyOrder };
+  });
+
+  res.json({
+    ...orders,
+    orders: ordersWithShopify,
+  });
 });
 
 router.get("/shopify", async (_, res) => {

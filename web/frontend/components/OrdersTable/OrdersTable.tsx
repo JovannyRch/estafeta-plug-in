@@ -35,7 +35,7 @@ const OrdersTable = ({
   };
 
   const handleOpenOrder = (link) => {
-    window.open("https://www.estafeta.com/herramientas/rastreo");
+    window.open(link);
   };
 
   if (loading) {
@@ -52,74 +52,80 @@ const OrdersTable = ({
 
   return (
     <BaseTable headers={headers}>
-      {data.map((order) => (
-        <TableComponents.Row key={order.code}>
-          <TableComponents.Cell>
-            <Typography.Link size={15}>{order.code}</Typography.Link>
-            <Spacer height={2} />
-            <Typography.Label size={12}>
-              {order.creationDateTime}
-            </Typography.Label>
-            <Spacer height={6} />
-            {/* <PaymentStatus status={order.shipment.statusName} /> */}
-          </TableComponents.Cell>
-          <TableComponents.Cell>
-            <Typography.Bold size={15}>--</Typography.Bold>
+      {data.map((order) => {
+        const customer = order.shopify?.customer;
+        const clientName =
+          customer?.first_name && customer?.last_name
+            ? `${customer.first_name} ${customer.last_name}`
+            : "--";
 
-            {/* <Typography.Bold size={15}>
-              {order.addressee.contactName}
-            </Typography.Bold>
-            <Typography.Label size={12}>
-              {order.addressee.email}
-            </Typography.Label> */}
-          </TableComponents.Cell>
-          <TableComponents.Cell>
-            <Typography.Bold size={15}>
-              {order.addressee.contactName}
-            </Typography.Bold>
-            <Typography.Label size={12}>
-              {order.addressee.address1}
-            </Typography.Label>
-            <Typography.Label size={12}>
-              {order.addressee.address2}
-            </Typography.Label>
-          </TableComponents.Cell>
-          <TableComponents.Cell>
-            <OrderStatus status={order.shipment.statusName} />
-            {order.shipment.statusName === "Creado" && (
-              <>
-                <Spacer height={5} />
-                <Typography.Bold size={12}>
-                  {`${order.shipment.warrantyName} ($${order.shipment.cost})`}
-                </Typography.Bold>
-              </>
-            )}
-          </TableComponents.Cell>
-          <TableComponents.Cell>
-            <Typography.Text size={12} weight={700}>
-              {/* {`${shipment.details.products} producto${
-                shipment.details.products !== 1 ? "s" : ""
-              }`} */}
-            </Typography.Text>
-            <Typography.Text size={12} weight={500}>
-              {/* {`${shipment.details.price}`} */}
-            </Typography.Text>
-            {/* <Typography.Link
-              size={12}
-              onClick={() => handleOpenOrder(shipment.details.link)}
-            >
-              Ver orden
-            </Typography.Link> */}
-          </TableComponents.Cell>
-          <TableComponents.Cell>
-            <ActionsContainers>
-              <IconButton onClick={handleCreateShipment}>
-                <PlusIcon />
-              </IconButton>
-            </ActionsContainers>
-          </TableComponents.Cell>
-        </TableComponents.Row>
-      ))}
+        const customerEmail = customer?.email ? customer.email : "--";
+
+        const products = order.shopify?.line_items.length;
+
+        return (
+          <TableComponents.Row key={order.code}>
+            <TableComponents.Cell>
+              <Typography.Link size={15}>
+                #{order.shopify.order_number}
+              </Typography.Link>
+              <Spacer height={2} />
+              <Typography.Label size={12}>
+                {order.shopify.created_at}
+              </Typography.Label>
+              <Spacer height={6} />
+              <PaymentStatus status={"Pagado"} />
+            </TableComponents.Cell>
+            <TableComponents.Cell>
+              <Typography.Bold size={15}>{clientName}</Typography.Bold>
+              <Typography.Label size={12}>{customerEmail}</Typography.Label>
+            </TableComponents.Cell>
+            <TableComponents.Cell>
+              <Typography.Bold size={15}>
+                {order.addressee.contactName}
+              </Typography.Bold>
+              <Typography.Label size={12}>
+                {order.addressee.address1}
+              </Typography.Label>
+              <Typography.Label size={12}>
+                {order.addressee.address2}
+              </Typography.Label>
+            </TableComponents.Cell>
+            <TableComponents.Cell>
+              <OrderStatus status={order.shipment.statusName} />
+              {order.shipment.statusName === "Creado" && (
+                <>
+                  <Spacer height={5} />
+                  <Typography.Bold size={12}>
+                    {`${order.shipment.warrantyName} ($${order.shipment.cost})`}
+                  </Typography.Bold>
+                </>
+              )}
+            </TableComponents.Cell>
+            <TableComponents.Cell>
+              <Typography.Text size={12} weight={700}>
+                {`${products} producto${products !== 1 ? "s" : ""}`}
+              </Typography.Text>
+              <Typography.Text size={12} weight={500}>
+                {`${order.shopify.total_price}`}
+              </Typography.Text>
+              <Typography.Link
+                size={12}
+                onClick={() => handleOpenOrder(order.shopify.order_status_url)}
+              >
+                Ver orden
+              </Typography.Link>
+            </TableComponents.Cell>
+            <TableComponents.Cell>
+              <ActionsContainers>
+                <IconButton onClick={handleCreateShipment}>
+                  <PlusIcon />
+                </IconButton>
+              </ActionsContainers>
+            </TableComponents.Cell>
+          </TableComponents.Row>
+        );
+      })}
     </BaseTable>
   );
 };
