@@ -1,57 +1,23 @@
 import React, { useEffect, useState } from "react";
 import Dropdown from "../Dropdown/Dropdown";
-import {
-  Container,
-  CustomDateContainer,
-  IconContainer,
-  InputContainer,
-  ApplyButton,
-} from "./styled-components";
-import DropdownIcon from "../../icons/DropdownIcon";
-
-const menu = [
-  {
-    label: "Hoy",
-    className: "",
-  },
-  {
-    label: "Ayer",
-    className: "",
-  },
-  {
-    label: "Última semana",
-    className: "",
-  },
-  {
-    label: "Último mes",
-    className: "",
-  },
-  {
-    label: "Personalizar...",
-    className: "separator",
-  },
-];
-
-const DateInput = ({ children }) => {
-  return (
-    <CustomDateContainer>
-      <label>{children}</label>
-      <InputContainer>
-        <input type="date" placeholder="DD/MM/YYYY" />
-      </InputContainer>
-      <IconContainer>
-        <DropdownIcon />
-      </IconContainer>
-    </CustomDateContainer>
-  );
-};
+import { Container, ApplyButton } from "./styled-components";
+import DateInput from "./DateInput";
+import menu from "./const";
+import { createCustomRange, createRange } from "./utils";
 
 const ShipmentDropdownFilter = ({ onChangeFilter }) => {
   const [filterByValue, setFilterByValue] = useState("");
+  const [fromFilter, setFromFilter] = useState("");
+  const [toFilter, setToFilter] = useState("");
+
+  const handleApplyFilter = () => {
+    const range = createCustomRange(fromFilter, toFilter);
+    if (range) onChangeFilter?.(range);
+  };
 
   useEffect(() => {
-    if (filterByValue !== "Personalizar...") {
-      onChangeFilter?.(filterByValue);
+    if (filterByValue && filterByValue !== "Personalizar...") {
+      onChangeFilter(createRange(filterByValue));
     }
   }, [filterByValue]);
 
@@ -72,10 +38,14 @@ const ShipmentDropdownFilter = ({ onChangeFilter }) => {
 
       {filterByValue === "Personalizar..." && (
         <>
-          <DateInput>Desde</DateInput>
-          <DateInput>Hasta</DateInput>
+          <DateInput value={fromFilter} onChange={setFromFilter}>
+            Desde
+          </DateInput>
+          <DateInput value={toFilter} onChange={setToFilter}>
+            Hasta
+          </DateInput>
 
-          <ApplyButton>Aplicar filtro</ApplyButton>
+          <ApplyButton onClick={handleApplyFilter}>Aplicar filtro</ApplyButton>
         </>
       )}
     </Container>

@@ -11,6 +11,7 @@ router.get("/", oauthMiddleware, async (req, res) => {
   const orders = await estafetaRequest.getOrders(token);
 
   const session = res.locals.shopify.session;
+  console.log("session", session);
   const shopifyOrders = await estafetaRequest.getShopifyOrders(session);
 
   const ordersWithShopify = orders.orders.map((order) => {

@@ -115,9 +115,11 @@ const ShippingTable = ({ data = [], loading }: ShippingTableProps) => {
           <TableComponents.Cell>
             {shipment.waybills.map((waybill) => (
               <>
-                <Typography.Text size={15} weight={700}>
-                  ${waybill.Cost}
-                </Typography.Text>
+                <ShipmentsItem>
+                  <Typography.Text size={15} weight={700}>
+                    ${waybill.Cost}
+                  </Typography.Text>
+                </ShipmentsItem>
               </>
             ))}
           </TableComponents.Cell>

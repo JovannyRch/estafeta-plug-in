@@ -99,11 +99,6 @@ const PickUpsView = ({ title = "Recolecciones" }) => {
         setShowConfirmationModal(true);
     }
 
-
-
-
-
-
     useEffect(() => {
 
     }, [currentPage])

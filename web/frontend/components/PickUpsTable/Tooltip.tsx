@@ -8,7 +8,8 @@ const TooltipContainer = styled.div`
 `;
 
 const IconContainer = styled.div`
-  /* Aquí van los estilos de tu icono */
+  display: flex;
+  align-items: center;
 `;
 
 const TooltipText = styled.div`
