@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import BaseTable from "../BaseTable/Index";
 import { TableComponents } from "../BaseTable/styled-components";
 import { headers } from "./const";
@@ -11,7 +11,13 @@ import IconButton from "../IconButton/IconButton";
 import Loader from "../Loader/Loader";
 import EstafetaLogo from "../../icons/EstafetaLogo";
 import ZeroState from "../ZeroState/ZeroState";
-import { ShipmentOrder } from "../../types/Responses/ShipmentsResponse";
+import {
+  ShipmentOrder,
+  Waybill,
+} from "../../types/Responses/ShipmentsResponse";
+import useWaybills from "../../hooks/useWaybills";
+import useDidUpdateEffect from "../../hooks/useDidUpdateEffect";
+import { base64ToBlob } from "../../utils";
 
 const ShipmentsContainer = styled.div`
   display: flex;
@@ -47,11 +53,37 @@ interface ShippingTableProps {
 }
 
 const ShippingTable = ({ data = [], loading }: ShippingTableProps) => {
-  const handleDownload = () => {
-    window.open(
-      "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"
-    );
+  const [waybillCodes, setWaybillCodes] = useState<string[]>([]);
+  const { waybillsResponse, refetch } = useWaybills({
+    waybillCodes,
+  });
+
+  const handleDownload = (waybill: Waybill) => {
+    setWaybillCodes([waybill.code]);
   };
+
+  useDidUpdateEffect(() => {
+    if (waybillCodes.length > 0) {
+      refetch();
+    }
+  }, [waybillCodes]);
+
+  useDidUpdateEffect(() => {
+    if (
+      waybillsResponse !== null &&
+      waybillsResponse?.documentWaybill?.length > 0 &&
+      waybillCodes.length > 0
+    ) {
+      const waybill = waybillsResponse.documentWaybill[0];
+      const pdfBlob = base64ToBlob(waybill.pdfFile);
+      const url = URL.createObjectURL(pdfBlob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "file.pdf";
+      link.click();
+      setWaybillCodes([]);
+    }
+  }, [waybillsResponse, waybillCodes]);
 
   if (loading) {
     return (
@@ -125,15 +157,15 @@ const ShippingTable = ({ data = [], loading }: ShippingTableProps) => {
           </TableComponents.Cell>
           <TableComponents.Cell>
             <ActionsContainers>
-              {/* {shipment.shipments.map((item) => (
+              {shipment.waybills.map((waybill) => (
                 <>
                   <ShipmentActionItem>
-                    <IconButton onClick={handleDownload}>
+                    <IconButton onClick={() => handleDownload(waybill)}>
                       <DownloadIcon />
                     </IconButton>
                   </ShipmentActionItem>
                 </>
-              ))} */}
+              ))}
             </ActionsContainers>
           </TableComponents.Cell>
         </TableComponents.Row>

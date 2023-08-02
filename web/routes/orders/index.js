@@ -33,6 +33,19 @@ router.get("/", oauthMiddleware, async (req, res) => {
   });
 });
 
+router.get("/waybills", oauthMiddleware, async (req, res) => {
+  const accessToken = req.token;
+  const { waybillCodes = "" } = req.query;
+  const session = res.locals.shopify.session;
+
+  const waybills = await estafetaRequest.getWayBills({
+    accessToken,
+    waybillCodes,
+    shop: session.shop,
+  });
+  res.json(waybills);
+});
+
 router.get("/shopify", async (_, res) => {
   const session = res.locals.shopify.session;
   /* const orders = await estafetaRequest.getOrders(token); */

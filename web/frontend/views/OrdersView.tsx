@@ -45,7 +45,11 @@ const OrdersView = ({ title = "Órdenes" }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const { dateRange, setDateRange } = useDateFilter();
-  const { data: ordersResponse, isLoading } = useData<OrdersResponse>({
+  const {
+    data: ordersResponse,
+    isLoading,
+    refetch,
+  } = useData<OrdersResponse>({
     url: "/api/orders",
     dateRange,
     searchValue: searchValueDebounced,
@@ -102,7 +106,7 @@ const OrdersView = ({ title = "Órdenes" }) => {
             <ShipmentDropdownFilter onChangeFilter={setDateRange} />
           </FilterContainer>
         </TopActionsContainer>
-        <SyncButton onClick={() => {}}>
+        <SyncButton onClick={refetch}>
           Sincronizar órdenes manualmente
         </SyncButton>
         <OrdersTable

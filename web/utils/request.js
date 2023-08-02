@@ -96,6 +96,11 @@ async function getShopifyOrdersCount(session) {
   return count;
 }
 
+async function getWayBills({ accessToken, waybillCodes = "", shop }) {
+  const serviceUrl = `/shopify/documentWaybill?eSellerCode=${shop}&waybillCode=${waybillCodes}`;
+  return makeRequest(accessToken, serviceUrl, "waybills");
+}
+
 const estafetaRequest = {
   getOrders,
   getPickups,
@@ -103,6 +108,7 @@ const estafetaRequest = {
   getShopifyOrders,
   getShopifyOrdersCount,
   getShopifyOrder,
+  getWayBills,
 };
 
 export default estafetaRequest;
