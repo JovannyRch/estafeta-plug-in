@@ -45,6 +45,8 @@ const OrdersView = ({ title = "Órdenes" }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const { dateRange, setDateRange } = useDateFilter();
+  const [totalPage, setTotalPage] = useState(0);
+
   const {
     data: ordersResponse,
     isLoading,
@@ -53,6 +55,7 @@ const OrdersView = ({ title = "Órdenes" }) => {
     url: "/api/orders",
     dateRange,
     searchValue: searchValueDebounced,
+    page: currentPage,
   });
   const orders = ordersResponse?.orders ?? [];
 
@@ -60,7 +63,15 @@ const OrdersView = ({ title = "Órdenes" }) => {
     window.open("https://www.estafeta.com/herramientas/rastreo");
   };
 
-  useEffect(() => {}, [currentPage]);
+  useEffect(() => {
+    if (
+      ordersResponse?.totalPage &&
+      typeof ordersResponse?.totalPage === "number"
+    ) {
+      setTotalPage(ordersResponse.totalPage);
+    }
+    return () => {};
+  }, [ordersResponse]);
 
   const hasData = orders.length > 0;
 
@@ -106,7 +117,7 @@ const OrdersView = ({ title = "Órdenes" }) => {
             <ShipmentDropdownFilter onChangeFilter={setDateRange} />
           </FilterContainer>
         </TopActionsContainer>
-        <SyncButton onClick={refetch}>
+        <SyncButton onClick={() => refetch()}>
           Sincronizar órdenes manualmente
         </SyncButton>
         <OrdersTable
@@ -115,9 +126,9 @@ const OrdersView = ({ title = "Órdenes" }) => {
           onCreateShipment={() => setShowConfirmationModal(true)}
         />
         <Spacer height={22} />
-        {hasData && (ordersResponse?.totalPage ?? 0) > 1 && (
+        {hasData && totalPage > 1 && (
           <Pagination
-            totalPages={4}
+            totalPages={totalPage}
             currentPage={currentPage}
             setCurrentPage={setCurrentPage}
           />

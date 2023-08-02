@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Spacer from "../components/Spacer/Index";
 import Pagination from "../components/Pagination";
@@ -31,6 +31,7 @@ const TopActionsContainer = styled.div`
 const ShippingView = ({ title = "Envíos" }) => {
   const [searchValue, setSearchValue] = useState("");
   const searchValueDebounced = useDebounce(searchValue, 500);
+  const [totalPage, setTotalPage] = useState(0);
 
   const [currentPage, setCurrentPage] = useState(1);
   const { dateRange, setDateRange } = useDateFilter();
@@ -42,9 +43,20 @@ const ShippingView = ({ title = "Envíos" }) => {
     url: "/api/shipments",
     dateRange,
     searchValue: searchValueDebounced,
+    page: currentPage,
   });
 
   const hasData = (shipmentsResponse?.orders ?? []).length > 0;
+
+  useEffect(() => {
+    if (
+      shipmentsResponse?.totalPage &&
+      typeof shipmentsResponse?.totalPage === "number"
+    ) {
+      setTotalPage(shipmentsResponse.totalPage);
+    }
+    return () => {};
+  }, [shipmentsResponse]);
 
   return (
     <ViewWrapper>
@@ -73,9 +85,9 @@ const ShippingView = ({ title = "Envíos" }) => {
         <ShippingTable data={shipmentsResponse?.orders} loading={isLoading} />
 
         <Spacer height={22} />
-        {hasData && (
+        {hasData && totalPage > 1 && (
           <Pagination
-            totalPages={4}
+            totalPages={totalPage}
             currentPage={currentPage}
             setCurrentPage={setCurrentPage}
           />

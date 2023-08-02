@@ -10,14 +10,21 @@ router.get("/", oauthMiddleware, async (req, res) => {
   const accessToken = req.token;
   const session = res.locals.shopify.session;
 
-  const { creationStartDate, creationEndDate, filter = "" } = req.query;
+  const {
+    creationStartDate,
+    creationEndDate,
+    filter = "",
+    page = "0",
+  } = req.query;
   const shipments = await estafetaRequest.getShipments({
     accessToken,
     creationStartDate,
     creationEndDate,
     filter,
     shop: session.shop,
+    page,
   });
+  shipments.totalPage = 10;
   res.json(shipments);
 });
 

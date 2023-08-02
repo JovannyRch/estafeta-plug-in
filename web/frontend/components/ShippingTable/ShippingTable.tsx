@@ -102,7 +102,7 @@ const ShippingTable = ({ data = [], loading }: ShippingTableProps) => {
       {data.map((shipment) => (
         <TableComponents.Row key={shipment.code}>
           <TableComponents.Cell>
-            <Typography.Link size={15}>{shipment.code}</Typography.Link>
+            <Typography.Link size={15}>#{shipment.code}</Typography.Link>
             <Spacer height={2} />
             <Typography.Label size={12}>
               {shipment.creationDateTime}

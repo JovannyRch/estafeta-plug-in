@@ -8,9 +8,15 @@ interface Props<T> {
   dateRange: DateRange;
   searchValue: string;
   url: string;
+  page?: number;
 }
 
-const useData = <T>({ url: baseUrl, dateRange, searchValue }: Props<T>) => {
+const useData = <T>({
+  url: baseUrl,
+  dateRange,
+  searchValue,
+  page = 0,
+}: Props<T>) => {
   const [data, setData] = useState<T | null>(null);
 
   const [url, setUrl] = useState(() => {
@@ -39,11 +45,12 @@ const useData = <T>({ url: baseUrl, dateRange, searchValue }: Props<T>) => {
       creationStartDate: dateRange?.creationStartDate,
       creationEndDate: dateRange?.creationEndDate,
       filter: searchValue,
+      page: page.toString(),
     };
 
     const urlParams = new URLSearchParams(params).toString();
     setUrl(`${baseUrl}?${urlParams}`);
-  }, [dateRange, searchValue]);
+  }, [dateRange, searchValue, page]);
 
   useDidUpdateEffect(() => {
     console.log("url", url);

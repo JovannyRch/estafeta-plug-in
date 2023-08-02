@@ -10,6 +10,7 @@ export const SyncButton = styled.div`
     font-weight: 700;
     line-height: normal;
     text-decoration-line: underline;
+    width: max-content;
 `;
 
 

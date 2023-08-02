@@ -5,7 +5,13 @@ const logUrl = (serviceUrl) => {
   console.log(
     "--------------------------------------------------------------------------------"
   );
+  console.log("                ");
+  console.log("                ");
+  const date = new Date();
+  console.log(date);
   console.log(serviceUrl);
+  console.log("                ");
+  console.log("                ");
   console.log(
     "--------------------------------------------------------------------------------"
   );

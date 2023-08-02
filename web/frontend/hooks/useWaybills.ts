@@ -12,7 +12,9 @@ const useWaybills = ({ waybillCodes }: Props) => {
     url: `/api/orders/waybills/?waybillCodes=${waybillCodes.join(",")}`,
     reactQueryOptions: {
       onSuccess: (data) => {
-        console.log("data", data);
+        if (waybillCodes.length === 0) {
+          return;
+        }
         setData(data);
       },
       onerror: (error) => {

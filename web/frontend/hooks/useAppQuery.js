@@ -25,7 +25,6 @@ export const useAppQuery = ({ url, fetchInit = {}, reactQueryOptions }) => {
 
   return useQuery(url, fetch, {
     ...reactQueryOptions,
-
     refetchOnWindowFocus: false,
   });
 };

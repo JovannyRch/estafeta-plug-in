@@ -8,7 +8,7 @@ config({ path: "./../../.env" });
 
 router.get("/", oauthMiddleware, async (req, res) => {
   const accessToken = req.token;
-  const { creationStartDate, creationEndDate, filter = "" } = req.query;
+  const { creationStartDate, creationEndDate, filter = "", page } = req.query;
   const session = res.locals.shopify.session;
 
   const orders = await estafetaRequest.getOrders({
@@ -17,6 +17,7 @@ router.get("/", oauthMiddleware, async (req, res) => {
     creationEndDate,
     filter,
     shop: session.shop,
+    page,
   });
 
   const shopifyOrders = await estafetaRequest.getShopifyOrders(session);
@@ -29,6 +30,7 @@ router.get("/", oauthMiddleware, async (req, res) => {
 
   res.json({
     ...orders,
+    totalPage: 20,
     orders: ordersWithShopify,
   });
 });
@@ -37,7 +39,7 @@ router.get("/waybills", oauthMiddleware, async (req, res) => {
   const accessToken = req.token;
   const { waybillCodes = "" } = req.query;
   const session = res.locals.shopify.session;
-
+  if (!waybillCodes) return res.json({});
   const waybills = await estafetaRequest.getWayBills({
     accessToken,
     waybillCodes,

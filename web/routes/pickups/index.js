@@ -19,6 +19,7 @@ router.get("/", oauthMiddleware, async (req, res) => {
     filter,
     shop: session.shop,
   });
+  pickups.totalPage = 5;
   res.json(pickups);
 });
 

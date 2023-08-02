@@ -56,6 +56,7 @@ const PickUpsView = ({ title = "Recolecciones" }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const searchValueDebounced = useDebounce(searchValue, 500);
   const { dateRange, setDateRange } = useDateFilter();
+  const [totalPage, setTotalPage] = useState(0);
 
   const [showConfirmationModal, setShowConfirmationModal] =
     useState<boolean>(false);
@@ -63,6 +64,7 @@ const PickUpsView = ({ title = "Recolecciones" }) => {
     url: "/api/pickups",
     dateRange,
     searchValue: searchValueDebounced,
+    page: currentPage,
   });
 
   const [showModalModalSelection, setShowModalModalSelection] =
@@ -86,6 +88,16 @@ const PickUpsView = ({ title = "Recolecciones" }) => {
 
     setShowConfirmationModal(true);
   };
+
+  useEffect(() => {
+    if (
+      pickupsResponse?.totalPage &&
+      typeof pickupsResponse?.totalPage === "number"
+    ) {
+      setTotalPage(pickupsResponse.totalPage);
+    }
+    return () => {};
+  }, [pickupsResponse]);
 
   const hasData = (pickupsResponse?.pickups ?? []).length > 0;
 
@@ -118,9 +130,9 @@ const PickUpsView = ({ title = "Recolecciones" }) => {
           data={pickupsResponse?.pickups ?? []}
         />
         <Spacer height={22} />
-        {hasData && (
+        {hasData && totalPage > 1 && (
           <Pagination
-            totalPages={4}
+            totalPages={totalPage}
             currentPage={currentPage}
             setCurrentPage={setCurrentPage}
           />
