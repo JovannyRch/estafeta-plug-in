@@ -11,6 +11,7 @@ import ShippingTable from "../components/ShippingTable/ShippingTable";
 import { Container, LogoContainer, SyncButton } from "./styled-components";
 import useShipments from "../hooks/useShipments";
 import useDateFilter from "../hooks/useDateRange";
+import useDebounce from "../hooks/useDebounce";
 
 const FilterContainer = styled.div`
   display: flex;
@@ -28,10 +29,13 @@ const TopActionsContainer = styled.div`
 
 const ShippingView = ({ title = "Envíos" }) => {
   const [searchValue, setSearchValue] = useState("");
+  const searchValueDebounced = useDebounce(searchValue, 500);
+
   const [currentPage, setCurrentPage] = useState(1);
   const { dateRange, setDateRange } = useDateFilter();
   const { shipmentsResponse, isLoading, refetch } = useShipments({
     dateRange,
+    searchValue: searchValueDebounced,
   });
 
   const hasData = (shipmentsResponse?.orders ?? []).length > 0;

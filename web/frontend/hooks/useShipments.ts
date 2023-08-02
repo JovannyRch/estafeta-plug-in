@@ -6,11 +6,12 @@ import useDidUpdateEffect from "./useDidUpdateEffect";
 
 interface Props {
   dateRange: DateRange;
+  searchValue: string;
 }
 
 const URL = "/api/shipments";
 
-const useShipments = ({ dateRange }: Props) => {
+const useShipments = ({ dateRange, searchValue }: Props) => {
   const [shipmentsResponse, setData] = useState<ShipmentsResponse | null>(null);
 
   const [url, setUrl] = useState(() => {
@@ -38,13 +39,15 @@ const useShipments = ({ dateRange }: Props) => {
     const params = {
       creationStartDate: dateRange?.creationStartDate,
       creationEndDate: dateRange?.creationEndDate,
+      filter: searchValue,
     };
 
     const urlParams = new URLSearchParams(params).toString();
     setUrl(`${URL}?${urlParams}`);
-  }, [dateRange]);
+  }, [dateRange, searchValue]);
 
   useDidUpdateEffect(() => {
+    console.log("url", url);
     refetch();
   }, [url]);
 

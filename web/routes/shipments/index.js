@@ -8,11 +8,15 @@ config({ path: "./../../.env" });
 
 router.get("/", oauthMiddleware, async (req, res) => {
   const accessToken = req.token;
-  const { creationStartDate, creationEndDate } = req.query;
+  const session = res.locals.shopify.session;
+
+  const { creationStartDate, creationEndDate, filter = "" } = req.query;
   const shipments = await estafetaRequest.getShipments({
     accessToken,
     creationStartDate,
     creationEndDate,
+    filter,
+    shop: session.shop,
   });
   res.json(shipments);
 });

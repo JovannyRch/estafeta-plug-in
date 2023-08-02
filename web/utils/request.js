@@ -45,10 +45,11 @@ async function getShipments({
   creationStartDate,
   creationEndDate,
   page = 0,
-  codeFilter = "",
+  filter = "",
+  shop,
 }) {
-  const serviceUrl = `/shopify/shipment?eSellerCode=1234567890&optionCode=1&page=${page}&creationStartDate=${creationStartDate}&creationEndDate=${creationEndDate}&orderCode=3234928966&waybillCode=5235021296537601397542`;
-
+  const filterValue = filter.length > 0 ? filter : "3234928966";
+  const serviceUrl = `/shopify/shipment?eSellerCode=${shop}&optionCode=1&page=${page}&creationStartDate=${creationStartDate}&creationEndDate=${creationEndDate}&orderCode=${filterValue}&waybillCode=${filterValue}`;
   console.log("serviceUrl", serviceUrl);
   return makeRequest(accessToken, serviceUrl, "shipments");
 }
