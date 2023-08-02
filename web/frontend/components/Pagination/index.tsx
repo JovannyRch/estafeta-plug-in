@@ -56,6 +56,9 @@ const Pagination = ({ totalPages = 0, currentPage, setCurrentPage }: Props) => {
     }
   };
 
+  const leftPage = Math.max(currentPage - 3, 1);
+  const rightPage = Math.min(currentPage + 3, totalPages);
+
   if (totalPages === 0) {
     return null;
   }
@@ -69,14 +72,31 @@ const Pagination = ({ totalPages = 0, currentPage, setCurrentPage }: Props) => {
         {"<"}
       </IconButton>
 
-      {Array.from(Array(totalPages).keys()).map((page) => (
+      {leftPage > 1 && (
+        <>
+          <NumberButton onClick={() => setCurrentPage(1)}>1</NumberButton>
+          <span>...</span>
+        </>
+      )}
+      {Array.from(
+        { length: rightPage - leftPage + 1 },
+        (_, i) => leftPage + i
+      ).map((page) => (
         <NumberButton
-          active={currentPage === page + 1}
-          onClick={() => setCurrentPage(page + 1)}
+          active={currentPage === page}
+          onClick={() => setCurrentPage(page)}
         >
-          {page + 1}
+          {page}
         </NumberButton>
       ))}
+      {rightPage < totalPages && (
+        <>
+          <span>...</span>
+          <NumberButton onClick={() => setCurrentPage(totalPages)}>
+            {totalPages}
+          </NumberButton>
+        </>
+      )}
 
       <IconButton onClick={handleGoToNextPage} active={!isLastPage}>
         {">"}

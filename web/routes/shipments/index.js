@@ -24,7 +24,7 @@ router.get("/", oauthMiddleware, async (req, res) => {
     shop: session.shop,
     page,
   });
-  shipments.totalPage = 10;
+  shipments.totalPage = 3;
   res.json(shipments);
 });
 
