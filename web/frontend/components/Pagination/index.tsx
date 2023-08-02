@@ -72,7 +72,7 @@ const Pagination = ({ totalPages = 0, currentPage, setCurrentPage }: Props) => {
         {"<"}
       </IconButton>
 
-      {leftPage > 1 && (
+      {leftPage > 2 && (
         <>
           <NumberButton onClick={() => setCurrentPage(1)}>1</NumberButton>
           <span>...</span>
@@ -89,7 +89,7 @@ const Pagination = ({ totalPages = 0, currentPage, setCurrentPage }: Props) => {
           {page}
         </NumberButton>
       ))}
-      {rightPage < totalPages && (
+      {rightPage < totalPages - 1 && (
         <>
           <span>...</span>
           <NumberButton onClick={() => setCurrentPage(totalPages)}>

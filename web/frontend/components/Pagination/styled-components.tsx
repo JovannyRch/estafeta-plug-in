@@ -29,10 +29,11 @@ export const NumberButton = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  font-weight: 500;
 
   ${({ active = "false" }) =>
     active.toString() === "true"
-      ? "background-color: #46BB98;color: #fff;"
+      ? "background-color: #46BB98;color: #fff; font-weight: 700;"
       : "background-color: transparent; color: #12263C;"}
 `;
 
