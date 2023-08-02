@@ -7,8 +7,13 @@ import estafetaRequest from "../../utils/request.js";
 config({ path: "./../../.env" });
 
 router.get("/", oauthMiddleware, async (req, res) => {
-  const token = req.token;
-  const shipments = await estafetaRequest.getShipments(token);
+  const accessToken = req.token;
+  const { creationStartDate, creationEndDate } = req.query;
+  const shipments = await estafetaRequest.getShipments({
+    accessToken,
+    creationStartDate,
+    creationEndDate,
+  });
   res.json(shipments);
 });
 

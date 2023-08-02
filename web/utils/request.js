@@ -40,10 +40,16 @@ async function getPickups(accessToken) {
   return makeRequest(accessToken, serviceUrl, "pickups");
 }
 
-async function getShipments(accessToken) {
-  const serviceUrl =
-    "/shopify/shipment?eSellerCode=1234567890&optionCode=1&page=0&creationStartDate=2023/07/20&creationEndDate=2023/07/23&orderCode=3234928966&waybillCode=5235021296537601397542";
+async function getShipments({
+  accessToken,
+  creationStartDate,
+  creationEndDate,
+  page = 0,
+  codeFilter = "",
+}) {
+  const serviceUrl = `/shopify/shipment?eSellerCode=1234567890&optionCode=1&page=${page}&creationStartDate=${creationStartDate}&creationEndDate=${creationEndDate}&orderCode=3234928966&waybillCode=5235021296537601397542`;
 
+  console.log("serviceUrl", serviceUrl);
   return makeRequest(accessToken, serviceUrl, "shipments");
 }
 

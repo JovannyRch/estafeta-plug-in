@@ -2,10 +2,15 @@ import React, { useEffect, useState } from "react";
 import Dropdown from "../Dropdown/Dropdown";
 import { Container, ApplyButton } from "./styled-components";
 import DateInput from "./DateInput";
-import menu from "./const";
+import menu, { dateValues } from "./const";
 import { createCustomRange, createRange } from "./utils";
+import { DateRange } from "../../types";
 
-const ShipmentDropdownFilter = ({ onChangeFilter }) => {
+interface Props {
+  onChangeFilter?: (range: DateRange) => void;
+}
+
+const ShipmentDropdownFilter = ({ onChangeFilter }: Props) => {
   const [filterByValue, setFilterByValue] = useState("");
   const [fromFilter, setFromFilter] = useState("");
   const [toFilter, setToFilter] = useState("");
@@ -16,8 +21,9 @@ const ShipmentDropdownFilter = ({ onChangeFilter }) => {
   };
 
   useEffect(() => {
-    if (filterByValue && filterByValue !== "Personalizar...") {
-      onChangeFilter(createRange(filterByValue));
+    if (filterByValue && filterByValue !== dateValues.custom) {
+      const range = createRange(filterByValue);
+      if (range) onChangeFilter?.(range);
     }
   }, [filterByValue]);
 
@@ -36,7 +42,7 @@ const ShipmentDropdownFilter = ({ onChangeFilter }) => {
         ))}
       />
 
-      {filterByValue === "Personalizar..." && (
+      {filterByValue === dateValues.custom && (
         <>
           <DateInput value={fromFilter} onChange={setFromFilter}>
             Desde

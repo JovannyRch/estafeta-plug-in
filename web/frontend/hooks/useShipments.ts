@@ -1,15 +1,31 @@
-import { useState } from "react";
-import { useAppQuery } from "./useAppQuery";
+import { useEffect, useState } from "react";
 import { ShipmentsResponse } from "../types/Responses/ShipmentsResponse";
+import { DateRange } from "../types";
+import { useAppQuery } from "./useAppQuery";
+import useDidUpdateEffect from "./useDidUpdateEffect";
 
-const useShipments = () => {
+interface Props {
+  dateRange: DateRange;
+}
+
+const URL = "/api/shipments";
+
+const useShipments = ({ dateRange }: Props) => {
   const [shipmentsResponse, setData] = useState<ShipmentsResponse | null>(null);
 
-  const { isLoading } = useAppQuery({
-    url: "/api/shipments",
+  const [url, setUrl] = useState(() => {
+    const params = {
+      creationStartDate: dateRange?.creationStartDate,
+      creationEndDate: dateRange?.creationEndDate,
+    };
+
+    const urlParams = new URLSearchParams(params).toString();
+    return `${URL}?${urlParams}`;
+  });
+  const { isLoading, refetch, isRefetching } = useAppQuery({
+    url,
     reactQueryOptions: {
       onSuccess: (data) => {
-        console.log("data", data);
         setData(data);
       },
       onerror: (error) => {
@@ -18,9 +34,24 @@ const useShipments = () => {
     },
   });
 
+  useDidUpdateEffect(() => {
+    const params = {
+      creationStartDate: dateRange?.creationStartDate,
+      creationEndDate: dateRange?.creationEndDate,
+    };
+
+    const urlParams = new URLSearchParams(params).toString();
+    setUrl(`${URL}?${urlParams}`);
+  }, [dateRange]);
+
+  useDidUpdateEffect(() => {
+    refetch();
+  }, [url]);
+
   return {
     shipmentsResponse,
-    isLoading,
+    isLoading: isLoading || isRefetching,
+    refetch,
   };
 };
 

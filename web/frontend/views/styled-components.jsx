@@ -11,3 +11,21 @@ export const SyncButton = styled.div`
     line-height: normal;
     text-decoration-line: underline;
 `;
+
+
+export const Container = styled.div`
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 24px 24px;
+    border-radius: 8px;
+`;
+
+
+export const LogoContainer = styled.div`
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 68px;
+`;

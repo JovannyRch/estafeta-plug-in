@@ -1,13 +1,14 @@
 import { format, compareAsc, add } from "date-fns";
 import { dateValues } from "./const";
+import { DateRange } from "../../types";
 
-const dateFormat = "yyyy/MM/dd";
+export const dateFormat = "yyyy/MM/dd";
 
 const addOneDay = (date) => {
   return add(new Date(date), { days: 1 });
 };
 
-const createCustomRange = (startDate, endDate) => {
+const createCustomRange = (startDate, endDate): DateRange | null => {
   if (!startDate || !endDate) return null;
 
   const startDateValue = new Date(startDate);
@@ -23,7 +24,7 @@ const createCustomRange = (startDate, endDate) => {
   };
 };
 
-const createRange = (filterValue) => {
+const createRange = (filterValue): DateRange | null => {
   const today = format(new Date(), dateFormat);
 
   if (filterValue === dateValues.today) {
@@ -57,10 +58,7 @@ const createRange = (filterValue) => {
     };
   }
 
-  return {
-    creationStartDate: "",
-    creationEndDate: "",
-  };
+  return null;
 };
 
 export { createRange, createCustomRange };

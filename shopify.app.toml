@@ -2,7 +2,7 @@
 
 name = "Estafeta"
 client_id = "228f9b3648e05552580fc62e32cd8b1f"
-application_url = "https://psp-acts-entering-weekends.trycloudflare.com"
+application_url = "https://for-boats-cube-councils.trycloudflare.com"
 embedded = true
 
 [access_scopes]
@@ -12,9 +12,9 @@ use_legacy_install_flow = true
 
 [auth]
 redirect_urls = [
-  "https://psp-acts-entering-weekends.trycloudflare.com/auth/callback",
-  "https://psp-acts-entering-weekends.trycloudflare.com/auth/shopify/callback",
-  "https://psp-acts-entering-weekends.trycloudflare.com/api/auth/callback"
+  "https://for-boats-cube-councils.trycloudflare.com/auth/callback",
+  "https://for-boats-cube-councils.trycloudflare.com/auth/shopify/callback",
+  "https://for-boats-cube-councils.trycloudflare.com/api/auth/callback"
 ]
 
 [webhooks]

@@ -1,24 +1,39 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAppQuery } from "./useAppQuery";
 import { OrdersResponse } from "../types/Responses/OrdersResponse";
+import { DateRange } from "../types";
+import { useAuthenticatedFetch } from "./useAuthenticatedFetch";
 
-const useOrders = () => {
+interface Props {
+  dateRange: DateRange;
+}
+
+const URL = "/api/orders";
+
+const useOrders = ({ dateRange }: Props) => {
+  const [isLoading, setIsLoading] = useState(false);
+  const fetch = useAuthenticatedFetch();
   const [ordersResponse, setOrdersResponse] = useState<OrdersResponse | null>(
     null
   );
 
-  const { isLoading } = useAppQuery({
-    url: "/api/orders",
-    reactQueryOptions: {
-      onSuccess: (data) => {
-        console.log("data: ", data);
-        setOrdersResponse(data);
-      },
-      onerror: (error) => {
-        console.log("error: ", error);
-      },
-    },
-  });
+  const fetchData = async () => {
+    setIsLoading(true);
+    const params = {
+      creationStartDate: dateRange?.creationStartDate,
+      creationEndDate: dateRange?.creationEndDate,
+    };
+
+    const urlParams = new URLSearchParams(params).toString();
+
+    const response = await fetch(`${URL}?${urlParams}`);
+    console.log("GET", `${URL}?${urlParams}`);
+    console.log("response", response);
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, [dateRange]);
 
   return {
     ordersResponse,
