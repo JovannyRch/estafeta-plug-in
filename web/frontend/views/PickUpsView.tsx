@@ -14,6 +14,10 @@ import ConfirmationModal from "../components/ConfirmationModal/ConfirmationModal
 import useLocalStorage from "../hooks/useLocalStorage";
 import usePickups from "../hooks/usePickups";
 import { Container, LogoContainer } from "./styled-components";
+import { PickupResponse } from "../types/Responses/PickUpsResponse";
+import useData from "../hooks/useData";
+import useDebounce from "../hooks/useDebounce";
+import useDateFilter from "../hooks/useDateRange";
 
 const FilterContainer = styled.div`
   display: flex;
@@ -50,9 +54,16 @@ const ModalMessage = styled.p`
 const PickUpsView = ({ title = "Recolecciones" }) => {
   const [searchValue, setSearchValue] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
+  const searchValueDebounced = useDebounce(searchValue, 500);
+  const { dateRange, setDateRange } = useDateFilter();
+
   const [showConfirmationModal, setShowConfirmationModal] =
     useState<boolean>(false);
-  const { pickupsResponse, isLoading } = usePickups();
+  const { data: pickupsResponse, isLoading } = useData<PickupResponse>({
+    url: "/api/pickups",
+    dateRange,
+    searchValue: searchValueDebounced,
+  });
 
   const [showModalModalSelection, setShowModalModalSelection] =
     useLocalStorage<boolean>("show-pickup-modal-3", true);
@@ -76,8 +87,6 @@ const PickUpsView = ({ title = "Recolecciones" }) => {
     setShowConfirmationModal(true);
   };
 
-  useEffect(() => {}, [currentPage]);
-
   const hasData = (pickupsResponse?.pickups ?? []).length > 0;
 
   return (
@@ -100,7 +109,7 @@ const PickUpsView = ({ title = "Recolecciones" }) => {
               value={searchValue}
               onChange={({ target }) => setSearchValue(target.value)}
             />
-            <ShipmentDropdownFilter onChangeFilter={() => {}} />
+            <ShipmentDropdownFilter onChangeFilter={setDateRange} />
           </FilterContainer>
         </TopActionsContainer>
 

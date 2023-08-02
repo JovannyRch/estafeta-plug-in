@@ -14,6 +14,9 @@ import OrdersTable from "../components/OrdersTable/OrdersTable";
 import ShipmentsConfirmationModal from "../components/ShipmentsConfirmationModal/ShipmentsConfirmationModal";
 import useOrders from "../hooks/useOrders";
 import useDateFilter from "../hooks/useDateRange";
+import useDebounce from "../hooks/useDebounce";
+import useData from "../hooks/useData";
+import { OrdersResponse } from "../types/Responses/OrdersResponse";
 
 const FilterContainer = styled.div`
   display: flex;
@@ -38,11 +41,14 @@ const TopButtonsContainer = styled.div`
 
 const OrdersView = ({ title = "Órdenes" }) => {
   const [searchValue, setSearchValue] = useState("");
+  const searchValueDebounced = useDebounce(searchValue, 500);
   const [currentPage, setCurrentPage] = useState(1);
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const { dateRange, setDateRange } = useDateFilter();
-  const { ordersResponse, isLoading } = useOrders({
+  const { data: ordersResponse, isLoading } = useData<OrdersResponse>({
+    url: "/api/orders",
     dateRange,
+    searchValue: searchValueDebounced,
   });
   const orders = ordersResponse?.orders ?? [];
 

@@ -9,9 +9,10 @@ import ViewWrapper from "../components/ViewWrapper/ViewWrapper";
 import ShipmentDropdownFilter from "../components/ShipmentDropdownFilter/ShipmentDropdownFilter";
 import ShippingTable from "../components/ShippingTable/ShippingTable";
 import { Container, LogoContainer, SyncButton } from "./styled-components";
-import useShipments from "../hooks/useShipments";
 import useDateFilter from "../hooks/useDateRange";
 import useDebounce from "../hooks/useDebounce";
+import useData from "../hooks/useData";
+import { ShipmentsResponse } from "../types/Responses/ShipmentsResponse";
 
 const FilterContainer = styled.div`
   display: flex;
@@ -33,7 +34,12 @@ const ShippingView = ({ title = "Envíos" }) => {
 
   const [currentPage, setCurrentPage] = useState(1);
   const { dateRange, setDateRange } = useDateFilter();
-  const { shipmentsResponse, isLoading, refetch } = useShipments({
+  const {
+    data: shipmentsResponse,
+    isLoading,
+    refetch,
+  } = useData<ShipmentsResponse>({
+    url: "/api/shipments",
     dateRange,
     searchValue: searchValueDebounced,
   });

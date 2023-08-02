@@ -7,11 +7,18 @@ import estafetaRequest from "../../utils/request.js";
 config({ path: "./../../.env" });
 
 router.get("/", oauthMiddleware, async (req, res) => {
-  const token = req.token;
-  const orders = await estafetaRequest.getOrders(token);
-
+  const accessToken = req.token;
+  const { creationStartDate, creationEndDate, filter = "" } = req.query;
   const session = res.locals.shopify.session;
-  console.log("session", session);
+
+  const orders = await estafetaRequest.getOrders({
+    accessToken,
+    creationStartDate,
+    creationEndDate,
+    filter,
+    shop: session.shop,
+  });
+
   const shopifyOrders = await estafetaRequest.getShopifyOrders(session);
 
   const ordersWithShopify = orders.orders.map((order) => {
