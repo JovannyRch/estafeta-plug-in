@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import styled from "styled-components";
 import Spacer from "../components/Spacer/Index";
 import Pagination from "../components/Pagination";
@@ -60,7 +60,18 @@ const OrdersView = ({ title = "Órdenes" }) => {
     searchValue: searchValueDebounced,
     page: currentPage,
   });
-  const orders = ordersResponse?.orders ?? [];
+  const orders = useMemo(() => {
+    const data = ordersResponse?.orders ?? [];
+
+    if (activeTab === "created") {
+      return data.filter((order) => order.shipment.statusName === "Creado");
+    }
+
+    if (activeTab === "not-created") {
+      return data.filter((order) => order.shipment.statusName !== "Creado");
+    }
+    return data;
+  }, [activeTab, ordersResponse]);
 
   const handleGoToEstafeta = () => {
     window.open("https://www.estafeta.com/herramientas/rastreo");
