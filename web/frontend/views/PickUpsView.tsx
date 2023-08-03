@@ -3,21 +3,20 @@ import styled from "styled-components";
 import Spacer from "../components/Spacer/Index";
 import Pagination from "../components/Pagination";
 import Typography from "../components/Typography/Index";
-import Logo from "../components/Logo";
 import SearchInput from "../components/SearchInput/SearchInput";
 import ViewWrapper from "../components/ViewWrapper/ViewWrapper";
 import Button from "../components/Button/Button";
 import ShipmentDropdownFilter from "../components/ShipmentDropdownFilter/ShipmentDropdownFilter";
 
 import PickUpsTable from "../components/PickUpsTable/PickUpsTable";
-import ConfirmationModal from "../components/ConfirmationModal/ConfirmationModal";
 import useLocalStorage from "../hooks/useLocalStorage";
-import usePickups from "../hooks/usePickups";
-import { Container, LogoContainer } from "./styled-components";
+
+import { Container } from "./styled-components";
 import { PickupResponse } from "../types/Responses/PickUpsResponse";
 import useData from "../hooks/useData";
 import useDebounce from "../hooks/useDebounce";
 import useDateFilter from "../hooks/useDateRange";
+import PickupsConfirmationModal from "../components/PickupsConfirmationModal/PickupsConfirmationModal";
 
 const FilterContainer = styled.div`
   display: flex;
@@ -104,10 +103,6 @@ const PickUpsView = ({ title = "Recolecciones" }) => {
   return (
     <ViewWrapper>
       <Container>
-        <LogoContainer>
-          <Logo />
-        </LogoContainer>
-
         <Typography.Title>{title}</Typography.Title>
         <Spacer height={22} />
         <TopButtonsContainer>
@@ -138,33 +133,12 @@ const PickUpsView = ({ title = "Recolecciones" }) => {
           />
         )}
       </Container>
-      <ConfirmationModal
+      <PickupsConfirmationModal
         isOpen={showConfirmationModal}
-        handleClose={() => setShowConfirmationModal(false)}
-        confirmText="Continuar"
-        handleConfirm={handleGoToEstafeta}
-      >
-        <ModalMessage>
-          Estás en la mini app de Estafeta Plugin.
-          <br />
-          <br />
-          Para poder solicitar recolecciones, debes hacerlo desde tu Estafeta
-          Plugin.
-          <br />
-          <br />
-          ¿Deseas ser direccionado?
-          {showModalModalSelection && (
-            <>
-              <br />
-              <br />
-              <div>
-                <input type="checkbox" id="pickups-confirmation-modal" />
-                <label> No volver a mostrar este mensaje</label>
-              </div>
-            </>
-          )}
-        </ModalMessage>
-      </ConfirmationModal>
+        onClose={() => setShowConfirmationModal(false)}
+        onOk={handleGoToEstafeta}
+        localKey="show-confirmation-pickup-modal"
+      />
     </ViewWrapper>
   );
 };

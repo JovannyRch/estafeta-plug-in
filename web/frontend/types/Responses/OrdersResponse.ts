@@ -40,6 +40,7 @@ export interface Shopify {
   company: Company;
   confirmed: boolean;
   created_at: string;
+  contact_email?: string;
   currency: string;
   current_subtotal_price: string;
   current_subtotal_price_set: CurrentSubtotalPriceSet;

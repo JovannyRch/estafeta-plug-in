@@ -1,16 +1,25 @@
 import React from "react";
-import { Container, ViewContainer } from "./styled-components";
+import { Container, ViewContainer, Body } from "./styled-components";
 import Sidebar from "../Sidebar/Sidebar";
+import Header from "../Header/Header";
+import useShop from "../../hooks/useShop";
 
 interface Props {
   children?: React.ReactNode;
 }
 
 const ViewWrapper = ({ children }: Props) => {
+  const { shop } = useShop();
+
+  const email = shop?.data[0]?.email ?? "";
+
   return (
     <Container>
-      <Sidebar />
-      <ViewContainer>{children}</ViewContainer>
+      <Header email={email} />
+      <Body>
+        <Sidebar />
+        <ViewContainer>{children}</ViewContainer>
+      </Body>
     </Container>
   );
 };

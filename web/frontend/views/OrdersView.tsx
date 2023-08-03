@@ -90,10 +90,6 @@ const OrdersView = ({ title = "Órdenes" }) => {
   return (
     <ViewWrapper>
       <Container>
-        <LogoContainer>
-          <Logo />
-        </LogoContainer>
-
         <Typography.Title>{title}</Typography.Title>
         <Spacer height={33} />
         <TopButtonsContainer>

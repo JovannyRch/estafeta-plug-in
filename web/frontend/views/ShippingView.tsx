@@ -3,12 +3,11 @@ import styled from "styled-components";
 import Spacer from "../components/Spacer/Index";
 import Pagination from "../components/Pagination";
 import Typography from "../components/Typography/Index";
-import Logo from "../components/Logo";
 import SearchInput from "../components/SearchInput/SearchInput";
 import ViewWrapper from "../components/ViewWrapper/ViewWrapper";
 import ShipmentDropdownFilter from "../components/ShipmentDropdownFilter/ShipmentDropdownFilter";
 import ShippingTable from "../components/ShippingTable/ShippingTable";
-import { Container, LogoContainer, SyncButton } from "./styled-components";
+import { Container, SyncButton } from "./styled-components";
 import useDateFilter from "../hooks/useDateRange";
 import useDebounce from "../hooks/useDebounce";
 import useData from "../hooks/useData";
@@ -69,10 +68,6 @@ const ShippingView = ({ title = "Envíos" }) => {
   return (
     <ViewWrapper>
       <Container>
-        <LogoContainer>
-          <Logo />
-        </LogoContainer>
-
         <Typography.Title>{title}</Typography.Title>
         <Spacer height={22} />
         <TopActionsContainer>

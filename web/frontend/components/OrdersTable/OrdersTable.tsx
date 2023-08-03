@@ -12,6 +12,8 @@ import EstafetaLogo from "../../icons/EstafetaLogo";
 import PlusIcon from "../../icons/PlusIcon";
 import ZeroState from "../ZeroState/ZeroState";
 import { Order } from "../../types/Responses/OrdersResponse";
+import { formatCurrency } from "../../utils";
+import { format, parseISO } from "date-fns";
 
 const ActionsContainers = styled.div`
   display: flex;
@@ -54,12 +56,14 @@ const OrdersTable = ({
     <BaseTable headers={headers}>
       {data.map((order) => {
         const customer = order.shopify?.customer;
-        const clientName =
-          customer?.first_name && customer?.last_name
-            ? `${customer.first_name} ${customer.last_name}`
-            : "--";
+        const fullName = [customer?.first_name, customer?.last_name]
+          .filter(Boolean)
+          .join(" ");
+        const clientName = fullName ? fullName : "--";
 
-        const customerEmail = customer?.email ? customer.email : "--";
+        const customerEmail =
+          (order.shopify?.contact_email || order.shopify?.customer?.email) ??
+          "";
 
         const products = order.shopify?.line_items.length;
 
@@ -71,7 +75,10 @@ const OrdersTable = ({
               </Typography.Link>
               <Spacer height={2} />
               <Typography.Label size={12}>
-                {order.shopify.created_at}
+                {format(
+                  parseISO(order.creationDateTime),
+                  "yyyy-MM-dd 'a las' HH:mm"
+                )}
               </Typography.Label>
               <Spacer height={6} />
               <PaymentStatus status={"Pagado"} />
@@ -97,7 +104,9 @@ const OrdersTable = ({
                 <>
                   <Spacer height={5} />
                   <Typography.Bold size={12}>
-                    {`${order.shipment.warrantyName} ($${order.shipment.cost})`}
+                    {`${order.shipment.warrantyName} (${formatCurrency(
+                      order.shipment.cost.toString()
+                    )})`}
                   </Typography.Bold>
                 </>
               )}
@@ -107,7 +116,7 @@ const OrdersTable = ({
                 {`${products} producto${products !== 1 ? "s" : ""}`}
               </Typography.Text>
               <Typography.Text size={12} weight={500}>
-                {`${order.shopify.total_price}`}
+                {formatCurrency(`${order.shopify.total_price}`)}
               </Typography.Text>
               <Typography.Link
                 size={12}

@@ -21,6 +21,21 @@ export const InputContainer = styled.div`
   padding-left: 16px;
 `;
 
+export const Input = styled.input.attrs({ type: "date" })`
+  &::placeholder {
+    color: purple;
+    opacity: 1;
+  }
+
+  &:-ms-input-placeholder {
+    color: purple;
+  }
+
+  &::-ms-input-placeholder {
+    color: purple;
+  }
+`;
+
 export const IconContainer = styled.div`
   position: absolute;
   right: -10px;

@@ -12,6 +12,7 @@ export const Container = styled(BaseText)`
   height: 40px;
   border-radius: 8px;
   user-select: none;
+  min-width: 187px;
 `;
 
 export const BodyContainer = styled.div`

@@ -20,7 +20,7 @@ interface Props {
   localKey?: string;
 }
 
-const ShipmentsConfirmationModal = ({
+const PickupsConfirmationModal = ({
   localKey,
   isOpen,
   onClose,
@@ -65,7 +65,7 @@ const ShipmentsConfirmationModal = ({
         Estás en Estafeta Plug In - Consultas.
         <br />
         <br />
-        Para poder crear envíos a tus órdenes, debes hacerlo desde el
+        Para poder solicitar recolecciones, debes hacerlo desde el
         Administrador.
         <br />
         <br />
@@ -81,4 +81,4 @@ const ShipmentsConfirmationModal = ({
   );
 };
 
-export default ShipmentsConfirmationModal;
+export default PickupsConfirmationModal;

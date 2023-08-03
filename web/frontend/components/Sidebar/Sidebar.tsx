@@ -68,7 +68,7 @@ const Sidebar = () => {
       <SidebarLink
         icon={<EstafetaIcon />}
         onClick={handleGoToEstafeta}
-        title={"Estafeta Plugin"}
+        title={"Estafeta Plug In Administrador"}
       />
     </Container>
   );

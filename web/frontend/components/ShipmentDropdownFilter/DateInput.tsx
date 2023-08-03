@@ -3,6 +3,7 @@ import {
   CustomDateContainer,
   IconContainer,
   InputContainer,
+  Input,
 } from "./styled-components";
 import DropdownIcon from "../../icons/DropdownIcon";
 
@@ -17,8 +18,7 @@ const DateInput = ({ value, onChange, children }: Props) => {
     <CustomDateContainer>
       <label>{children}</label>
       <InputContainer>
-        <input
-          value={value}
+        <Input
           onChange={(e) => onChange?.(e.target.value)}
           type="date"
           placeholder="DD/MM/YYYY"
