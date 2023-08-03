@@ -29,7 +29,6 @@ const Logo = () => {
       <LogoContainer>
         <EstafetaLogo />
       </LogoContainer>
-      <Label>El gestor de tus envíos</Label>
     </Container>
   );
 };

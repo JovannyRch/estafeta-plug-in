@@ -134,4 +134,20 @@ const data = [
   },
 ];
 
-export { headers, data };
+const tooltipMap = {
+  Enviada: "Orden de recolección recibida por Estafeta y generada con éxito.",
+  Enrutada: "Orden de recolección en proceso de ser atendida.",
+  Recolectada: "Envíos ya recolectados por Estafeta.",
+  Cancelada: "Orden de recolección cancelada. Se sugiere reprogramar.",
+  Excepcionada: "Orden de recolección excepecionada. Se sugiere reprogramar.",
+};
+
+const colorMap = {
+  Enviada: "#274C89",
+  Enrutada: "#274C89",
+  Recolectada: "#46BB98",
+  Cancelada: "#D90202",
+  Excepcionada: "#274C89",
+};
+
+export { headers, data, colorMap, tooltipMap };

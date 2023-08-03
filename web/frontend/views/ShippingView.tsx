@@ -13,6 +13,7 @@ import useDateFilter from "../hooks/useDateRange";
 import useDebounce from "../hooks/useDebounce";
 import useData from "../hooks/useData";
 import { ShipmentsResponse } from "../types/Responses/ShipmentsResponse";
+import useRenderFlag from "../hooks/useRenderFlag";
 
 const FilterContainer = styled.div`
   display: flex;
@@ -32,7 +33,7 @@ const ShippingView = ({ title = "Envíos" }) => {
   const [searchValue, setSearchValue] = useState("");
   const searchValueDebounced = useDebounce(searchValue, 500);
   const [totalPage, setTotalPage] = useState(0);
-
+  const { renderFlag, forceReRender } = useRenderFlag();
   const [currentPage, setCurrentPage] = useState(1);
   const { dateRange, setDateRange } = useDateFilter();
   const {
@@ -47,6 +48,13 @@ const ShippingView = ({ title = "Envíos" }) => {
   });
 
   const hasData = (shipmentsResponse?.orders ?? []).length > 0;
+
+  const handleRefresh = () => {
+    forceReRender();
+    setSearchValue("");
+    setCurrentPage(1);
+    refetch();
+  };
 
   useEffect(() => {
     if (
@@ -75,10 +83,13 @@ const ShippingView = ({ title = "Envíos" }) => {
               value={searchValue}
               onChange={({ target }) => setSearchValue(target.value)}
             />
-            <ShipmentDropdownFilter onChangeFilter={setDateRange} />
+
+            {renderFlag && (
+              <ShipmentDropdownFilter onChangeFilter={setDateRange} />
+            )}
           </FilterContainer>
         </TopActionsContainer>
-        <SyncButton onClick={() => refetch()}>
+        <SyncButton onClick={handleRefresh}>
           Sincronizar órdenes manualmente
         </SyncButton>
 

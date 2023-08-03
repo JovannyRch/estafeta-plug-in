@@ -9,6 +9,7 @@ import EstafetaLogo from "../../icons/EstafetaLogo";
 import PickUpStatus from "./Status";
 import ZeroState from "../ZeroState/ZeroState";
 import { Pickup } from "../../types/Responses/PickUpsResponse";
+import { format, parseISO } from "date-fns";
 
 const ShipmentsContainer = styled.div`
   display: flex;
@@ -50,11 +51,11 @@ const PickUpsTable = ({ data = [], loading }: PickUpsTableProps) => {
       {data.map((pickup, index) => (
         <TableComponents.Row key={pickup.code}>
           <TableComponents.Cell>
-            <Typography.Bold size={15}>{pickup.code}</Typography.Bold>
+            <Typography.Bold size={15}>#{pickup.code}</Typography.Bold>
           </TableComponents.Cell>
           <TableComponents.Cell>
             <Typography.Label size={15}>
-              {pickup.planningDateTime}
+              {format(parseISO(pickup.planningDateTime), "yyyy-MM-dd")}
             </Typography.Label>
           </TableComponents.Cell>
           <TableComponents.Cell>
@@ -66,7 +67,7 @@ const PickUpsTable = ({ data = [], loading }: PickUpsTableProps) => {
                       #{order.code}
                     </Typography.Link>
                     <Typography.Label size={12}>
-                      {order.creationDateTime}
+                      {format(parseISO(order.creationDateTime), "yyyy-MM-dd")}
                     </Typography.Label>
                   </ShipmentsItem>
                 </>
@@ -82,7 +83,7 @@ const PickUpsTable = ({ data = [], loading }: PickUpsTableProps) => {
                       {waybill.code}
                     </Typography.Link>
                     <Typography.Label size={12}>
-                      {waybill.dimension}
+                      {waybill.dimension} / {waybill.weight}
                     </Typography.Label>
                   </ShipmentsItem>
                 ))

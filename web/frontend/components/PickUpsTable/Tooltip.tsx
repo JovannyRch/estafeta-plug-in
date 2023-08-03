@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import InfoIcon from "../../icons/InfoIcon";
 import styled from "styled-components";
 
@@ -46,6 +46,8 @@ interface Props {
 
 const Tooltip = ({ message }: Props) => {
   const [visible, setVisible] = useState(false);
+
+  if (!message) return null;
 
   return (
     <TooltipContainer>

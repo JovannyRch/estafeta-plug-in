@@ -10,13 +10,19 @@ interface Props {
 }
 
 const SearchInput = ({ placeholder, width, value, onChange }: Props) => {
+  const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.value.match(/^[0-9]*$/)) {
+      onChange?.(e);
+    }
+  };
+
   return (
     <Container style={width ? { width } : {}}>
       <input
         type="text"
         placeholder={placeholder}
         value={value}
-        onChange={onChange}
+        onChange={handleOnChange}
       />
       <SearchIcon />
     </Container>

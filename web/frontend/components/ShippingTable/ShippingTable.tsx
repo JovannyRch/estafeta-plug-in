@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import BaseTable from "../BaseTable/Index";
 import { TableComponents } from "../BaseTable/styled-components";
 import { headers } from "./const";
@@ -17,7 +17,8 @@ import {
 } from "../../types/Responses/ShipmentsResponse";
 import useWaybills from "../../hooks/useWaybills";
 import useDidUpdateEffect from "../../hooks/useDidUpdateEffect";
-import { base64ToBlob } from "../../utils";
+import { base64ToBlob, formatCurrency } from "../../utils";
+import { parseISO, format } from "date-fns";
 
 const ShipmentsContainer = styled.div`
   display: flex;
@@ -105,7 +106,10 @@ const ShippingTable = ({ data = [], loading }: ShippingTableProps) => {
             <Typography.Link size={15}>#{shipment.code}</Typography.Link>
             <Spacer height={2} />
             <Typography.Label size={12}>
-              {shipment.creationDateTime}
+              {format(
+                parseISO(shipment.creationDateTime),
+                "yyyy-MM-dd 'a las' HH:mm"
+              )}
             </Typography.Label>
           </TableComponents.Cell>
           <TableComponents.Cell>
@@ -149,7 +153,7 @@ const ShippingTable = ({ data = [], loading }: ShippingTableProps) => {
               <>
                 <ShipmentsItem>
                   <Typography.Text size={15} weight={700}>
-                    ${waybill.Cost}
+                    {formatCurrency(waybill.Cost.toString())}
                   </Typography.Text>
                 </ShipmentsItem>
               </>

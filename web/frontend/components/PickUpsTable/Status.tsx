@@ -3,6 +3,7 @@ import { getStatusData } from "./utils";
 import styled from "styled-components";
 import Typography from "../Typography/Index";
 import Tooltip from "./Tooltip";
+import { colorMap, tooltipMap } from "./const";
 
 const Container = styled.div`
   display: flex;
@@ -22,32 +23,22 @@ const Dot = styled.div`
   border-radius: 50%;
 `;
 
-interface Status {
-  label: string;
-  color: string;
-}
-
-const getTooltipText = (status: string) => {
-  switch (status) {
-    case "pending":
-      return "Orden de recolección excepecionada. Se sugiere reprogramar.";
-  }
-  return "";
-};
-
 const PickUpStatus = ({ status }: { status: string }) => {
   const handleReprogram = () => {
     window.open("https://www.estafeta.com/herramientas/rastreo");
   };
 
+  const color = useMemo(() => colorMap[status] ?? "#274C89", [status]);
+  const tooltipMessage = useMemo(() => tooltipMap[status] ?? "", [status]);
+
   return (
     <Wrapper>
       <Container>
-        <Dot style={{ backgroundColor: "red" }} />
+        <Dot style={{ backgroundColor: color }} />
         <Typography.Text size={12} weight={700}>
           {status}
         </Typography.Text>
-        <Tooltip message={"Envíos ya recolectados por Estafeta."} />
+        <Tooltip message={tooltipMessage} />
       </Container>
 
       {["Cancelada", "Excepcionada"].includes(status) && (

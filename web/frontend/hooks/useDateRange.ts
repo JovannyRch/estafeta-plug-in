@@ -15,7 +15,14 @@ const useDateFilter = () => {
     creationEndDate: today,
   });
 
-  return { dateRange, setDateRange };
+  const resetDateRange = () => {
+    setDateRange({
+      creationStartDate: twoMonthsAgo,
+      creationEndDate: today,
+    });
+  };
+
+  return { dateRange, setDateRange, resetDateRange };
 };
 
 export default useDateFilter;

@@ -7,17 +7,10 @@ interface Props {
     value: string;
   }[];
   onChange?: (value: string) => void;
+  activeTab?: string;
 }
 
-const Tabs = ({ tabs, onChange }: Props) => {
-  const [activeTab, setActiveTab] = useState(() =>
-    tabs.length > 0 ? tabs[0].value : ""
-  );
-
-  useEffect(() => {
-    onChange?.(activeTab);
-  }, [activeTab]);
-
+const Tabs = ({ tabs, onChange, activeTab }: Props) => {
   if (tabs.length === 0) {
     return null;
   }
@@ -26,7 +19,7 @@ const Tabs = ({ tabs, onChange }: Props) => {
     <Container>
       {tabs.map((tab) => (
         <TabContainer
-          onClick={() => setActiveTab(tab.value)}
+          onClick={() => onChange?.(tab.value)}
           key={tab.value}
           className={tab.value === activeTab ? "active" : ""}
         >

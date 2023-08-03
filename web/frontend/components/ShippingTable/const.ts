@@ -141,4 +141,17 @@ const data = [
   },
 ];
 
-export { headers, data };
+const colorMap = {
+  "En tránsito": "#274C89",
+  "Entregado en Domicilio Destino": "#46BB98",
+  "Recibido por Estafeta": "#274C89",
+  "Por operar": "#274C89",
+  Incidencia: "#D90202",
+  "En proceso de entrega a domicilio": "#274C89",
+  "En proceso de entrega a oficina": "#274C89",
+  "Entregado en Oficina Ocurre": "#46BB98",
+  "Disponible en oficina": "#274C89",
+  "En proceso de devolución": "#274C89",
+};
+
+export { headers, data, colorMap };

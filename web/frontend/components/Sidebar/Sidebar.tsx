@@ -51,8 +51,6 @@ const Sidebar = () => {
     );
   };
 
-  return null;
-
   return (
     <Container>
       <Title>¿Qué haremos hoy?</Title>

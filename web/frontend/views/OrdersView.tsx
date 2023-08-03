@@ -17,6 +17,7 @@ import useDateFilter from "../hooks/useDateRange";
 import useDebounce from "../hooks/useDebounce";
 import useData from "../hooks/useData";
 import { OrdersResponse } from "../types/Responses/OrdersResponse";
+import useRenderFlag from "../hooks/useRenderFlag";
 
 const FilterContainer = styled.div`
   display: flex;
@@ -44,8 +45,10 @@ const OrdersView = ({ title = "Órdenes" }) => {
   const searchValueDebounced = useDebounce(searchValue, 500);
   const [currentPage, setCurrentPage] = useState(1);
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
-  const { dateRange, setDateRange } = useDateFilter();
+  const { dateRange, setDateRange, resetDateRange } = useDateFilter();
   const [totalPage, setTotalPage] = useState(0);
+  const { renderFlag, forceReRender } = useRenderFlag();
+  const [activeTab, setActiveTab] = useState("all");
 
   const {
     data: ordersResponse,
@@ -61,6 +64,15 @@ const OrdersView = ({ title = "Órdenes" }) => {
 
   const handleGoToEstafeta = () => {
     window.open("https://www.estafeta.com/herramientas/rastreo");
+  };
+
+  const handleRefresh = () => {
+    resetDateRange();
+    setSearchValue("");
+    setActiveTab("all");
+    forceReRender();
+    setCurrentPage(1);
+    refetch();
   };
 
   useEffect(() => {
@@ -100,7 +112,8 @@ const OrdersView = ({ title = "Órdenes" }) => {
                 value: "not-created",
               },
             ]}
-            onChange={() => {}}
+            activeTab={activeTab}
+            onChange={(value) => setActiveTab(value)}
           />
           <Button onClick={() => setShowConfirmationModal(true)}>
             Nuevo envío
@@ -114,10 +127,13 @@ const OrdersView = ({ title = "Órdenes" }) => {
               value={searchValue}
               onChange={({ target }) => setSearchValue(target.value)}
             />
-            <ShipmentDropdownFilter onChangeFilter={setDateRange} />
+
+            {renderFlag && (
+              <ShipmentDropdownFilter onChangeFilter={setDateRange} />
+            )}
           </FilterContainer>
         </TopActionsContainer>
-        <SyncButton onClick={() => refetch()}>
+        <SyncButton onClick={handleRefresh}>
           Sincronizar órdenes manualmente
         </SyncButton>
         <OrdersTable
