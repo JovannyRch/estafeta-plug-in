@@ -1,6 +1,7 @@
 import React from "react";
 import { Container } from "./styled-components";
 import SearchIcon from "../../icons/SearchIcon";
+import { SearchImage } from "../../assets";
 
 interface Props {
   placeholder?: string;
@@ -24,7 +25,7 @@ const SearchInput = ({ placeholder, width, value, onChange }: Props) => {
         value={value}
         onChange={handleOnChange}
       />
-      <SearchIcon />
+      <img src={SearchImage} alt="search" />
     </Container>
   );
 };
