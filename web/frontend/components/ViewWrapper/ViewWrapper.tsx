@@ -50,9 +50,13 @@ const ViewWrapper = ({ children }: Props) => {
   const { shop } = useShop();
   const email = shop?.data[0]?.email ?? "";
   const [storedEmail, setStoredEmail] = useLocalStorage("email", email);
-  const [isCollapsed, setCollapse] = useState(false);
 
-  const toggleCollapse = () => setCollapse(!isCollapsed);
+  const [storedCollapse, setStoredCollapse] = useLocalStorage<boolean>(
+    "collapse",
+    false
+  );
+
+  const toggleCollapse = () => setStoredCollapse(!storedCollapse);
 
   useEffect(() => {
     if (email) setStoredEmail(email);
@@ -63,16 +67,16 @@ const ViewWrapper = ({ children }: Props) => {
       <Header email={storedEmail} toggleSidebar={toggleCollapse} />
       <Body>
         <CSSTransition
-          in={!isCollapsed}
+          in={!storedCollapse}
           timeout={300}
           classNames="my-node"
-          onEnter={() => setCollapse(false)}
-          onExited={() => setCollapse(true)}
+          onEnter={() => setStoredCollapse(false)}
+          onExited={() => setStoredCollapse(true)}
         >
           <AnimatedSidebar
-            collapsed={isCollapsed}
-            enter={!isCollapsed}
-            exit={isCollapsed}
+            collapsed={storedCollapse}
+            enter={!storedCollapse}
+            exit={storedCollapse}
           />
         </CSSTransition>
         <ViewContainer>{children}</ViewContainer>
