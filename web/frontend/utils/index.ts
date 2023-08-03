@@ -28,3 +28,11 @@ export function formatCurrency(value: string, currency = "USD") {
   }
   return value;
 }
+
+export function formatDimensions(value: string) {
+  const items = value.split(" ");
+
+  const itemsWithUnit = items.map((item) => `${item} cm`);
+
+  return itemsWithUnit.join(" x ");
+}

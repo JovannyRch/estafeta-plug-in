@@ -17,7 +17,7 @@ import {
 } from "../../types/Responses/ShipmentsResponse";
 import useWaybills from "../../hooks/useWaybills";
 import useDidUpdateEffect from "../../hooks/useDidUpdateEffect";
-import { base64ToBlob, formatCurrency } from "../../utils";
+import { base64ToBlob, formatCurrency, formatDimensions } from "../../utils";
 import { parseISO, format } from "date-fns";
 
 const ShipmentsContainer = styled.div`
@@ -130,7 +130,9 @@ const ShippingTable = ({ data = [], loading }: ShippingTableProps) => {
                   <ShipmentsItem>
                     <Typography.Link size={15}>{waybill.code}</Typography.Link>
                     <Typography.Label size={12}>
-                      {`${waybill.Dimension} / ${waybill.Wight}`}
+                      {`${formatDimensions(waybill.Dimension)} / ${
+                        waybill.Wight
+                      } kg`}
                     </Typography.Label>
                   </ShipmentsItem>
                 </>

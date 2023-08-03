@@ -10,6 +10,7 @@ import PickUpStatus from "./Status";
 import ZeroState from "../ZeroState/ZeroState";
 import { Pickup } from "../../types/Responses/PickUpsResponse";
 import { format, parseISO } from "date-fns";
+import { formatDimensions } from "../../utils";
 
 const ShipmentsContainer = styled.div`
   display: flex;
@@ -83,7 +84,8 @@ const PickUpsTable = ({ data = [], loading }: PickUpsTableProps) => {
                       {waybill.code}
                     </Typography.Link>
                     <Typography.Label size={12}>
-                      {waybill.dimension} / {waybill.weight}
+                      {formatDimensions(waybill.dimension)} /{" "}
+                      {`${waybill.weight} kg`}
                     </Typography.Label>
                   </ShipmentsItem>
                 ))
