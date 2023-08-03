@@ -126,7 +126,7 @@ const ShippingTable = ({ data = [], loading }: ShippingTableProps) => {
                   <ShipmentsItem>
                     <Typography.Link size={15}>{waybill.code}</Typography.Link>
                     <Typography.Label size={12}>
-                      {waybill.Dimension}
+                      {`${waybill.Dimension} / ${waybill.Wight}`}
                     </Typography.Label>
                   </ShipmentsItem>
                 </>

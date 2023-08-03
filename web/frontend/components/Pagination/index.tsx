@@ -56,8 +56,8 @@ const Pagination = ({ totalPages = 0, currentPage, setCurrentPage }: Props) => {
     }
   };
 
-  const leftPage = Math.max(currentPage - 3, 1);
-  const rightPage = Math.min(currentPage + 3, totalPages);
+  const leftPage = Math.max(currentPage - 2, 1);
+  const rightPage = Math.min(currentPage + 2, totalPages);
 
   if (totalPages === 0) {
     return null;

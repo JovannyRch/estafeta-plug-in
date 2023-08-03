@@ -38,7 +38,7 @@ const createRange = (filterValue): DateRange | null => {
     const yesterday = format(new Date(Date.now() - 86400000), dateFormat);
     return {
       creationStartDate: yesterday,
-      creationEndDate: today,
+      creationEndDate: yesterday,
     };
   }
 

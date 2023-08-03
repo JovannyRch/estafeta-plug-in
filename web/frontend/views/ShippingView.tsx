@@ -79,7 +79,7 @@ const ShippingView = ({ title = "Envíos" }) => {
           </FilterContainer>
         </TopActionsContainer>
         <SyncButton onClick={() => refetch()}>
-          Actualizar órdenes manualmente
+          Sincronizar órdenes manualmente
         </SyncButton>
 
         <ShippingTable data={shipmentsResponse?.orders} loading={isLoading} />

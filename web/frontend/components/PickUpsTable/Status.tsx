@@ -50,11 +50,11 @@ const PickUpStatus = ({ status }: { status: string }) => {
         <Tooltip message={"Envíos ya recolectados por Estafeta."} />
       </Container>
 
-      {/*  {[4, 5].includes(code) && (
+      {["Cancelada", "Excepcionada"].includes(status) && (
         <Typography.Link size={15} weight={800} onClick={handleReprogram}>
           Reprogramar
         </Typography.Link>
-      )} */}
+      )}
     </Wrapper>
   );
 };

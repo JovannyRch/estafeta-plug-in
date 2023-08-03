@@ -32,6 +32,7 @@ const useData = <T>({
     url,
     reactQueryOptions: {
       onSuccess: (data: T) => {
+        console.log("data", data);
         setData(data);
       },
       onerror: (error) => {
