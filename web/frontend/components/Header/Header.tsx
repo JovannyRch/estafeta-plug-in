@@ -13,13 +13,14 @@ import PerfilIcon from "../../icons/PerfilIcon";
 
 interface Props {
   email?: string;
+  toggleSidebar?: () => void;
 }
 
-const Header = ({ email }: Props) => {
+const Header = ({ email, toggleSidebar }: Props) => {
   return (
     <Wrapper>
       <HeaderContainer>
-        <IconButton>
+        <IconButton onClick={() => toggleSidebar?.()}>
           <MenuIcon />
         </IconButton>
         <InfoContainer>

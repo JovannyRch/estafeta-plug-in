@@ -1,5 +1,5 @@
 import React from "react";
-import { Container, Title, StyledNavLink } from "./styled-components";
+import { Container, Title, StyledNavLink, Wrapper } from "./styled-components";
 import OrdersIcon from "../../icons/OrdersIcon";
 import PickUpsIcon from "../../icons/PickUpsIcon";
 import ShipmentsIcon from "../../icons/ShipmentsIcon";
@@ -10,14 +10,16 @@ interface LinkProps {
   title: string;
   url?: string;
   onClick?: () => void;
+  collapsed?: boolean;
 }
 
-const SidebarLink = ({ icon, title, url, onClick }: LinkProps) => {
+const SidebarLink = ({ icon, title, url, onClick, collapsed }: LinkProps) => {
   return (
     <StyledNavLink
       className={({ isActive }) => (isActive ? "active" : "")}
       to={url ?? "/"}
       onClick={() => onClick?.()}
+      collapsed={collapsed}
     >
       <div className="active-line" />
       {icon}
@@ -44,7 +46,7 @@ const links = [
   },
 ];
 
-const Sidebar = () => {
+const Sidebar = ({ collapsed = false }) => {
   const handleGoToEstafeta = () => {
     window.open(
       "https://estafetap10-dev.estafeta.com/EstafetaPlugIn_UI/PruebaConexion"
@@ -52,8 +54,8 @@ const Sidebar = () => {
   };
 
   return (
-    <Container>
-      <Title>¿Qué haremos hoy?</Title>
+    <Container collapsed={collapsed}>
+      <Title collapsed={collapsed}>¿Qué haremos hoy?</Title>
       {links.map((link) => {
         return (
           <SidebarLink
@@ -61,6 +63,7 @@ const Sidebar = () => {
             icon={link.icon}
             url={link.url}
             title={link.title}
+            collapsed={collapsed}
           />
         );
       })}
@@ -69,6 +72,7 @@ const Sidebar = () => {
         icon={<EstafetaIcon />}
         onClick={handleGoToEstafeta}
         title={"Estafeta Plug In Administrador"}
+        collapsed={collapsed}
       />
     </Container>
   );

@@ -1,12 +1,18 @@
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 
-export const Container = styled.div`
+export const Wrapper = styled.div`
   width: 270px;
-  background-color: #475968;
+`;
 
+export const Container = styled.div`
+  background-color: #475968;
   box-shadow: 4px 0px 6px 0px rgba(132, 155, 204, 0.5);
   min-height: 100vh;
+
+  flex: 0 0 ${(props) => (props.collapsed ? "0px" : "252px")};
+  width: ${(props) => (props.collapsed ? "0px" : "252px")};
+  transition: all 0.15s ease-in;
 `;
 
 export const Title = styled.div`
@@ -19,6 +25,9 @@ export const Title = styled.div`
   margin-bottom: 47px;
   padding-top: 96px;
   padding-left: 20px;
+  opacity: ${(props) => (props.collapsed ? "0" : "1")};
+  transition: opacity
+    ${(props) => (props.collapsed ? "0.1s ease-in-out" : "0.5s ease-in")};
 `;
 
 export const StyledNavLink = styled(NavLink)`
@@ -35,6 +44,11 @@ export const StyledNavLink = styled(NavLink)`
   font-weight: 500;
   line-height: normal;
   height: 38px;
+
+  opacity: ${(props) => (props.collapsed ? "0" : "1")};
+  transition: opacity
+    ${(props) => (props.collapsed ? "0.1s ease-in-out" : "0.5s ease-in")};
+
   .active-line {
     width: 3px;
     height: 100%;
