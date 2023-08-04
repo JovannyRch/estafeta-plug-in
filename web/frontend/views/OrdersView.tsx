@@ -7,7 +7,7 @@ import Logo from "../components/Logo";
 import SearchInput from "../components/SearchInput/SearchInput";
 import ViewWrapper from "../components/ViewWrapper/ViewWrapper";
 import Button from "../components/Button/Button";
-import ShipmentDropdownFilter from "../components/ShipmentDropdownFilter/ShipmentDropdownFilter";
+import DateFilter from "../components/DateFilter/DateFilter";
 import Tabs from "../components/Tabs/Tabs";
 import { Container, SyncButton } from "./styled-components";
 import OrdersTable from "../components/OrdersTable/OrdersTable";
@@ -150,9 +150,7 @@ const OrdersView = ({ title = "Órdenes" }) => {
               onChange={({ target }) => handleInputChange(target.value)}
             />
 
-            {renderFlag && (
-              <ShipmentDropdownFilter onChangeFilter={handleRangeChange} />
-            )}
+            {renderFlag && <DateFilter onChangeFilter={handleRangeChange} />}
           </FilterContainer>
         </TopActionsContainer>
         <SyncButton onClick={handleRefresh}>

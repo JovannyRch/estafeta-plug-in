@@ -6,7 +6,7 @@ import Typography from "../components/Typography/Index";
 import SearchInput from "../components/SearchInput/SearchInput";
 import ViewWrapper from "../components/ViewWrapper/ViewWrapper";
 import Button from "../components/Button/Button";
-import ShipmentDropdownFilter from "../components/ShipmentDropdownFilter/ShipmentDropdownFilter";
+import DateFilter from "../components/DateFilter/DateFilter";
 
 import PickUpsTable from "../components/PickUpsTable/PickUpsTable";
 import useLocalStorage from "../hooks/useLocalStorage";
@@ -18,6 +18,7 @@ import useDebounce from "../hooks/useDebounce";
 import useDateFilter from "../hooks/useDateRange";
 import PickupsConfirmationModal from "../components/PickupsConfirmationModal/PickupsConfirmationModal";
 import { DateRange } from "../types";
+import InputTypeFilter from "../components/InputTypeFilter/InputTypeFilter";
 
 const FilterContainer = styled.div`
   display: flex;
@@ -127,11 +128,13 @@ const PickUpsView = ({ title = "Recolecciones" }) => {
           <FilterContainer>
             <SearchInput
               width={400}
-              placeholder="Buscar por número de recolección, orden o guía"
+              placeholder="Buscar por"
               value={searchValue}
               onChange={({ target }) => handleInputChange(target.value)}
             />
-            <ShipmentDropdownFilter onChangeFilter={handleRangeChange} />
+
+            <InputTypeFilter />
+            <DateFilter onChangeFilter={handleRangeChange} />
           </FilterContainer>
         </TopActionsContainer>
 

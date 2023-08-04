@@ -30,7 +30,7 @@ export const Menu = styled.ul`
     font-weight: 500;
     line-height: normal;
     user-select: none;
-    height: 34px;
+    min-height: 34px;
     
 
     &:hover {

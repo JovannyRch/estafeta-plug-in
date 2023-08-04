@@ -5,7 +5,7 @@ import Pagination from "../components/Pagination";
 import Typography from "../components/Typography/Index";
 import SearchInput from "../components/SearchInput/SearchInput";
 import ViewWrapper from "../components/ViewWrapper/ViewWrapper";
-import ShipmentDropdownFilter from "../components/ShipmentDropdownFilter/ShipmentDropdownFilter";
+import DateFilter from "../components/DateFilter/DateFilter";
 import ShippingTable from "../components/ShippingTable/ShippingTable";
 import { Container, SyncButton } from "./styled-components";
 import useDateFilter from "../hooks/useDateRange";
@@ -96,9 +96,7 @@ const ShippingView = ({ title = "Envíos" }) => {
               onChange={({ target }) => handleInputChange(target.value)}
             />
 
-            {renderFlag && (
-              <ShipmentDropdownFilter onChangeFilter={handleRangeChange} />
-            )}
+            {renderFlag && <DateFilter onChangeFilter={handleRangeChange} />}
           </FilterContainer>
         </TopActionsContainer>
         <SyncButton onClick={handleRefresh}>

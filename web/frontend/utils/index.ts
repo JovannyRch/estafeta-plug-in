@@ -36,3 +36,9 @@ export function formatDimensions(value: string) {
 
   return itemsWithUnit.join(" x ");
 }
+
+export function capitalizeFirstLetter(string: string) {
+  if (!string || typeof string !== "string") return string;
+
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}

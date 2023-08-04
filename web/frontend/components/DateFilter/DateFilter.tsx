@@ -10,7 +10,7 @@ interface Props {
   onChangeFilter?: (range: DateRange) => void;
 }
 
-const ShipmentDropdownFilter = ({ onChangeFilter }: Props) => {
+const DateFilter = ({ onChangeFilter }: Props) => {
   const [filterByValue, setFilterByValue] = useState("");
   const [fromFilter, setFromFilter] = useState("");
   const [toFilter, setToFilter] = useState("");
@@ -58,4 +58,4 @@ const ShipmentDropdownFilter = ({ onChangeFilter }: Props) => {
   );
 };
 
-export default ShipmentDropdownFilter;
+export default DateFilter;

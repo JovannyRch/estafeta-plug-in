@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { DateRange } from "../types";
 import { format } from "date-fns";
-import { dateFormat } from "../components/ShipmentDropdownFilter/utils";
+import { dateFormat } from "../components/DateFilter/utils";
 
 const today = format(new Date(), dateFormat);
 const twoMonthsAgo = format(
