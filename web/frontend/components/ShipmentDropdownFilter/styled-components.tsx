@@ -22,18 +22,7 @@ export const InputContainer = styled.div`
 `;
 
 export const Input = styled.input.attrs({ type: "date" })`
-  &::placeholder {
-    color: purple;
-    opacity: 1;
-  }
-
-  &:-ms-input-placeholder {
-    color: purple;
-  }
-
-  &::-ms-input-placeholder {
-    color: purple;
-  }
+  text-transform: uppercase;
 `;
 
 export const IconContainer = styled.div`

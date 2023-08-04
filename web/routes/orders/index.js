@@ -8,17 +8,45 @@ config({ path: "./../../.env" });
 
 router.get("/", oauthMiddleware, async (req, res) => {
   const accessToken = req.token;
-  const { creationStartDate, creationEndDate, filter = "", page } = req.query;
+  const {
+    creationStartDate,
+    creationEndDate,
+    filter = "",
+    page,
+    optionCode,
+  } = req.query;
   const session = res.locals.shopify.session;
 
-  const orders = await estafetaRequest.getOrders({
+  let orders = await estafetaRequest.getOrders({
     accessToken,
     creationStartDate,
     creationEndDate,
     filter,
     shop: session.shop,
     page,
+    optionCode,
   });
+
+  orders = {
+    orders: [
+      {
+        code: "0297364829",
+        creationDateTime: "2023-08-03 19:17:50",
+        addressee: {
+          contactName: "Germán Gonzalo Leal Ochoa",
+          email: "german@mail.com",
+          address1: "alberto balderas #107 villas santin",
+          address2: "Toluca de Lerdo, 50200",
+        },
+        shipment: {
+          statusName: "Creado",
+          warrantyName: "Garantía 11:30",
+          cost: 200.34,
+        },
+      },
+    ],
+    totalPage: 1,
+  };
 
   const shopifyOrders = await estafetaRequest.getShopifyOrders(session);
 
@@ -30,8 +58,8 @@ router.get("/", oauthMiddleware, async (req, res) => {
 
   res.json({
     ...orders,
-    totalPage: 20,
     orders: ordersWithShopify,
+    totalPage: 10,
   });
 });
 

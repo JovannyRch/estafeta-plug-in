@@ -45,6 +45,15 @@ app.use("/api/orders", ordersRoutes);
 app.use("/api/pickups", pickupsRoutes);
 app.use("/api/shipments", shipmentsRoutes);
 
+app.use("/api/shop", async (req, res) => {
+  const session = res.locals.shopify.session;
+  const shop = await shopify.api.rest.Shop.all({
+    session,
+    fields: "id,name,email",
+  });
+  res.json(shop);
+});
+
 app.use(shopify.cspHeaders());
 app.use(serveStatic(STATIC_PATH, { index: false }));
 

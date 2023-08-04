@@ -29,14 +29,16 @@ const client = axios.create({
 async function makeRequest(accessToken, serviceUrl, keyService) {
   try {
     logUrl(serviceUrl);
+    return {};
     const response = await client.get(serviceUrl, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
     });
+    console.log("response.data", JSON.stringify(response.data));
     return response.data;
   } catch (error) {
-    console.error(`Error calling ${keyService} service`, error);
+    console.error(`Error calling ${keyService} service`, error?.response.data);
     return null;
   }
 }
@@ -48,9 +50,12 @@ async function getOrders({
   page = 0,
   filter = "",
   shop,
+  optionCode,
 }) {
   const filterValue = filter.length > 0 ? filter : "3234928966";
-  const serviceUrl = `/shopify/order?eSellerCode=${shop}&optionCode=1&page=${page}&creationStartDate=${creationStartDate}&creationEndDate=${creationEndDate}&orderCode=${filterValue}`;
+  const serviceUrl = `/shopify/order?eSellerCode=${shop}&optionCode=${optionCode}&page=${page}&creationStartDate=${creationStartDate}&creationEndDate=${creationEndDate}&orderCode=${filterValue}`;
+  /* const link =
+    "/shopify/order?eSellerCode=1234567890&optionCode=1&page=0&creationStartDate=2023/07/20&creationEndDate=2023/07/23&orderCode=3234928966"; */
   return makeRequest(accessToken, serviceUrl, "orders");
 }
 
@@ -61,9 +66,10 @@ async function getPickups({
   page = 0,
   filter = "",
   shop,
+  optionCode,
 }) {
   const filterValue = filter.length > 0 ? filter : "3235021296537601397543";
-  const serviceUrl = `/shopify/pickup?eSellerCode=${shop}&optionCode=1&page=${page}&pickupStartDate=${creationStartDate}&pickupEndDate=${creationEndDate}&orderCode=${filterValue}&pickupOrderCode=${filterValue}&waybillCode=${filterValue}`;
+  const serviceUrl = `/shopify/pickup?eSellerCode=${shop}&optionCode=${optionCode}&page=${page}&pickupStartDate=${creationStartDate}&pickupEndDate=${creationEndDate}&orderCode=${filterValue}&pickupOrderCode=${filterValue}&waybillCode=${filterValue}`;
 
   return makeRequest(accessToken, serviceUrl, "pickups");
 }
@@ -75,17 +81,21 @@ async function getShipments({
   page = 0,
   filter = "",
   shop,
+  optionCode,
 }) {
   const filterValue = filter.length > 0 ? filter : "3234928966";
-  const serviceUrl = `/shopify/shipment?eSellerCode=${shop}&optionCode=1&page=${page}&creationStartDate=${creationStartDate}&creationEndDate=${creationEndDate}&orderCode=${filterValue}&waybillCode=${filterValue}`;
+  const serviceUrl = `/shopify/shipment?eSellerCode=${shop}&optionCode=${optionCode}&page=${page}&creationStartDate=${creationStartDate}&creationEndDate=${creationEndDate}&orderCode=${filterValue}&waybillCode=`;
   return makeRequest(accessToken, serviceUrl, "shipments");
 }
 
 async function getShopifyOrders(session, ids = []) {
   const orders = await shopify.api.rest.Order.all({
     session: session,
-    ids: ids.join(","),
+    ids: "5475450814751",
   });
+  console.log("--------------------------------------------");
+  console.log("orders", JSON.stringify(orders));
+  console.log("--------------------------------------------");
   return orders;
 }
 
@@ -106,6 +116,15 @@ async function getWayBills({ accessToken, waybillCodes = "", shop }) {
   const serviceUrl = `/shopify/documentWaybill?eSellerCode=${shop}&waybillCode=${waybillCodes}`;
   return makeRequest(accessToken, serviceUrl, "waybills");
 }
+
+/* async function getShopifyOrder(session, id) {
+  const shops = shopify.api.rest.Shop.all({
+    session: session,
+    fields: ["id", "name", "email"],
+  });
+
+  return shops;
+} */
 
 const estafetaRequest = {
   getOrders,
