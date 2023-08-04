@@ -4,7 +4,7 @@ import { DateRange } from "../../types";
 
 export const dateFormat = "yyyy/MM/dd";
 
-const addOneDay = (date) => {
+export const addOneDay = (date) => {
   return add(new Date(date), { days: 1 });
 };
 

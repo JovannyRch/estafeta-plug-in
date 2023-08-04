@@ -24,8 +24,26 @@ const DateFilter = ({ onChangeFilter }: Props) => {
     if (filterByValue && filterByValue !== dateValues.custom) {
       const range = createRange(filterByValue);
       if (range) onChangeFilter?.(range);
+      setFromFilter("");
+      setToFilter("");
     }
   }, [filterByValue]);
+
+  const renderCustomDateFilter = () => {
+    if (filterByValue !== dateValues.custom) return null;
+    return (
+      <>
+        <DateInput value={fromFilter} onChange={setFromFilter}>
+          Desde
+        </DateInput>
+        <DateInput value={toFilter} onChange={setToFilter}>
+          Hasta
+        </DateInput>
+
+        <ApplyButton onClick={handleApplyFilter}>Aplicar filtro</ApplyButton>
+      </>
+    );
+  };
 
   return (
     <Container>
@@ -41,19 +59,7 @@ const DateFilter = ({ onChangeFilter }: Props) => {
           </button>
         ))}
       />
-
-      {filterByValue === dateValues.custom && (
-        <>
-          <DateInput value={fromFilter} onChange={setFromFilter}>
-            Desde
-          </DateInput>
-          <DateInput value={toFilter} onChange={setToFilter}>
-            Hasta
-          </DateInput>
-
-          <ApplyButton onClick={handleApplyFilter}>Aplicar filtro</ApplyButton>
-        </>
-      )}
+      {renderCustomDateFilter()}
     </Container>
   );
 };

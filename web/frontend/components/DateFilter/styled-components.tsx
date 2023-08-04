@@ -1,24 +1,17 @@
 import styled from "styled-components";
-import DatePicker from "react-date-picker";
 import Calendar from "react-calendar";
 
 export const StyledCalendar = styled(Calendar)`
-  .react-calendar__tile--now {
-    background-color: #849bcc;
-    color: var(--backgorunds, #fff);
-    text-align: center;
-    font-family: Montserrat;
-    font-size: 11px;
-    font-style: normal;
-    font-weight: 800;
-    line-height: normal;
-
-    border-radius: 50%;
-    &::focus {
-      background-color: #849bcc;
-      color: var(--backgorunds, #fff);
-    }
-  }
+  border: none;
+  width: 172px;
+  padding: 0;
+  padding-bottom: 10px;
+  padding-top: 12px;
+  border-bottom-left-radius: 7px;
+  border-bottom-right-radius: 7px;
+  border: 1px solid var(--tipografa, #12263c);
+  border-top: none;
+  z-index: 1;
 
   .react-calendar__tile--now:enabled:focus {
     background-color: #849bcc;
@@ -47,9 +40,94 @@ export const StyledCalendar = styled(Calendar)`
   }
   .react-calendar__navigation {
     width: calc(24px * 7);
+    height: 24px;
+    margin-bottom: 0px;
   }
-  .react-calendar {
-    width: 100%;
+
+  .react-calendar__navigation button {
+    min-width: none;
+  }
+  .react-calendar__tile,
+  .react-calendar__month-view__days__day--weekend {
+    color: var(--tipografa, #12263c);
+    text-align: center;
+    font-family: Montserrat;
+    font-size: 11px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    border-radius: 50%;
+  }
+
+  .react-calendar__tile--now {
+    background-color: inherit;
+    color: var(--tipografa, #12263c);
+    text-align: center;
+    font-family: Montserrat;
+    font-size: 11px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+
+    border-radius: 50%;
+    &::focus {
+      background-color: #849bcc;
+      color: var(--backgorunds, #fff);
+    }
+  }
+
+  .react-calendar__tile--active {
+    background-color: #849bcc;
+    color: var(--backgorunds, #fff);
+  }
+
+  .react-calendar__tile--now:enabled:hover,
+  .react-calendar__tile--now:enabled:focus {
+    background-color: #e6e6e6;
+    color: var(--tipografa, #12263c);
+  }
+
+  .react-calendar__tile--active:enabled:hover,
+  .react-calendar__tile--active:enabled:focus {
+    background-color: #849bcc;
+    color: var(--backgorunds, #fff);
+    text-align: center;
+    font-family: Montserrat;
+    font-size: 11px;
+    font-style: normal;
+    font-weight: 800;
+    line-height: normal;
+  }
+
+  .react-calendar__month-view__days__day--neighboringMonth {
+    color: var(--bloq, #c7c7c7);
+  }
+
+  .react-calendar__navigation__arrow.react-calendar__navigation__prev2-button,
+  .react-calendar__navigation__arrow.react-calendar__navigation__next2-button {
+    display: none;
+  }
+  .react-calendar__navigation__label {
+    pointer-events: none;
+    color: var(--tipografa, #12263c);
+    text-align: center;
+    font-family: Montserrat;
+    font-size: 11px;
+    font-style: normal;
+    font-weight: 800;
+    line-height: normal;
+  }
+  .react-calendar__month-view__weekdays__weekday {
+    color: var(--tipografa, #12263c);
+    text-align: center;
+    font-family: Montserrat;
+    font-size: 11px;
+    font-style: normal;
+    font-weight: 800;
+    line-height: normal;
+  }
+  abbr[title] {
+    text-decoration: none;
   }
 `;
 
@@ -72,16 +150,17 @@ export const InputContainer = styled.div`
   align-items: center;
   height: 40px;
   padding-left: 16px;
-`;
 
-export const Input = styled.input.attrs({ type: "date" })`
-  text-transform: uppercase;
+  width: 172px;
+  height: 40px;
+  position: relative;
+  z-index: 2;
 `;
 
 export const IconContainer = styled.div`
   position: absolute;
-  right: -10px;
-  top: 0px;
+  right: -1px;
+  top: -1px;
   pointer-events: none;
   svg {
     pointer-events: none;
@@ -125,18 +204,6 @@ export const CustomDateContainer = styled.div`
   }
 `;
 
-export const CustomDateContainer2 = styled.div`
-  position: relative;
-
-  color: var(--tipografa, #12263c);
-  text-align: center;
-  font-family: Montserrat;
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: normal;
-`;
-
 export const ApplyButton = styled.div`
   color: var(--btns, #849bcc);
   text-align: right;
@@ -149,4 +216,29 @@ export const ApplyButton = styled.div`
   cursor: pointer;
   margin-left: 20px;
   user-select: none;
+`;
+
+export const Placeholder = styled.div`
+  color: var(--bloq, #c7c7c7);
+  font-family: Montserrat;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  user-select: none;
+`;
+
+export const DateValue = styled(Placeholder)`
+  color: var(--bloq, #12263c);
+`;
+
+export const CalendarContainer = styled.div`
+  position: absolute;
+  top: 28px;
+  left: 0;
+  background-color: #fff;
+`;
+
+export const InputWithCalendarContainer = styled.div`
+  position: relative;
 `;

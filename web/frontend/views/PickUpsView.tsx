@@ -133,7 +133,7 @@ const PickUpsView = ({ title = "Recolecciones" }) => {
               onChange={({ target }) => handleInputChange(target.value)}
             />
 
-            <InputTypeFilter />
+            {/*  <InputTypeFilter /> */}
             <DateFilter onChangeFilter={handleRangeChange} />
           </FilterContainer>
         </TopActionsContainer>
