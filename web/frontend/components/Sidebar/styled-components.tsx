@@ -28,6 +28,8 @@ export const Title = styled.div`
   opacity: ${(props) => (props.collapsed ? "0" : "1")};
   transition: opacity
     ${(props) => (props.collapsed ? "0.1s ease-in-out" : "0.5s ease-in")};
+
+  user-select: none;
 `;
 
 export const StyledNavLink = styled(NavLink)`

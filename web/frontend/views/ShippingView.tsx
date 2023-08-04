@@ -13,6 +13,7 @@ import useDebounce from "../hooks/useDebounce";
 import useData from "../hooks/useData";
 import { ShipmentsResponse } from "../types/Responses/ShipmentsResponse";
 import useRenderFlag from "../hooks/useRenderFlag";
+import { DateRange } from "../types";
 
 const FilterContainer = styled.div`
   display: flex;
@@ -28,12 +29,16 @@ const TopActionsContainer = styled.div`
   justify-content: space-between;
 `;
 
+type OptionCode = 1 | 2;
+
 const ShippingView = ({ title = "Envíos" }) => {
   const [searchValue, setSearchValue] = useState("");
   const searchValueDebounced = useDebounce(searchValue, 500);
   const [totalPage, setTotalPage] = useState(0);
   const { renderFlag, forceReRender } = useRenderFlag();
   const [currentPage, setCurrentPage] = useState(1);
+  const [optionCode, setOptionCode] = useState<OptionCode>(1);
+
   const { dateRange, setDateRange } = useDateFilter();
   const {
     data: shipmentsResponse,
@@ -44,6 +49,7 @@ const ShippingView = ({ title = "Envíos" }) => {
     dateRange,
     searchValue: searchValueDebounced,
     page: currentPage,
+    optionCode,
   });
 
   const hasData = (shipmentsResponse?.orders ?? []).length > 0;
@@ -52,7 +58,18 @@ const ShippingView = ({ title = "Envíos" }) => {
     forceReRender();
     setSearchValue("");
     setCurrentPage(1);
+    setOptionCode(1);
     refetch();
+  };
+
+  const handleInputChange = (value: string) => {
+    setOptionCode(2);
+    setSearchValue(value);
+  };
+
+  const handleRangeChange = (range: DateRange) => {
+    setOptionCode(1);
+    setDateRange(range);
   };
 
   useEffect(() => {
@@ -76,11 +93,11 @@ const ShippingView = ({ title = "Envíos" }) => {
               width={400}
               placeholder="Buscar por número de orden"
               value={searchValue}
-              onChange={({ target }) => setSearchValue(target.value)}
+              onChange={({ target }) => handleInputChange(target.value)}
             />
 
             {renderFlag && (
-              <ShipmentDropdownFilter onChangeFilter={setDateRange} />
+              <ShipmentDropdownFilter onChangeFilter={handleRangeChange} />
             )}
           </FilterContainer>
         </TopActionsContainer>

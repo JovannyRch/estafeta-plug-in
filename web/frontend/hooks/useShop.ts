@@ -13,7 +13,7 @@ const useShop = () => {
         setShop(data);
       },
       onerror: (error) => {
-        console.log("error: ", error);
+        console.log("show error: ", error);
       },
     },
   });

@@ -9,6 +9,7 @@ interface Props<T> {
   searchValue: string;
   url: string;
   page?: number;
+  optionCode?: number;
 }
 
 const useData = <T>({
@@ -16,6 +17,7 @@ const useData = <T>({
   dateRange,
   searchValue,
   page = 0,
+  optionCode = 1,
 }: Props<T>) => {
   const [data, setData] = useState<T | null>(null);
 
@@ -47,11 +49,12 @@ const useData = <T>({
       creationEndDate: dateRange?.creationEndDate,
       filter: searchValue,
       page: page.toString(),
+      optionCode: optionCode.toString(),
     };
 
     const urlParams = new URLSearchParams(params).toString();
     setUrl(`${baseUrl}?${urlParams}`);
-  }, [dateRange, searchValue, page]);
+  }, [dateRange, searchValue, page, optionCode]);
 
   useDidUpdateEffect(() => {
     console.log("url", url);

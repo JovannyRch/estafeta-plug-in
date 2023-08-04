@@ -17,6 +17,7 @@ import useData from "../hooks/useData";
 import useDebounce from "../hooks/useDebounce";
 import useDateFilter from "../hooks/useDateRange";
 import PickupsConfirmationModal from "../components/PickupsConfirmationModal/PickupsConfirmationModal";
+import { DateRange } from "../types";
 
 const FilterContainer = styled.div`
   display: flex;
@@ -50,12 +51,15 @@ const ModalMessage = styled.p`
   max-width: 447px;
 `;
 
+type OptionCode = 1 | 2;
+
 const PickUpsView = ({ title = "Recolecciones" }) => {
   const [searchValue, setSearchValue] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const searchValueDebounced = useDebounce(searchValue, 500);
   const { dateRange, setDateRange } = useDateFilter();
   const [totalPage, setTotalPage] = useState(0);
+  const [optionCode, setOptionCode] = useState<OptionCode>(1);
 
   const [showConfirmationModal, setShowConfirmationModal] =
     useState<boolean>(false);
@@ -64,6 +68,7 @@ const PickUpsView = ({ title = "Recolecciones" }) => {
     dateRange,
     searchValue: searchValueDebounced,
     page: currentPage,
+    optionCode,
   });
 
   const [showModalModalSelection, setShowModalModalSelection] =
@@ -77,6 +82,16 @@ const PickUpsView = ({ title = "Recolecciones" }) => {
     }
 
     window.open("https://www.estafeta.com/");
+  };
+
+  const handleInputChange = (value: string) => {
+    setOptionCode(2);
+    setSearchValue(value);
+  };
+
+  const handleRangeChange = (range: DateRange) => {
+    setOptionCode(1);
+    setDateRange(range);
   };
 
   const onCreatePickUp = () => {
@@ -114,9 +129,9 @@ const PickUpsView = ({ title = "Recolecciones" }) => {
               width={400}
               placeholder="Buscar por número de recolección, orden o guía"
               value={searchValue}
-              onChange={({ target }) => setSearchValue(target.value)}
+              onChange={({ target }) => handleInputChange(target.value)}
             />
-            <ShipmentDropdownFilter onChangeFilter={setDateRange} />
+            <ShipmentDropdownFilter onChangeFilter={handleRangeChange} />
           </FilterContainer>
         </TopActionsContainer>
 

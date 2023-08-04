@@ -56,6 +56,7 @@ const ViewWrapper = ({ children }: Props) => {
     false
   );
 
+  console.log("storedEmail", storedEmail);
   const toggleCollapse = () => setStoredCollapse(!storedCollapse);
 
   useEffect(() => {

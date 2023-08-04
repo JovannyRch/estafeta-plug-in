@@ -27,6 +27,7 @@ export const Email = styled.span`
   font-weight: 500;
   line-height: normal;
   margin-left: 6px;
+  user-select: none;
 `;
 
 export const LogoContainer = styled.div`

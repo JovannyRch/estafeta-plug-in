@@ -9,15 +9,15 @@ import ViewWrapper from "../components/ViewWrapper/ViewWrapper";
 import Button from "../components/Button/Button";
 import ShipmentDropdownFilter from "../components/ShipmentDropdownFilter/ShipmentDropdownFilter";
 import Tabs from "../components/Tabs/Tabs";
-import { Container, LogoContainer, SyncButton } from "./styled-components";
+import { Container, SyncButton } from "./styled-components";
 import OrdersTable from "../components/OrdersTable/OrdersTable";
 import ShipmentsConfirmationModal from "../components/ShipmentsConfirmationModal/ShipmentsConfirmationModal";
-import useOrders from "../hooks/useOrders";
 import useDateFilter from "../hooks/useDateRange";
 import useDebounce from "../hooks/useDebounce";
 import useData from "../hooks/useData";
 import { OrdersResponse } from "../types/Responses/OrdersResponse";
 import useRenderFlag from "../hooks/useRenderFlag";
+import { DateRange } from "../types";
 
 const FilterContainer = styled.div`
   display: flex;
@@ -40,10 +40,13 @@ const TopButtonsContainer = styled.div`
   justify-content: space-between;
 `;
 
+type OptionCode = 1 | 2;
+
 const OrdersView = ({ title = "Órdenes" }) => {
   const [searchValue, setSearchValue] = useState("");
   const searchValueDebounced = useDebounce(searchValue, 500);
   const [currentPage, setCurrentPage] = useState(1);
+  const [optionCode, setOptionCode] = useState<OptionCode>(1);
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const { dateRange, setDateRange, resetDateRange } = useDateFilter();
   const [totalPage, setTotalPage] = useState(0);
@@ -59,6 +62,7 @@ const OrdersView = ({ title = "Órdenes" }) => {
     dateRange,
     searchValue: searchValueDebounced,
     page: currentPage,
+    optionCode,
   });
   const orders = useMemo(() => {
     const data = ordersResponse?.orders ?? [];
@@ -77,12 +81,23 @@ const OrdersView = ({ title = "Órdenes" }) => {
     window.open("https://www.estafeta.com/herramientas/rastreo");
   };
 
+  const handleInputChange = (value: string) => {
+    setOptionCode(2);
+    setSearchValue(value);
+  };
+
+  const handleRangeChange = (range: DateRange) => {
+    setOptionCode(1);
+    setDateRange(range);
+  };
+
   const handleRefresh = () => {
     resetDateRange();
     setSearchValue("");
     setActiveTab("all");
     forceReRender();
     setCurrentPage(1);
+    setOptionCode(1);
     refetch();
   };
 
@@ -132,11 +147,11 @@ const OrdersView = ({ title = "Órdenes" }) => {
               width={400}
               placeholder="Buscar por número de orden"
               value={searchValue}
-              onChange={({ target }) => setSearchValue(target.value)}
+              onChange={({ target }) => handleInputChange(target.value)}
             />
 
             {renderFlag && (
-              <ShipmentDropdownFilter onChangeFilter={setDateRange} />
+              <ShipmentDropdownFilter onChangeFilter={handleRangeChange} />
             )}
           </FilterContainer>
         </TopActionsContainer>
