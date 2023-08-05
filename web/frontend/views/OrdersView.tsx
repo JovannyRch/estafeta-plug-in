@@ -3,7 +3,6 @@ import styled from "styled-components";
 import Spacer from "../components/Spacer/Index";
 import Pagination from "../components/Pagination";
 import Typography from "../components/Typography/Index";
-import Logo from "../components/Logo";
 import SearchInput from "../components/SearchInput/SearchInput";
 import ViewWrapper from "../components/ViewWrapper/ViewWrapper";
 import Button from "../components/Button/Button";
@@ -12,8 +11,6 @@ import Tabs from "../components/Tabs/Tabs";
 import { Container, SyncButton } from "./styled-components";
 import OrdersTable from "../components/OrdersTable/OrdersTable";
 import ShipmentsConfirmationModal from "../components/ShipmentsConfirmationModal/ShipmentsConfirmationModal";
-import useDateFilter from "../hooks/useDateRange";
-import useDebounce from "../hooks/useDebounce";
 import useData from "../hooks/useData";
 import { OrdersResponse } from "../types/Responses/OrdersResponse";
 import useRenderFlag from "../hooks/useRenderFlag";
@@ -43,13 +40,7 @@ const TopButtonsContainer = styled.div`
 type OptionCode = 1 | 2;
 
 const OrdersView = ({ title = "Órdenes" }) => {
-  const [searchValue, setSearchValue] = useState("");
-  const searchValueDebounced = useDebounce(searchValue, 500);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [optionCode, setOptionCode] = useState<OptionCode>(1);
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
-  const { dateRange, setDateRange, resetDateRange } = useDateFilter();
-  const [totalPage, setTotalPage] = useState(0);
   const { renderFlag, forceReRender } = useRenderFlag();
   const [activeTab, setActiveTab] = useState("all");
 
@@ -57,12 +48,13 @@ const OrdersView = ({ title = "Órdenes" }) => {
     data: ordersResponse,
     isLoading,
     refetch,
+    filters,
+    resetFilters,
+    updateFilters,
+    totalPages,
+    setTotalPages,
   } = useData<OrdersResponse>({
     url: "/api/orders",
-    dateRange,
-    searchValue: searchValueDebounced,
-    page: currentPage,
-    optionCode,
   });
   const orders = useMemo(() => {
     const data = ordersResponse?.orders ?? [];
@@ -82,22 +74,29 @@ const OrdersView = ({ title = "Órdenes" }) => {
   };
 
   const handleInputChange = (value: string) => {
-    setOptionCode(2);
-    setSearchValue(value);
+    updateFilters({ searchValue: value, optionCode: 2, currentPage: 1 });
+  };
+
+  const handleTabChange = (value: string) => {
+    if (value === "all") {
+      updateFilters({ statusCode: 1, currentPage: 1 });
+    } else if (value === "created") {
+      updateFilters({ statusCode: 2, currentPage: 1 });
+    } else if (value === "not-created") {
+      updateFilters({ statusCode: 3, currentPage: 1 });
+    }
+
+    setActiveTab(value);
   };
 
   const handleRangeChange = (range: DateRange) => {
-    setOptionCode(1);
-    setDateRange(range);
+    updateFilters({ dateRange: range, optionCode: 1, currentPage: 1 });
   };
 
   const handleRefresh = () => {
-    resetDateRange();
-    setSearchValue("");
+    resetFilters();
     setActiveTab("all");
     forceReRender();
-    setCurrentPage(1);
-    setOptionCode(1);
     refetch();
   };
 
@@ -106,7 +105,7 @@ const OrdersView = ({ title = "Órdenes" }) => {
       ordersResponse?.totalPage &&
       typeof ordersResponse?.totalPage === "number"
     ) {
-      setTotalPage(ordersResponse.totalPage);
+      setTotalPages(ordersResponse.totalPage);
     }
     return () => {};
   }, [ordersResponse]);
@@ -135,7 +134,7 @@ const OrdersView = ({ title = "Órdenes" }) => {
               },
             ]}
             activeTab={activeTab}
-            onChange={(value) => setActiveTab(value)}
+            onChange={handleTabChange}
           />
           <Button onClick={() => setShowConfirmationModal(true)}>
             Nuevo envío
@@ -146,7 +145,7 @@ const OrdersView = ({ title = "Órdenes" }) => {
             <SearchInput
               width={400}
               placeholder="Buscar por número de orden"
-              value={searchValue}
+              value={filters.searchValue}
               onChange={({ target }) => handleInputChange(target.value)}
             />
 
@@ -162,11 +161,15 @@ const OrdersView = ({ title = "Órdenes" }) => {
           onCreateShipment={() => setShowConfirmationModal(true)}
         />
         <Spacer height={22} />
-        {hasData && totalPage > 1 && (
+        {hasData && totalPages > 1 && (
           <Pagination
-            totalPages={totalPage}
-            currentPage={currentPage}
-            setCurrentPage={setCurrentPage}
+            totalPages={totalPages}
+            currentPage={filters.currentPage}
+            setCurrentPage={(currentPage) => updateFilters({ currentPage })}
+            totalItems={filters.totalRecords}
+            setTotalItems={(totalRecords) =>
+              updateFilters({ totalRecords: totalRecords, currentPage: 1 })
+            }
           />
         )}
       </Container>

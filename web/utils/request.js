@@ -51,9 +51,11 @@ async function getOrders({
   filter = "",
   shop,
   optionCode,
+  totalRecords = 5,
+  statusCode = "1",
 }) {
   const filterValue = filter.length > 0 ? filter : "3234928966";
-  const serviceUrl = `/shopify/order?eSellerCode=${shop}&optionCode=${optionCode}&page=${page}&creationStartDate=${creationStartDate}&creationEndDate=${creationEndDate}&orderCode=${filterValue}`;
+  const serviceUrl = `/shopify/order?eSellerCode=${shop}&optionCode=${optionCode}&page=${page}&creationStartDate=${creationStartDate}&creationEndDate=${creationEndDate}&orderCode=${filterValue}&totalRecords=${totalRecords}&statusCode=${statusCode}`;
   /* const link =
     "/shopify/order?eSellerCode=1234567890&optionCode=1&page=0&creationStartDate=2023/07/20&creationEndDate=2023/07/23&orderCode=3234928966"; */
   return makeRequest(accessToken, serviceUrl, "orders");
@@ -67,9 +69,22 @@ async function getPickups({
   filter = "",
   shop,
   optionCode,
+  totalRecords = 5,
 }) {
-  const filterValue = filter.length > 0 ? filter : "3235021296537601397543";
-  const serviceUrl = `/shopify/pickup?eSellerCode=${shop}&optionCode=${optionCode}&page=${page}&pickupStartDate=${creationStartDate}&pickupEndDate=${creationEndDate}&orderCode=${filterValue}&pickupOrderCode=${filterValue}&waybillCode=${filterValue}`;
+  let waybillCode = "";
+  let pickupOrderCode = "";
+  let orderCode = "";
+
+  const codeStr = `${optionCode}`;
+  if (codeStr === "2") {
+    orderCode = filter;
+  } else if (codeStr === "3") {
+    pickupOrderCode = filter;
+  } else if (codeStr === "4") {
+    waybillCode = filter;
+  }
+
+  const serviceUrl = `/shopify/pickup?eSellerCode=${shop}&optionCode=${optionCode}&page=${page}&pickupStartDate=${creationStartDate}&pickupEndDate=${creationEndDate}&orderCode=${orderCode}&pickupOrderCode=${pickupOrderCode}&waybillCode=${waybillCode}&totalRecords=${totalRecords}`;
 
   return makeRequest(accessToken, serviceUrl, "pickups");
 }
@@ -82,9 +97,9 @@ async function getShipments({
   filter = "",
   shop,
   optionCode,
+  totalRecords = 5,
 }) {
-  const filterValue = filter.length > 0 ? filter : "3234928966";
-  const serviceUrl = `/shopify/shipment?eSellerCode=${shop}&optionCode=${optionCode}&page=${page}&creationStartDate=${creationStartDate}&creationEndDate=${creationEndDate}&orderCode=${filterValue}&waybillCode=`;
+  const serviceUrl = `/shopify/shipment?eSellerCode=${shop}&optionCode=${optionCode}&page=${page}&creationStartDate=${creationStartDate}&creationEndDate=${creationEndDate}&orderCode=${filter}&waybillCode=&totalRecords=${totalRecords}`;
   return makeRequest(accessToken, serviceUrl, "shipments");
 }
 

@@ -30,3 +30,19 @@ export const LogoContainer = styled.div`
     align-items: center;
     height: 68px;
 `;
+
+export const DropdownWithInputContainer = styled.div`
+    display: flex;
+    background-color: var(--backgorunds, #fff);
+    border: 1px solid #12263c;
+    border-left: none;
+    border-radius: 7px; 
+
+    align-items: center;
+    justify-content: flex-start;
+
+    .trigger{
+        border: none;
+        outline: 1px solid #12263c;
+    }
+`;

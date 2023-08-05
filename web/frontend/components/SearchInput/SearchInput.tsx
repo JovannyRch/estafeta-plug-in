@@ -8,9 +8,16 @@ interface Props {
   width?: number;
   value?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  styles?: React.CSSProperties;
 }
 
-const SearchInput = ({ placeholder, width, value, onChange }: Props) => {
+const SearchInput = ({
+  placeholder,
+  width,
+  value,
+  onChange,
+  styles = {},
+}: Props) => {
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.value.match(/^[0-9]*$/)) {
       onChange?.(e);
@@ -18,7 +25,7 @@ const SearchInput = ({ placeholder, width, value, onChange }: Props) => {
   };
 
   return (
-    <Container style={width ? { width } : {}}>
+    <Container style={width ? { ...styles, width } : styles}>
       <input
         type="text"
         placeholder={placeholder}

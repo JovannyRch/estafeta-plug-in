@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import Spacer from "../components/Spacer/Index";
 import Pagination from "../components/Pagination";
@@ -8,8 +8,6 @@ import ViewWrapper from "../components/ViewWrapper/ViewWrapper";
 import DateFilter from "../components/DateFilter/DateFilter";
 import ShippingTable from "../components/ShippingTable/ShippingTable";
 import { Container, SyncButton } from "./styled-components";
-import useDateFilter from "../hooks/useDateRange";
-import useDebounce from "../hooks/useDebounce";
 import useData from "../hooks/useData";
 import { ShipmentsResponse } from "../types/Responses/ShipmentsResponse";
 import useRenderFlag from "../hooks/useRenderFlag";
@@ -32,44 +30,35 @@ const TopActionsContainer = styled.div`
 type OptionCode = 1 | 2;
 
 const ShippingView = ({ title = "Envíos" }) => {
-  const [searchValue, setSearchValue] = useState("");
-  const searchValueDebounced = useDebounce(searchValue, 500);
-  const [totalPage, setTotalPage] = useState(0);
   const { renderFlag, forceReRender } = useRenderFlag();
-  const [currentPage, setCurrentPage] = useState(1);
-  const [optionCode, setOptionCode] = useState<OptionCode>(1);
 
-  const { dateRange, setDateRange } = useDateFilter();
   const {
     data: shipmentsResponse,
     isLoading,
     refetch,
+    filters,
+    resetFilters,
+    updateFilters,
+    totalPages,
+    setTotalPages,
   } = useData<ShipmentsResponse>({
     url: "/api/shipments",
-    dateRange,
-    searchValue: searchValueDebounced,
-    page: currentPage,
-    optionCode,
   });
 
   const hasData = (shipmentsResponse?.orders ?? []).length > 0;
 
   const handleRefresh = () => {
     forceReRender();
-    setSearchValue("");
-    setCurrentPage(1);
-    setOptionCode(1);
+    resetFilters();
     refetch();
   };
 
   const handleInputChange = (value: string) => {
-    setOptionCode(2);
-    setSearchValue(value);
+    updateFilters({ searchValue: value, optionCode: 2, currentPage: 1 });
   };
 
   const handleRangeChange = (range: DateRange) => {
-    setOptionCode(1);
-    setDateRange(range);
+    updateFilters({ dateRange: range, optionCode: 1, currentPage: 1 });
   };
 
   useEffect(() => {
@@ -77,7 +66,7 @@ const ShippingView = ({ title = "Envíos" }) => {
       shipmentsResponse?.totalPage &&
       typeof shipmentsResponse?.totalPage === "number"
     ) {
-      setTotalPage(shipmentsResponse.totalPage);
+      setTotalPages(shipmentsResponse.totalPage);
     }
     return () => {};
   }, [shipmentsResponse]);
@@ -92,7 +81,7 @@ const ShippingView = ({ title = "Envíos" }) => {
             <SearchInput
               width={400}
               placeholder="Buscar por número de orden"
-              value={searchValue}
+              value={filters.searchValue}
               onChange={({ target }) => handleInputChange(target.value)}
             />
 
@@ -106,11 +95,15 @@ const ShippingView = ({ title = "Envíos" }) => {
         <ShippingTable data={shipmentsResponse?.orders} loading={isLoading} />
 
         <Spacer height={22} />
-        {hasData && totalPage > 1 && (
+        {hasData && totalPages > 1 && (
           <Pagination
-            totalPages={totalPage}
-            currentPage={currentPage}
-            setCurrentPage={setCurrentPage}
+            totalPages={totalPages}
+            currentPage={filters.currentPage}
+            setCurrentPage={(page) => updateFilters({ currentPage: page })}
+            totalItems={filters.totalRecords}
+            setTotalItems={(value) =>
+              updateFilters({ totalRecords: value, currentPage: 1 })
+            }
           />
         )}
       </Container>

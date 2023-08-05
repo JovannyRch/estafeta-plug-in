@@ -5,7 +5,7 @@ import ArrowUpIcon from "../../icons/ArrowUpIcon";
 
 const TriggerComponent = ({ label, onClick, width = 168, menuPosition = "bottom" }) => {
   return (
-    <Trigger onClick={onClick} width={width}>
+    <Trigger className="trigger" onClick={onClick} width={width}>
       <Label>{label}</Label>
       {
         menuPosition === "bottom" ? <ArrowDownIcon /> : <ArrowUpIcon />

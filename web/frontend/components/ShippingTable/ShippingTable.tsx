@@ -9,7 +9,6 @@ import styled from "styled-components";
 import DownloadIcon from "../../icons/DownloadIcon";
 import IconButton from "../IconButton/IconButton";
 import Loader from "../Loader/Loader";
-import EstafetaLogo from "../../icons/EstafetaLogo";
 import ZeroState from "../ZeroState/ZeroState";
 import {
   ShipmentOrder,
@@ -19,6 +18,7 @@ import useWaybills from "../../hooks/useWaybills";
 import useDidUpdateEffect from "../../hooks/useDidUpdateEffect";
 import { base64ToBlob, formatCurrency, formatDimensions } from "../../utils";
 import { parseISO, format } from "date-fns";
+import { LoaderImage } from "../../assets";
 
 const ShipmentsContainer = styled.div`
   display: flex;
@@ -87,11 +87,7 @@ const ShippingTable = ({ data = [], loading }: ShippingTableProps) => {
   }, [waybillsResponse, waybillCodes]);
 
   if (loading) {
-    return (
-      <Loader height={400}>
-        <EstafetaLogo />
-      </Loader>
-    );
+    return <Loader height={400} />;
   }
 
   if (data.length === 0) {

@@ -10,7 +10,14 @@ router.get("/", oauthMiddleware, async (req, res) => {
   const accessToken = req.token;
   const session = res.locals.shopify.session;
 
-  const { creationStartDate, creationEndDate, filter = "", optionCode } = req.query;
+  const {
+    creationStartDate,
+    creationEndDate,
+    filter = "",
+    optionCode,
+    totalRecords,
+    page,
+  } = req.query;
 
   let pickups = await estafetaRequest.getPickups({
     accessToken,
@@ -19,6 +26,8 @@ router.get("/", oauthMiddleware, async (req, res) => {
     filter,
     shop: session.shop,
     optionCode,
+    totalRecords,
+    page,
   });
 
   pickups = {

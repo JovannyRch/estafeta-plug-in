@@ -16,6 +16,7 @@ router.get("/", oauthMiddleware, async (req, res) => {
     filter = "",
     page = "0",
     optionCode,
+    totalRecords,
   } = req.query;
   const shipments = await estafetaRequest.getShipments({
     accessToken,
@@ -25,6 +26,7 @@ router.get("/", oauthMiddleware, async (req, res) => {
     shop: session.shop,
     page,
     optionCode,
+    totalRecords,
   });
 
   res.json({

@@ -33,7 +33,6 @@ const OrdersTable = ({
 }: OrdersTableProps) => {
   const handleCreateShipment = () => {
     onCreateShipment?.();
-    //window.open('https://www.estafeta.com/herramientas/rastreo');
   };
 
   const handleOpenOrder = (link) => {
@@ -41,11 +40,7 @@ const OrdersTable = ({
   };
 
   if (loading) {
-    return (
-      <Loader height={400}>
-        <EstafetaLogo />
-      </Loader>
-    );
+    return <Loader height={400} />;
   }
 
   if (data.length === 0) {

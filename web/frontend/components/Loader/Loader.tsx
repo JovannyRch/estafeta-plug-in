@@ -4,13 +4,13 @@ import Spinner, {
   LoaderBlock,
   LoaderWrapper,
 } from "./styled-components";
+import { LoaderImage } from "../../assets";
 
-const Loader = ({ height, children }) => (
+const Loader = ({ height }) => (
   <LoaderWrapper height={height}>
-    <ChildrenWrapper>{children}</ChildrenWrapper>
-    <LoaderBlock>
-      <Spinner />
-    </LoaderBlock>
+    <ChildrenWrapper>
+      <img src={LoaderImage} width={250} />
+    </ChildrenWrapper>
   </LoaderWrapper>
 );
 

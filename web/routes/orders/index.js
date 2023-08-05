@@ -14,6 +14,8 @@ router.get("/", oauthMiddleware, async (req, res) => {
     filter = "",
     page,
     optionCode,
+    totalRecords,
+    statusCode,
   } = req.query;
   const session = res.locals.shopify.session;
 
@@ -25,6 +27,8 @@ router.get("/", oauthMiddleware, async (req, res) => {
     shop: session.shop,
     page,
     optionCode,
+    totalRecords,
+    statusCode,
   });
 
   orders = {

@@ -3,28 +3,32 @@ import { useState } from "react";
 import { DateRange } from "../types";
 import { useAppQuery } from "./useAppQuery";
 import useDidUpdateEffect from "./useDidUpdateEffect";
+import useFilters, { FilterParams } from "./useFilters";
+import useDebounce from "./useDebounce";
 
 interface Props<T> {
-  dateRange: DateRange;
-  searchValue: string;
   url: string;
-  page?: number;
-  optionCode?: number;
 }
 
-const useData = <T>({
-  url: baseUrl,
-  dateRange,
-  searchValue,
-  page = 0,
-  optionCode = 1,
-}: Props<T>) => {
+const useData = <T>({ url: baseUrl }: Props<T>) => {
   const [data, setData] = useState<T | null>(null);
 
+  const [totalPages, setTotalPages] = useState<number>(0);
+  const { filters, resetFilters, updateFilters } = useFilters();
+  const {
+    dateRange,
+    searchValue,
+    currentPage,
+    optionCode,
+    totalRecords,
+    statusCode,
+  } = filters;
+
+  const debouncedSearchValue = useDebounce(searchValue, 500);
   const [url, setUrl] = useState(() => {
     const params = {
-      creationStartDate: dateRange?.creationStartDate,
-      creationEndDate: dateRange?.creationEndDate,
+      creationStartDate: filters.dateRange.creationStartDate,
+      creationEndDate: filters.dateRange.creationEndDate,
     };
 
     const urlParams = new URLSearchParams(params).toString();
@@ -45,16 +49,25 @@ const useData = <T>({
 
   useDidUpdateEffect(() => {
     const params = {
-      creationStartDate: dateRange?.creationStartDate,
-      creationEndDate: dateRange?.creationEndDate,
-      filter: searchValue,
-      page: page.toString(),
+      creationStartDate: dateRange.creationStartDate ?? "",
+      creationEndDate: dateRange.creationEndDate ?? "",
+      filter: debouncedSearchValue,
+      page: currentPage.toString(),
       optionCode: optionCode.toString(),
+      totalRecords: totalRecords.toString(),
+      statusCode: statusCode?.toString() ?? "",
     };
 
     const urlParams = new URLSearchParams(params).toString();
     setUrl(`${baseUrl}?${urlParams}`);
-  }, [dateRange, searchValue, page, optionCode]);
+  }, [
+    debouncedSearchValue,
+    dateRange,
+    optionCode,
+    totalRecords,
+    statusCode,
+    currentPage,
+  ]);
 
   useDidUpdateEffect(() => {
     console.log("url", url);
@@ -65,6 +78,11 @@ const useData = <T>({
     data,
     isLoading: isLoading || isRefetching,
     refetch,
+    filters,
+    updateFilters,
+    resetFilters,
+    totalPages,
+    setTotalPages,
   };
 };
 

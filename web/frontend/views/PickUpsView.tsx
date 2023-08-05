@@ -11,14 +11,13 @@ import DateFilter from "../components/DateFilter/DateFilter";
 import PickUpsTable from "../components/PickUpsTable/PickUpsTable";
 import useLocalStorage from "../hooks/useLocalStorage";
 
-import { Container } from "./styled-components";
+import { Container, DropdownWithInputContainer } from "./styled-components";
 import { PickupResponse } from "../types/Responses/PickUpsResponse";
 import useData from "../hooks/useData";
-import useDebounce from "../hooks/useDebounce";
-import useDateFilter from "../hooks/useDateRange";
 import PickupsConfirmationModal from "../components/PickupsConfirmationModal/PickupsConfirmationModal";
 import { DateRange } from "../types";
 import InputTypeFilter from "../components/InputTypeFilter/InputTypeFilter";
+import { inputTypeValues } from "../components/InputTypeFilter/const";
 
 const FilterContainer = styled.div`
   display: flex;
@@ -41,35 +40,18 @@ const TopButtonsContainer = styled.div`
   margin-bottom: 28px;
 `;
 
-const ModalMessage = styled.p`
-  color: var(--tipografa, #12263c);
-  text-align: center;
-  font-family: Montserrat;
-  font-size: 15px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: normal;
-  max-width: 447px;
-`;
-
-type OptionCode = 1 | 2;
-
 const PickUpsView = ({ title = "Recolecciones" }) => {
-  const [searchValue, setSearchValue] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
-  const searchValueDebounced = useDebounce(searchValue, 500);
-  const { dateRange, setDateRange } = useDateFilter();
-  const [totalPage, setTotalPage] = useState(0);
-  const [optionCode, setOptionCode] = useState<OptionCode>(1);
-
   const [showConfirmationModal, setShowConfirmationModal] =
     useState<boolean>(false);
-  const { data: pickupsResponse, isLoading } = useData<PickupResponse>({
+  const {
+    data: pickupsResponse,
+    isLoading,
+    filters,
+    updateFilters,
+    totalPages,
+    setTotalPages,
+  } = useData<PickupResponse>({
     url: "/api/pickups",
-    dateRange,
-    searchValue: searchValueDebounced,
-    page: currentPage,
-    optionCode,
   });
 
   const [showModalModalSelection, setShowModalModalSelection] =
@@ -86,13 +68,31 @@ const PickUpsView = ({ title = "Recolecciones" }) => {
   };
 
   const handleInputChange = (value: string) => {
-    setOptionCode(2);
-    setSearchValue(value);
+    const { optionCode } = filters;
+    let updatedOptionCode = 1;
+    if (optionCode === 1) {
+      const dropdownValue = document.querySelector("#input-type-filter");
+
+      if (dropdownValue) {
+        const text = dropdownValue.textContent;
+        if (text === inputTypeValues.order) {
+          updatedOptionCode = 2;
+        } else if (text === inputTypeValues.pickup) {
+          updatedOptionCode = 3;
+        } else if (text === inputTypeValues.waybill) {
+          updatedOptionCode = 4;
+        }
+      }
+    }
+    updateFilters({
+      searchValue: value,
+      optionCode: updatedOptionCode,
+      currentPage: 1,
+    });
   };
 
   const handleRangeChange = (range: DateRange) => {
-    setOptionCode(1);
-    setDateRange(range);
+    updateFilters({ dateRange: range, optionCode: 1, currentPage: 1 });
   };
 
   const onCreatePickUp = () => {
@@ -109,7 +109,7 @@ const PickUpsView = ({ title = "Recolecciones" }) => {
       pickupsResponse?.totalPage &&
       typeof pickupsResponse?.totalPage === "number"
     ) {
-      setTotalPage(pickupsResponse.totalPage);
+      setTotalPages(pickupsResponse.totalPage);
     }
     return () => {};
   }, [pickupsResponse]);
@@ -126,14 +126,23 @@ const PickUpsView = ({ title = "Recolecciones" }) => {
         </TopButtonsContainer>
         <TopActionsContainer>
           <FilterContainer>
-            <SearchInput
-              width={400}
-              placeholder="Buscar por"
-              value={searchValue}
-              onChange={({ target }) => handleInputChange(target.value)}
-            />
+            <DropdownWithInputContainer>
+              <InputTypeFilter
+                onChangeFilter={(value) =>
+                  updateFilters({ optionCode: value, currentPage: 1 })
+                }
+              />
+              <SearchInput
+                width={300}
+                placeholder="Buscar"
+                value={filters.searchValue}
+                onChange={({ target }) => handleInputChange(target.value)}
+                styles={{
+                  border: "none",
+                }}
+              />
+            </DropdownWithInputContainer>
 
-            {/*  <InputTypeFilter /> */}
             <DateFilter onChangeFilter={handleRangeChange} />
           </FilterContainer>
         </TopActionsContainer>
@@ -143,11 +152,15 @@ const PickUpsView = ({ title = "Recolecciones" }) => {
           data={pickupsResponse?.pickups ?? []}
         />
         <Spacer height={22} />
-        {hasData && totalPage > 1 && (
+        {totalPages > 1 && (
           <Pagination
-            totalPages={totalPage}
-            currentPage={currentPage}
-            setCurrentPage={setCurrentPage}
+            totalPages={totalPages}
+            currentPage={filters.currentPage}
+            setCurrentPage={(page) => updateFilters({ currentPage: page })}
+            totalItems={filters.totalRecords}
+            setTotalItems={(value) =>
+              updateFilters({ totalRecords: value, currentPage: 1 })
+            }
           />
         )}
       </Container>

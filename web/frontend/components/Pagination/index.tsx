@@ -11,6 +11,8 @@ interface Props {
   totalPages: number;
   currentPage: number;
   setCurrentPage: (page: number) => void;
+  totalItems: number;
+  setTotalItems: (items: number) => void;
 }
 
 const menu = [
@@ -31,10 +33,15 @@ const menu = [
   },
 ];
 
-const Pagination = ({ totalPages = 0, currentPage, setCurrentPage }: Props) => {
+const Pagination = ({
+  totalPages = 0,
+  currentPage,
+  setCurrentPage,
+  totalItems,
+  setTotalItems,
+}: Props) => {
   const isFirstPage = currentPage === 1;
   const isLastPage = currentPage === totalPages;
-  const [itemsPerPage, setItemsPerPage] = useState("5");
 
   const handleGoToFirstPage = () => {
     setCurrentPage(1);
@@ -54,6 +61,11 @@ const Pagination = ({ totalPages = 0, currentPage, setCurrentPage }: Props) => {
     if (!isFirstPage) {
       setCurrentPage(currentPage - 1);
     }
+  };
+
+  const handleChangeTotalItems = (value: string) => {
+    setTotalItems(parseInt(value));
+    setCurrentPage(1);
   };
 
   const leftPage = Math.max(currentPage - 2, 1);
@@ -109,13 +121,15 @@ const Pagination = ({ totalPages = 0, currentPage, setCurrentPage }: Props) => {
         <Dropdown
           label={"5"}
           menu={menu.map((item) => (
-            <button onClick={() => setItemsPerPage(item.label.toString())}>
+            <button
+              onClick={() => handleChangeTotalItems(item.label.toString())}
+            >
               {item.label}
             </button>
           ))}
           width={77}
           menuPosition={"top"}
-          value={itemsPerPage}
+          value={totalItems.toString()}
         />
       </DropdownContainer>
     </Container>

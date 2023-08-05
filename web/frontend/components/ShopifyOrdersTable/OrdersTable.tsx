@@ -39,11 +39,7 @@ const OrdersTable = ({
   };
 
   if (loading) {
-    return (
-      <Loader height={400}>
-        <EstafetaLogo />
-      </Loader>
-    );
+    return <Loader height={400} />;
   }
 
   if (data.length === 0) {
