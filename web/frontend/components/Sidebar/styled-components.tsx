@@ -10,8 +10,8 @@ export const Container = styled.div`
   box-shadow: 4px 0px 6px 0px rgba(132, 155, 204, 0.5);
   min-height: 100vh;
 
-  flex: 0 0 ${(props) => (props.collapsed ? "0px" : "240px")};
-  width: ${(props) => (props.collapsed ? "0px" : "240px")};
+  flex: 0 0 ${(props) => (props.collapsed ? "0px" : "225px")};
+  width: ${(props) => (props.collapsed ? "0px" : "225px")};
   transition: all 0.15s ease-in;
 `;
 

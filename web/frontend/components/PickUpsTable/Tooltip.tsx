@@ -3,8 +3,8 @@ import InfoIcon from "../../icons/InfoIcon";
 import styled from "styled-components";
 
 const TooltipContainer = styled.div`
-  position: relative;
   display: inline-block;
+  ${(props) => props.visible && "position: relative;"}
 `;
 
 const IconContainer = styled.div`
@@ -50,7 +50,7 @@ const Tooltip = ({ message }: Props) => {
   if (!message) return null;
 
   return (
-    <TooltipContainer>
+    <TooltipContainer visible={visible}>
       <IconContainer
         onMouseOver={() => setVisible(true)}
         onMouseOut={() => setVisible(false)}

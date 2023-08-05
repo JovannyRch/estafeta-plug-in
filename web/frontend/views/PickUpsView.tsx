@@ -133,7 +133,7 @@ const PickUpsView = ({ title = "Recolecciones" }) => {
                 }
               />
               <SearchInput
-                width={300}
+                width={220}
                 placeholder="Buscar"
                 value={filters.searchValue}
                 onChange={({ target }) => handleInputChange(target.value)}

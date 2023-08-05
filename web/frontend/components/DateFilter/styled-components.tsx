@@ -11,7 +11,6 @@ export const StyledCalendar = styled(Calendar)`
   border-bottom-right-radius: 7px;
   border: 1px solid var(--tipografa, #12263c);
   border-top: none;
-  z-index: 1;
 
   .react-calendar__tile--now:enabled:focus {
     background-color: #849bcc;
@@ -154,7 +153,7 @@ export const InputContainer = styled.div`
   width: 172px;
   height: 40px;
   position: relative;
-  z-index: 2;
+  z-index: 1;
 `;
 
 export const IconContainer = styled.div`

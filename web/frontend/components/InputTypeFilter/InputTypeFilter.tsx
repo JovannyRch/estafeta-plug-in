@@ -34,7 +34,7 @@ const InputTypeFilter = ({ onChangeFilter }: Props) => {
       <Dropdown
         label={"Buscar por"}
         value={filterByValue}
-        width={230}
+        width={215}
         menu={menu
           .filter((item) => item.label !== filterByValue)
           .map((item) => (
