@@ -1,5 +1,10 @@
 import React from "react";
-import { Container, Title, StyledNavLink, Wrapper } from "./styled-components";
+import {
+  Container,
+  Title,
+  StyledNavLink,
+  SidebarButton,
+} from "./styled-components";
 import OrdersIcon from "../../icons/OrdersIcon";
 import PickUpsIcon from "../../icons/PickUpsIcon";
 import ShipmentsIcon from "../../icons/ShipmentsIcon";
@@ -68,12 +73,12 @@ const Sidebar = ({ collapsed = false }) => {
         );
       })}
       <Spacer height={50} />
-      <SidebarLink
-        icon={<EstafetaIcon />}
-        onClick={handleGoToEstafeta}
-        title={"Estafeta Plug In Administrador"}
-        collapsed={collapsed}
-      />
+      <SidebarButton onClick={handleGoToEstafeta} collapsed={collapsed}>
+        <div className="icon">
+          <EstafetaIcon />
+        </div>
+        Estafeta Plug In Administrador
+      </SidebarButton>
     </Container>
   );
 };

@@ -39,7 +39,6 @@ export const StyledNavLink = styled(NavLink)`
   align-items: center;
   color: var(--backgorunds, #fff);
   text-decoration: none;
-  color: var(--backgorunds, #fff);
   font-family: Montserrat;
   font-size: 15px;
   font-style: normal;
@@ -81,8 +80,6 @@ export const StyledNavLink = styled(NavLink)`
   }
 `;
 
-const LinkBody = styled.div``;
-
 export const LinkTitle = styled.div`
   color: var(--backgorunds, #fff);
   font-family: Montserrat;
@@ -90,4 +87,34 @@ export const LinkTitle = styled.div`
   font-style: normal;
   font-weight: 500;
   line-height: normal;
+`;
+
+export const SidebarButton = styled.div`
+  display: flex;
+  column-gap: 10px;
+  cursor: pointer;
+  align-items: center;
+  color: var(--backgorunds, #fff);
+  text-decoration: none;
+  font-family: Montserrat;
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  min-height: 38px;
+  padding: 4px 0;
+  padding-left: 13px;
+
+  .icon {
+    margin-right: 4px;
+  }
+
+  opacity: ${(props) => (props.collapsed ? "0" : "1")};
+  transition: opacity
+    ${(props) => (props.collapsed ? "0.1s ease-in-out" : "0.5s ease-in")};
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.10000000149011612);
+    cursor: pointer;
+  }
 `;
