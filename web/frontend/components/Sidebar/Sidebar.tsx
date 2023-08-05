@@ -37,7 +37,7 @@ const links = [
   {
     icon: <OrdersIcon />,
     title: "Órdenes",
-    url: "/orders",
+    url: "/",
   },
   {
     icon: <ShipmentsIcon />,
