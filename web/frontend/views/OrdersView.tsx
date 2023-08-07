@@ -74,23 +74,23 @@ const OrdersView = ({ title = "Órdenes" }) => {
   };
 
   const handleInputChange = (value: string) => {
-    updateFilters({ searchValue: value, optionCode: 2, currentPage: 1 });
+    updateFilters({ searchValue: value, optionCode: 2 });
   };
 
   const handleTabChange = (value: string) => {
     if (value === "all") {
-      updateFilters({ statusCode: 1, currentPage: 1 });
+      updateFilters({ statusCode: 1 });
     } else if (value === "created") {
-      updateFilters({ statusCode: 2, currentPage: 1 });
+      updateFilters({ statusCode: 2 });
     } else if (value === "not-created") {
-      updateFilters({ statusCode: 3, currentPage: 1 });
+      updateFilters({ statusCode: 3 });
     }
 
     setActiveTab(value);
   };
 
   const handleRangeChange = (range: DateRange) => {
-    updateFilters({ dateRange: range, optionCode: 1, currentPage: 1 });
+    updateFilters({ dateRange: range, optionCode: 1 });
   };
 
   const handleRefresh = () => {
@@ -101,16 +101,16 @@ const OrdersView = ({ title = "Órdenes" }) => {
   };
 
   useEffect(() => {
+    console.log("ordersResponse", ordersResponse);
     if (
       ordersResponse?.totalPage &&
       typeof ordersResponse?.totalPage === "number"
     ) {
+      console.log("ordersResponse.totalPage", ordersResponse.totalPage);
       setTotalPages(ordersResponse.totalPage);
     }
     return () => {};
   }, [ordersResponse]);
-
-  const hasData = orders.length > 0;
 
   return (
     <ViewWrapper>
@@ -161,14 +161,14 @@ const OrdersView = ({ title = "Órdenes" }) => {
           onCreateShipment={() => setShowConfirmationModal(true)}
         />
         <Spacer height={22} />
-        {hasData && totalPages > 1 && (
+        {(orders?.length ?? []) > 0 && !isLoading && (
           <Pagination
             totalPages={totalPages}
             currentPage={filters.currentPage}
             setCurrentPage={(currentPage) => updateFilters({ currentPage })}
             totalItems={filters.totalRecords}
             setTotalItems={(totalRecords) =>
-              updateFilters({ totalRecords: totalRecords, currentPage: 1 })
+              updateFilters({ totalRecords: totalRecords })
             }
           />
         )}

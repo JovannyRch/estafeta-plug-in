@@ -38,7 +38,7 @@ const useFilters = () => {
   };
 
   const updateFilters = (params: Partial<FilterParams>) => {
-    setFilters((prev) => ({ ...prev, ...params }));
+    setFilters((prev) => ({ ...prev, currentPage: 1, ...params }));
   };
 
   return {

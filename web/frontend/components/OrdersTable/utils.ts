@@ -7,7 +7,7 @@ export const getStatusData = (code: number) => {
       };
     case 2:
       return {
-        label: "En transito",
+        label: "En tránsito",
         color: "#274C89",
       };
     case 3:

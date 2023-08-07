@@ -87,12 +87,11 @@ const PickUpsView = ({ title = "Recolecciones" }) => {
     updateFilters({
       searchValue: value,
       optionCode: updatedOptionCode,
-      currentPage: 1,
     });
   };
 
   const handleRangeChange = (range: DateRange) => {
-    updateFilters({ dateRange: range, optionCode: 1, currentPage: 1 });
+    updateFilters({ dateRange: range, optionCode: 1 });
   };
 
   const onCreatePickUp = () => {
@@ -114,8 +113,6 @@ const PickUpsView = ({ title = "Recolecciones" }) => {
     return () => {};
   }, [pickupsResponse]);
 
-  const hasData = (pickupsResponse?.pickups ?? []).length > 0;
-
   return (
     <ViewWrapper>
       <Container>
@@ -128,9 +125,7 @@ const PickUpsView = ({ title = "Recolecciones" }) => {
           <FilterContainer>
             <DropdownWithInputContainer>
               <InputTypeFilter
-                onChangeFilter={(value) =>
-                  updateFilters({ optionCode: value, currentPage: 1 })
-                }
+                onChangeFilter={(value) => updateFilters({ optionCode: value })}
               />
               <SearchInput
                 width={220}
@@ -152,15 +147,13 @@ const PickUpsView = ({ title = "Recolecciones" }) => {
           data={pickupsResponse?.pickups ?? []}
         />
         <Spacer height={22} />
-        {totalPages > 1 && (
+        {(pickupsResponse?.pickups ?? []).length > 0 && !isLoading && (
           <Pagination
             totalPages={totalPages}
             currentPage={filters.currentPage}
             setCurrentPage={(page) => updateFilters({ currentPage: page })}
             totalItems={filters.totalRecords}
-            setTotalItems={(value) =>
-              updateFilters({ totalRecords: value, currentPage: 1 })
-            }
+            setTotalItems={(value) => updateFilters({ totalRecords: value })}
           />
         )}
       </Container>

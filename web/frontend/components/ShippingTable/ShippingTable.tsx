@@ -18,7 +18,6 @@ import useWaybills from "../../hooks/useWaybills";
 import useDidUpdateEffect from "../../hooks/useDidUpdateEffect";
 import { base64ToBlob, formatCurrency, formatDimensions } from "../../utils";
 import { parseISO, format } from "date-fns";
-import { LoaderImage } from "../../assets";
 
 const ShipmentsContainer = styled.div`
   display: flex;

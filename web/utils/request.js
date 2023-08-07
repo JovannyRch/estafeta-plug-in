@@ -1,6 +1,9 @@
 import axios from "axios";
 import shopify from "../shopify.js";
 
+const IS_PRODUCTION = false;
+const TESTING_SHOP_ID = "1354745";
+
 const logUrl = (serviceUrl) => {
   console.log(
     "--------------------------------------------------------------------------------"
@@ -29,7 +32,7 @@ const client = axios.create({
 async function makeRequest(accessToken, serviceUrl, keyService) {
   try {
     logUrl(serviceUrl);
-    return {};
+
     const response = await client.get(serviceUrl, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -41,6 +44,12 @@ async function makeRequest(accessToken, serviceUrl, keyService) {
     console.error(`Error calling ${keyService} service`, error?.response.data);
     return null;
   }
+}
+
+function getParamsFromMapKeys(params) {
+  return Object.keys(params)
+    .map((key) => `${key}=${params[key]}`)
+    .join("&");
 }
 
 async function getOrders({
@@ -55,9 +64,22 @@ async function getOrders({
   statusCode = "1",
 }) {
   const filterValue = filter.length > 0 ? filter : "3234928966";
-  const serviceUrl = `/shopify/order?eSellerCode=${shop}&optionCode=${optionCode}&page=${page}&creationStartDate=${creationStartDate}&creationEndDate=${creationEndDate}&orderCode=${filterValue}&totalRecords=${totalRecords}&statusCode=${statusCode}`;
-  /* const link =
-    "/shopify/order?eSellerCode=1234567890&optionCode=1&page=0&creationStartDate=2023/07/20&creationEndDate=2023/07/23&orderCode=3234928966"; */
+
+  const params = {
+    eSellerCode: IS_PRODUCTION ? shop : TESTING_SHOP_ID,
+    optionCode,
+    page,
+    creationStartDate,
+    creationEndDate,
+    orderCode: filterValue,
+    totalRecords,
+    statusCode,
+  };
+
+  const serviceUrl = `/shopify/order?${Object.keys(params)
+    .map((key) => `${key}=${params[key]}`)
+    .join("&")}`;
+
   return makeRequest(accessToken, serviceUrl, "orders");
 }
 
@@ -84,7 +106,19 @@ async function getPickups({
     waybillCode = filter;
   }
 
-  const serviceUrl = `/shopify/pickup?eSellerCode=${shop}&optionCode=${optionCode}&page=${page}&pickupStartDate=${creationStartDate}&pickupEndDate=${creationEndDate}&orderCode=${orderCode}&pickupOrderCode=${pickupOrderCode}&waybillCode=${waybillCode}&totalRecords=${totalRecords}`;
+  const params = {
+    eSellerCode: IS_PRODUCTION ? shop : TESTING_SHOP_ID,
+    optionCode,
+    page,
+    pickupStartDate: creationStartDate,
+    pickupEndDate: creationEndDate,
+    orderCode,
+    pickupOrderCode,
+    waybillCode,
+    totalRecords,
+  };
+
+  const serviceUrl = `/shopify/pickup?${getParamsFromMapKeys(params)}`;
 
   return makeRequest(accessToken, serviceUrl, "pickups");
 }
@@ -99,7 +133,18 @@ async function getShipments({
   optionCode,
   totalRecords = 5,
 }) {
-  const serviceUrl = `/shopify/shipment?eSellerCode=${shop}&optionCode=${optionCode}&page=${page}&creationStartDate=${creationStartDate}&creationEndDate=${creationEndDate}&orderCode=${filter}&waybillCode=&totalRecords=${totalRecords}`;
+  const params = {
+    eSellerCode: IS_PRODUCTION ? shop : TESTING_SHOP_ID,
+    optionCode,
+    page,
+    creationStartDate,
+    creationEndDate,
+    orderCode: filter,
+    totalRecords,
+    waybillCode: "",
+  };
+
+  const serviceUrl = `/shopify/shipment?${getParamsFromMapKeys(params)}`;
   return makeRequest(accessToken, serviceUrl, "shipments");
 }
 
@@ -108,9 +153,9 @@ async function getShopifyOrders(session, ids = []) {
     session: session,
     ids: "5475450814751",
   });
-  console.log("--------------------------------------------");
-  console.log("orders", JSON.stringify(orders));
-  console.log("--------------------------------------------");
+  /* console.log("--------------------------------------------");
+    console.log("orders", JSON.stringify(orders));
+    console.log("--------------------------------------------"); */
   return orders;
 }
 
@@ -128,7 +173,12 @@ async function getShopifyOrdersCount(session) {
 }
 
 async function getWayBills({ accessToken, waybillCodes = "", shop }) {
-  const serviceUrl = `/shopify/documentWaybill?eSellerCode=${shop}&waybillCode=${waybillCodes}`;
+  const params = {
+    eSellerCode: IS_PRODUCTION ? shop : TESTING_SHOP_ID,
+    waybillCode: waybillCodes,
+  };
+
+  const serviceUrl = `/shopify/documentWaybill?${getParamsFromMapKeys(params)}`;
   return makeRequest(accessToken, serviceUrl, "waybills");
 }
 

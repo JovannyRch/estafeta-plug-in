@@ -31,30 +31,9 @@ router.get("/", oauthMiddleware, async (req, res) => {
     statusCode,
   });
 
-  orders = {
-    orders: [
-      {
-        code: "0297364829",
-        creationDateTime: "2023-08-03 19:17:50",
-        addressee: {
-          contactName: "Germán Gonzalo Leal Ochoa",
-          email: "german@mail.com",
-          address1: "alberto balderas #107 villas santin",
-          address2: "Toluca de Lerdo, 50200",
-        },
-        shipment: {
-          statusName: "Creado",
-          warrantyName: "Garantía 11:30",
-          cost: 200.34,
-        },
-      },
-    ],
-    totalPage: 1,
-  };
-
   const shopifyOrders = await estafetaRequest.getShopifyOrders(session);
 
-  const ordersWithShopify = orders.orders.map((order) => {
+  const ordersWithShopify = orders?.orders.map((order) => {
     const randomIndex = Math.floor(Math.random() * shopifyOrders.data.length);
     const shopifyOrder = shopifyOrders.data[randomIndex];
     return { ...order, shopify: shopifyOrder };
@@ -63,7 +42,6 @@ router.get("/", oauthMiddleware, async (req, res) => {
   res.json({
     ...orders,
     orders: ordersWithShopify,
-    totalPage: 10,
   });
 });
 

@@ -29,9 +29,11 @@ const useData = <T>({ url: baseUrl }: Props<T>) => {
     const params = {
       creationStartDate: filters.dateRange.creationStartDate,
       creationEndDate: filters.dateRange.creationEndDate,
+      optionCode: "1",
     };
 
     const urlParams = new URLSearchParams(params).toString();
+    console.log("`${baseUrl}?${urlParams}`", `${baseUrl}?${urlParams}`);
     return `${baseUrl}?${urlParams}`;
   });
   const { isLoading, refetch, isRefetching } = useAppQuery({
@@ -52,12 +54,12 @@ const useData = <T>({ url: baseUrl }: Props<T>) => {
       creationStartDate: dateRange.creationStartDate ?? "",
       creationEndDate: dateRange.creationEndDate ?? "",
       filter: debouncedSearchValue,
-      page: currentPage.toString(),
+      page: (currentPage - 1).toString(),
       optionCode: optionCode.toString(),
       totalRecords: totalRecords.toString(),
       statusCode: statusCode?.toString() ?? "",
     };
-
+    console.log("optionCode", optionCode);
     const urlParams = new URLSearchParams(params).toString();
     setUrl(`${baseUrl}?${urlParams}`);
   }, [

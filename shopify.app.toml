@@ -2,7 +2,7 @@
 
 name = "Estafeta"
 client_id = "228f9b3648e05552580fc62e32cd8b1f"
-application_url = "https://dig-cameron-robin-saves.trycloudflare.com"
+application_url = "https://main-shift-merchants-identification.trycloudflare.com"
 embedded = true
 
 [access_scopes]
@@ -12,9 +12,9 @@ use_legacy_install_flow = true
 
 [auth]
 redirect_urls = [
-  "https://dig-cameron-robin-saves.trycloudflare.com/auth/callback",
-  "https://dig-cameron-robin-saves.trycloudflare.com/auth/shopify/callback",
-  "https://dig-cameron-robin-saves.trycloudflare.com/api/auth/callback"
+  "https://main-shift-merchants-identification.trycloudflare.com/auth/callback",
+  "https://main-shift-merchants-identification.trycloudflare.com/auth/shopify/callback",
+  "https://main-shift-merchants-identification.trycloudflare.com/api/auth/callback"
 ]
 
 [webhooks]

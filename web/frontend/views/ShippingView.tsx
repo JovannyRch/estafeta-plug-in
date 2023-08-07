@@ -45,8 +45,6 @@ const ShippingView = ({ title = "Envíos" }) => {
     url: "/api/shipments",
   });
 
-  const hasData = (shipmentsResponse?.orders ?? []).length > 0;
-
   const handleRefresh = () => {
     forceReRender();
     resetFilters();
@@ -54,11 +52,11 @@ const ShippingView = ({ title = "Envíos" }) => {
   };
 
   const handleInputChange = (value: string) => {
-    updateFilters({ searchValue: value, optionCode: 2, currentPage: 1 });
+    updateFilters({ searchValue: value, optionCode: 2 });
   };
 
   const handleRangeChange = (range: DateRange) => {
-    updateFilters({ dateRange: range, optionCode: 1, currentPage: 1 });
+    updateFilters({ dateRange: range, optionCode: 1 });
   };
 
   useEffect(() => {
@@ -92,18 +90,19 @@ const ShippingView = ({ title = "Envíos" }) => {
           Sincronizar órdenes manualmente
         </SyncButton>
 
-        <ShippingTable data={shipmentsResponse?.orders} loading={isLoading} />
+        <ShippingTable
+          data={shipmentsResponse?.orders ?? []}
+          loading={isLoading}
+        />
 
         <Spacer height={22} />
-        {hasData && totalPages > 1 && (
+        {(shipmentsResponse?.orders ?? []).length > 0 && !isLoading && (
           <Pagination
             totalPages={totalPages}
             currentPage={filters.currentPage}
             setCurrentPage={(page) => updateFilters({ currentPage: page })}
             totalItems={filters.totalRecords}
-            setTotalItems={(value) =>
-              updateFilters({ totalRecords: value, currentPage: 1 })
-            }
+            setTotalItems={(value) => updateFilters({ totalRecords: value })}
           />
         )}
       </Container>

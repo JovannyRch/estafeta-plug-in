@@ -68,13 +68,12 @@ const Pagination = ({
     setCurrentPage(1);
   };
 
-  const leftPage = Math.max(currentPage - 2, 1);
-  const rightPage = Math.min(currentPage + 2, totalPages);
+  const leftPage = Math.max(currentPage - 3, 1);
+  const rightPage = Math.min(currentPage + 3, totalPages);
 
   if (totalPages === 0) {
     return null;
   }
-
   return (
     <Container>
       <IconButton onClick={handleGoToFirstPage} active={!isFirstPage}>

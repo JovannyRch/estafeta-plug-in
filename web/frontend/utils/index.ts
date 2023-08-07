@@ -30,11 +30,10 @@ export function formatCurrency(value: string, currency = "USD") {
 }
 
 export function formatDimensions(value: string) {
-  const items = value.split(" ");
+  let result = value.trim().replace(/cm/g, "cm x");
 
-  const itemsWithUnit = items.map((item) => `${item} cm`);
-
-  return itemsWithUnit.join(" x ");
+  result = result.substring(0, result.lastIndexOf("x")).trim();
+  return result;
 }
 
 export function capitalizeFirstLetter(string: string) {
