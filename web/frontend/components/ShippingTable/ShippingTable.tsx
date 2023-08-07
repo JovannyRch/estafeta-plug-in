@@ -16,9 +16,12 @@ import {
 } from "../../types/Responses/ShipmentsResponse";
 import useWaybills from "../../hooks/useWaybills";
 import useDidUpdateEffect from "../../hooks/useDidUpdateEffect";
-import { base64ToBlob, formatCurrency, formatDimensions } from "../../utils";
-import { parseISO, format } from "date-fns";
-
+import {
+  base64ToBlob,
+  formatCreationDate,
+  formatCurrency,
+  formatDimensions,
+} from "../../utils";
 const ShipmentsContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -101,8 +104,8 @@ const ShippingTable = ({ data = [], loading }: ShippingTableProps) => {
             <Typography.Link size={15}>#{shipment.code}</Typography.Link>
             <Spacer height={2} />
             <Typography.Label size={12}>
-              {format(
-                parseISO(shipment.creationDateTime),
+              {formatCreationDate(
+                shipment.creationDateTime,
                 "yyyy-MM-dd 'a las' HH:mm"
               )}
             </Typography.Label>

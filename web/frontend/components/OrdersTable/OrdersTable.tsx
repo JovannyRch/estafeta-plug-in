@@ -8,12 +8,10 @@ import { OrderStatus, PaymentStatus } from "./Status";
 import styled from "styled-components";
 import IconButton from "../IconButton/IconButton";
 import Loader from "../Loader/Loader";
-import EstafetaLogo from "../../icons/EstafetaLogo";
 import PlusIcon from "../../icons/PlusIcon";
 import ZeroState from "../ZeroState/ZeroState";
 import { Order } from "../../types/Responses/OrdersResponse";
-import { formatCurrency } from "../../utils";
-import { format, parseISO } from "date-fns";
+import { formatCreationDate, formatCurrency } from "../../utils";
 
 const ActionsContainers = styled.div`
   display: flex;
@@ -68,8 +66,8 @@ const OrdersTable = ({
               <Typography.Link size={15}>#{order.code}</Typography.Link>
               <Spacer height={2} />
               <Typography.Label size={12}>
-                {format(
-                  parseISO(order.creationDateTime),
+                {formatCreationDate(
+                  order.creationDateTime,
                   "yyyy-MM-dd 'a las' HH:mm"
                 )}
               </Typography.Label>

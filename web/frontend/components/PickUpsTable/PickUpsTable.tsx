@@ -5,12 +5,10 @@ import { headers } from "./const";
 import Typography from "../Typography/Index";
 import styled from "styled-components";
 import Loader from "../Loader/Loader";
-import EstafetaLogo from "../../icons/EstafetaLogo";
 import PickUpStatus from "./Status";
 import ZeroState from "../ZeroState/ZeroState";
 import { Pickup } from "../../types/Responses/PickUpsResponse";
-import { format, parseISO } from "date-fns";
-import { formatDimensions } from "../../utils";
+import { formatCreationDate, formatDimensions } from "../../utils";
 
 const ShipmentsContainer = styled.div`
   display: flex;
@@ -52,7 +50,7 @@ const PickUpsTable = ({ data = [], loading }: PickUpsTableProps) => {
           </TableComponents.Cell>
           <TableComponents.Cell>
             <Typography.Label size={15}>
-              {format(parseISO(pickup.planningDateTime), "yyyy-MM-dd")}
+              {pickup.planningDateTime}
             </Typography.Label>
           </TableComponents.Cell>
           <TableComponents.Cell>
@@ -64,7 +62,7 @@ const PickUpsTable = ({ data = [], loading }: PickUpsTableProps) => {
                       #{order.code}
                     </Typography.Link>
                     <Typography.Label size={12}>
-                      {format(parseISO(order.creationDateTime), "yyyy-MM-dd")}
+                      {formatCreationDate(order.creationDateTime)}
                     </Typography.Label>
                   </ShipmentsItem>
                 </>

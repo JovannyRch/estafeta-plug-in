@@ -1,3 +1,5 @@
+import { format as formatIso, parseISO } from "date-fns";
+
 export const base64ToBlob = (base64: string): Blob => {
   const binaryString = window.atob(base64);
   const len = binaryString.length;
@@ -40,4 +42,12 @@ export function capitalizeFirstLetter(string: string) {
   if (!string || typeof string !== "string") return string;
 
   return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+export function formatCreationDate(date: string, format = "yyyy-MM-dd") {
+  try {
+    return formatIso(parseISO(date), format);
+  } catch (error) {
+    return date;
+  }
 }
