@@ -40,6 +40,8 @@ const TopButtonsContainer = styled.div`
   margin-bottom: 28px;
 `;
 
+const LOCAL_STORAGE_KEY = "show-pickup-modal-3";
+
 const PickUpsView = ({ title = "Recolecciones" }) => {
   const [showConfirmationModal, setShowConfirmationModal] =
     useState<boolean>(false);
@@ -55,7 +57,7 @@ const PickUpsView = ({ title = "Recolecciones" }) => {
   });
 
   const [showModalModalSelection, setShowModalModalSelection] =
-    useLocalStorage<boolean>("show-pickup-modal-3", true);
+    useLocalStorage<boolean>(LOCAL_STORAGE_KEY, true);
 
   const handleGoToEstafeta = () => {
     setShowConfirmationModal(false);
@@ -69,7 +71,7 @@ const PickUpsView = ({ title = "Recolecciones" }) => {
 
   const handleInputChange = (value: string) => {
     const { optionCode } = filters;
-    let updatedOptionCode = 1;
+    let updatedOptionCode = optionCode;
     if (optionCode === 1) {
       const dropdownValue = document.querySelector("#input-type-filter");
 
@@ -84,6 +86,7 @@ const PickUpsView = ({ title = "Recolecciones" }) => {
         }
       }
     }
+    console.log("optionCode", optionCode);
     updateFilters({
       searchValue: value,
       optionCode: updatedOptionCode,
@@ -161,7 +164,7 @@ const PickUpsView = ({ title = "Recolecciones" }) => {
         isOpen={showConfirmationModal}
         onClose={() => setShowConfirmationModal(false)}
         onOk={handleGoToEstafeta}
-        localKey="show-confirmation-pickup-modal"
+        localKey={LOCAL_STORAGE_KEY}
       />
     </ViewWrapper>
   );
