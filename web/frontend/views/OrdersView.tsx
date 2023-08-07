@@ -74,7 +74,7 @@ const OrdersView = ({ title = "Órdenes" }) => {
   };
 
   const handleInputChange = (value: string) => {
-    updateFilters({ searchValue: value, optionCode: 2 });
+    updateFilters({ searchValue: value, optionCode: value.length > 0 ? 2 : 1 });
   };
 
   const handleTabChange = (value: string) => {

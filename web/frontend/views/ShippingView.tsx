@@ -52,7 +52,7 @@ const ShippingView = ({ title = "Envíos" }) => {
   };
 
   const handleInputChange = (value: string) => {
-    updateFilters({ searchValue: value, optionCode: 2 });
+    updateFilters({ searchValue: value, optionCode: value.length > 0 ? 2 : 1 });
   };
 
   const handleRangeChange = (range: DateRange) => {

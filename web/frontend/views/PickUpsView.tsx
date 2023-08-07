@@ -86,7 +86,11 @@ const PickUpsView = ({ title = "Recolecciones" }) => {
         }
       }
     }
-    console.log("optionCode", optionCode);
+
+    if (value === "") {
+      updatedOptionCode = 1;
+    }
+
     updateFilters({
       searchValue: value,
       optionCode: updatedOptionCode,

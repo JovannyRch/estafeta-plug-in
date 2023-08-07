@@ -65,9 +65,7 @@ const OrdersTable = ({
         return (
           <TableComponents.Row key={order.code}>
             <TableComponents.Cell>
-              <Typography.Link size={15}>
-                #{order.shopify.order_number}
-              </Typography.Link>
+              <Typography.Link size={15}>#{order.code}</Typography.Link>
               <Spacer height={2} />
               <Typography.Label size={12}>
                 {format(
