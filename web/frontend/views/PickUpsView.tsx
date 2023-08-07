@@ -101,6 +101,12 @@ const PickUpsView = ({ title = "Recolecciones" }) => {
     updateFilters({ dateRange: range, optionCode: 1 });
   };
 
+  const handleTypeChange = (value: number) => {
+    if (filters.searchValue.length > 0) {
+      updateFilters({ optionCode: value });
+    }
+  };
+
   const onCreatePickUp = () => {
     if (!showModalModalSelection) {
       handleGoToEstafeta();
@@ -131,9 +137,7 @@ const PickUpsView = ({ title = "Recolecciones" }) => {
         <TopActionsContainer>
           <FilterContainer>
             <DropdownWithInputContainer>
-              <InputTypeFilter
-                onChangeFilter={(value) => updateFilters({ optionCode: value })}
-              />
+              <InputTypeFilter onChangeFilter={handleTypeChange} />
               <SearchInput
                 width={220}
                 placeholder="Buscar"

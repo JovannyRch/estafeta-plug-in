@@ -62,6 +62,7 @@ const ShippingTable = ({ data = [], loading }: ShippingTableProps) => {
   });
 
   const handleDownload = (waybill: Waybill) => {
+    console.log("waybill", waybill);
     setWaybillCodes([waybill.code]);
   };
 
