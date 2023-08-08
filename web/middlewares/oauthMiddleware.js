@@ -24,7 +24,7 @@ async function oauthMiddleware(req, res, next) {
       tokenPath,
       JSON.stringify({ accessToken, tokenExpiration })
     );
-  }
+  } 
 
   req.token = accessToken;
   next();
