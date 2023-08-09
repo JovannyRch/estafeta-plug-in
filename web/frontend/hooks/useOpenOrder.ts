@@ -15,7 +15,7 @@ const useOpenOrder = (shop: any) => {
         `https://admin.shopify.com/store/${shop?.name}/orders/${data?.id}`
       );
     } catch (error) {
-      console.error("error", error);
+      window.open(`https://admin.shopify.com/store/${shop?.name}/orders`);
     } finally {
       document.body.style.cursor = "default";
     }

@@ -108,7 +108,7 @@ const ShippingTable = ({ data = [], loading }: ShippingTableProps) => {
 
   return (
     <BaseTable headers={headers}>
-      {data.map((shipment) => (
+      {data.map((shipment, index) => (
         <TableComponents.Row key={shipment.code}>
           <TableComponents.Cell>
             <Typography.Link onClick={() => openOrder(shipment.code)} size={15}>

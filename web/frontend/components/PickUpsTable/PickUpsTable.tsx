@@ -49,10 +49,12 @@ const PickUpsTable = ({ data = [], loading }: PickUpsTableProps) => {
 
   return (
     <BaseTable headers={headers}>
-      {data.map((pickup) => (
+      {data.map((pickup, index) => (
         <TableComponents.Row key={pickup.code}>
           <TableComponents.Cell>
-            <Typography.Bold size={15}>#{pickup.code}</Typography.Bold>
+            <Typography.Bold size={15}>
+              {index + 1}#{pickup.code}
+            </Typography.Bold>
           </TableComponents.Cell>
           <TableComponents.Cell>
             <Typography.Label size={15}>

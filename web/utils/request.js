@@ -1,8 +1,8 @@
 import axios from "axios";
 import shopify from "../shopify.js";
 
-const IS_TESTING = true;
-const TEST_SHOP_ID = "1354745";
+const IS_TESTING = process.env?.IS_TESTING === "true" || false;
+const TEST_SHOP_ID = process.env?.TEST_SHOP_ID || "1354745";
 
 const logUrl = (serviceUrl) => {
   console.log(
