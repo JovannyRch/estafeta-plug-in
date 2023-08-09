@@ -54,6 +54,21 @@ app.use("/api/shop", async (req, res) => {
   res.json(shop);
 });
 
+app.use("/api/shopify/orders", async (req, res) => {
+  const { orderCode = "" } = req.query;
+
+  const session = res.locals.shopify.session;
+  const orders = await shopify.api.rest.Order.all({
+    session: session,
+    fields: "id,order_number,name",
+  });
+
+  const order = orders?.data?.find((order) => {
+    return `${order?.order_number}` === `${orderCode}`;
+  });
+  res.json(order);
+});
+
 app.use(shopify.cspHeaders());
 app.use(serveStatic(STATIC_PATH, { index: false }));
 

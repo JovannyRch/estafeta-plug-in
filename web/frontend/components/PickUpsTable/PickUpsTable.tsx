@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import BaseTable from "../BaseTable/Index";
 import { TableComponents } from "../BaseTable/styled-components";
 import { headers } from "./const";
@@ -10,6 +10,8 @@ import ZeroState from "../ZeroState/ZeroState";
 import { Pickup } from "../../types/Responses/PickUpsResponse";
 import { formatCreationDate, formatDimensions } from "../../utils";
 import { ESTAFETA_LINKS } from "../../const";
+import { AppContext } from "../../context";
+import useOpenOrder from "../../hooks/useOpenOrder";
 
 const ShipmentsContainer = styled.div`
   display: flex;
@@ -30,8 +32,11 @@ interface PickUpsTableProps {
 }
 
 const PickUpsTable = ({ data = [], loading }: PickUpsTableProps) => {
-  const handleGoToEstafeta = (pickUp: Pickup) => {
-    window.open(ESTAFETA_LINKS.rastreo(pickUp));
+  const app = useContext(AppContext);
+  const { openOrder } = useOpenOrder(app?.shop);
+
+  const handleClickWaybill = (waybill: string) => {
+    window.open(ESTAFETA_LINKS.numeroDeGuia(waybill));
   };
 
   if (loading) {
@@ -44,7 +49,7 @@ const PickUpsTable = ({ data = [], loading }: PickUpsTableProps) => {
 
   return (
     <BaseTable headers={headers}>
-      {data.map((pickup, index) => (
+      {data.map((pickup) => (
         <TableComponents.Row key={pickup.code}>
           <TableComponents.Cell>
             <Typography.Bold size={15}>#{pickup.code}</Typography.Bold>
@@ -59,7 +64,10 @@ const PickUpsTable = ({ data = [], loading }: PickUpsTableProps) => {
               {pickup.orders.map((order) => (
                 <>
                   <ShipmentsItem>
-                    <Typography.Link size={15}>
+                    <Typography.Link
+                      size={15}
+                      onClick={() => openOrder(order.code)}
+                    >
                       #{order.code}
                     </Typography.Link>
                     <Typography.Label size={12}>
@@ -75,7 +83,10 @@ const PickUpsTable = ({ data = [], loading }: PickUpsTableProps) => {
               {pickup.orders.map((item) =>
                 item.waybills.map((waybill) => (
                   <ShipmentsItem>
-                    <Typography.Link size={15} onClick={() => handleGoToEstafeta(pickup)}>
+                    <Typography.Link
+                      size={15}
+                      onClick={() => handleClickWaybill(waybill.code)}
+                    >
                       {waybill.code}
                     </Typography.Link>
                     <Typography.Label size={12}>

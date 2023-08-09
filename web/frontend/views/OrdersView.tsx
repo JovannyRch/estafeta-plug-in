@@ -42,6 +42,10 @@ type OptionCode = 1 | 2;
 
 const OrdersView = ({ title = "Órdenes" }) => {
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+  const [activeOrderCode, setActiveOrderCode] = useState<string>("");
+  const [showItemConfirmationModal, setShowItemConfirmationModal] =
+    useState(false);
+
   const { renderFlag, forceReRender } = useRenderFlag();
   const [activeTab, setActiveTab] = useState("all");
 
@@ -70,8 +74,13 @@ const OrdersView = ({ title = "Órdenes" }) => {
     return data;
   }, [activeTab, ordersResponse]);
 
-  const handleGoToEstafeta = () => {
-    window.open(ESTAFETA_LINKS.orders());
+  const handleCreateShipment = () => {
+    window.open(ESTAFETA_LINKS.nuevoEnvio());
+  };
+
+  const handleCreateItemShipment = () => {
+    if (activeOrderCode === "") return;
+    window.open(ESTAFETA_LINKS.crearEnvio(activeOrderCode));
   };
 
   const handleInputChange = (value: string) => {
@@ -157,7 +166,10 @@ const OrdersView = ({ title = "Órdenes" }) => {
         <OrdersTable
           loading={isLoading}
           data={orders ?? []}
-          onCreateShipment={() => setShowConfirmationModal(true)}
+          onCreateShipment={(orderCode: string) => {
+            setShowItemConfirmationModal(true);
+            setActiveOrderCode(orderCode);
+          }}
         />
         <Spacer height={22} />
         {(orders?.length ?? []) > 0 && !isLoading && (
@@ -174,8 +186,14 @@ const OrdersView = ({ title = "Órdenes" }) => {
       </Container>
       <ShipmentsConfirmationModal
         onClose={() => setShowConfirmationModal(false)}
-        onOk={handleGoToEstafeta}
+        onOk={handleCreateShipment}
         isOpen={showConfirmationModal}
+        localKey="shipments-confirmation-modal-1"
+      />
+      <ShipmentsConfirmationModal
+        onClose={() => setShowItemConfirmationModal(false)}
+        onOk={handleCreateItemShipment}
+        isOpen={showItemConfirmationModal}
         localKey="shipments-confirmation-modal-2"
       />
     </ViewWrapper>

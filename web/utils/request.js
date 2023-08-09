@@ -149,12 +149,11 @@ async function getShipments({
 
 async function getShopifyOrders(session, ids = []) {
   const orders = await shopify.api.rest.Order.all({
-    session: session /* 
-    ids: "5475450814751", */,
+    session: session,
   });
-  /* console.log("--------------------------------------------");
-    console.log("orders", JSON.stringify(orders));
-    console.log("--------------------------------------------"); */
+  /*   console.log("--------------------------------------------");
+  console.log("orders", JSON.stringify(orders));
+  console.log("--------------------------------------------"); */
   return orders;
 }
 

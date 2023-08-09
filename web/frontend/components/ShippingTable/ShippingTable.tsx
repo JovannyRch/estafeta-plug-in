@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import BaseTable from "../BaseTable/Index";
 import { TableComponents } from "../BaseTable/styled-components";
 import { headers } from "./const";
@@ -22,6 +22,9 @@ import {
   formatCurrency,
   formatDimensions,
 } from "../../utils";
+import { ESTAFETA_LINKS } from "../../const";
+import { AppContext } from "../../context";
+import useOpenOrder from "../../hooks/useOpenOrder";
 const ShipmentsContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -61,9 +64,15 @@ const ShippingTable = ({ data = [], loading }: ShippingTableProps) => {
     waybillCodes,
   });
 
+  const app = useContext(AppContext);
+  const { openOrder } = useOpenOrder(app?.shop);
+
   const handleDownload = (waybill: Waybill) => {
-    console.log("waybill", waybill);
     setWaybillCodes([waybill.code]);
+  };
+
+  const handleClickWaybill = (waybill: string) => {
+    window.open(ESTAFETA_LINKS.numeroDeGuia(waybill));
   };
 
   useDidUpdateEffect(() => {
@@ -102,7 +111,9 @@ const ShippingTable = ({ data = [], loading }: ShippingTableProps) => {
       {data.map((shipment) => (
         <TableComponents.Row key={shipment.code}>
           <TableComponents.Cell>
-            <Typography.Link size={15}>#{shipment.code}</Typography.Link>
+            <Typography.Link onClick={() => openOrder(shipment.code)} size={15}>
+              #{shipment.code}
+            </Typography.Link>
             <Spacer height={2} />
             <Typography.Label size={12}>
               {formatCreationDate(
@@ -127,7 +138,12 @@ const ShippingTable = ({ data = [], loading }: ShippingTableProps) => {
               {shipment.waybills.map((waybill) => (
                 <>
                   <ShipmentsItem>
-                    <Typography.Link size={15}>{waybill.code}</Typography.Link>
+                    <Typography.Link
+                      size={15}
+                      onClick={() => handleClickWaybill(waybill.code)}
+                    >
+                      {waybill.code}
+                    </Typography.Link>
                     <Typography.Label size={12}>
                       {`${formatDimensions(waybill.Dimension)} / ${
                         waybill.Wight

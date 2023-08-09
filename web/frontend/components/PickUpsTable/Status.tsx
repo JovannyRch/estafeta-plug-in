@@ -5,6 +5,7 @@ import Typography from "../Typography/Index";
 import Tooltip from "./Tooltip";
 import { colorMap, tooltipMap } from "./const";
 import { Pickup } from "../../types/Responses/PickUpsResponse";
+import { ESTAFETA_LINKS } from "../../const";
 
 const Container = styled.div`
   display: flex;
@@ -31,7 +32,7 @@ interface Props {
 
 const PickUpStatus = ({ status, pickup }: Props) => {
   const handleReprogram = () => {
-    
+    window.open(ESTAFETA_LINKS.reprogramar(pickup.code));
   };
 
   const color = useMemo(() => colorMap[status] ?? "#274C89", [status]);

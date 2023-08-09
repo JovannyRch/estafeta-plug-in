@@ -1,6 +1,6 @@
 const headers = [
   {
-    title: "Número de recoleción",
+    title: "Número de recolección",
     key: "shippingData",
   },
   {

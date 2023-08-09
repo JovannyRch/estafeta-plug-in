@@ -22,7 +22,7 @@ const ActionsContainers = styled.div`
 interface OrdersTableProps {
   data?: Order[];
   loading?: boolean;
-  onCreateShipment?: () => void;
+  onCreateShipment?: (orderCode: string) => void;
 }
 
 const OrdersTable = ({
@@ -30,8 +30,8 @@ const OrdersTable = ({
   loading,
   onCreateShipment = () => {},
 }: OrdersTableProps) => {
-  const handleCreateShipment = () => {
-    onCreateShipment?.();
+  const handleCreateShipment = (orderCode: string) => {
+    onCreateShipment?.(orderCode);
   };
 
   const app = useContext(AppContext);
@@ -52,7 +52,7 @@ const OrdersTable = ({
 
   return (
     <BaseTable headers={headers}>
-      {data.map((order) => {
+      {data.map((order, index) => {
         const customer = order.shopify?.customer;
         const fullName = [customer?.first_name, customer?.last_name]
           .filter(Boolean)
@@ -63,7 +63,7 @@ const OrdersTable = ({
           (order.shopify?.contact_email || order.shopify?.customer?.email) ??
           "";
 
-        const products = order.shopify?.line_items.length;
+        const products = order.shopify?.line_items.length ?? 0;
 
         return (
           <TableComponents.Row key={order.code}>
@@ -74,7 +74,7 @@ const OrdersTable = ({
               <Spacer height={2} />
               <Typography.Label size={12}>
                 {formatCreationDate(
-                  order.creationDateTime,
+                  order?.shopify?.created_at ?? order?.creationDateTime ?? "",
                   "yyyy-MM-dd 'a las' HH:mm"
                 )}
               </Typography.Label>
@@ -114,7 +114,7 @@ const OrdersTable = ({
                 {`${products} producto${products !== 1 ? "s" : ""}`}
               </Typography.Text>
               <Typography.Text size={12} weight={500}>
-                {formatCurrency(`${order.shopify.total_price}`)}
+                {formatCurrency(`${order.shopify?.total_price ?? "--"}`)}
               </Typography.Text>
               <Typography.Link size={12} onClick={() => handleOpenOrder(order)}>
                 Ver orden
@@ -122,7 +122,7 @@ const OrdersTable = ({
             </TableComponents.Cell>
             <TableComponents.Cell>
               <ActionsContainers>
-                <IconButton onClick={handleCreateShipment}>
+                <IconButton onClick={() => handleCreateShipment(order.code)}>
                   <PlusIcon />
                 </IconButton>
               </ActionsContainers>

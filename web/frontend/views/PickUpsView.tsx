@@ -67,7 +67,7 @@ const PickUpsView = ({ title = "Recolecciones" }) => {
       setShowModalModalSelection(false);
     }
 
-    window.open(ESTAFETA_LINKS.pickups());
+    window.open(ESTAFETA_LINKS.nuevaRecoleccion());
   };
 
   const handleInputChange = (value: string) => {

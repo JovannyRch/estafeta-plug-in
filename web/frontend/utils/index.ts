@@ -14,15 +14,15 @@ function replaceAll(str: string, find: string, replace: string): string {
   return str.replace(new RegExp(find, "g"), replace);
 }
 
-export function formatCurrency(value: string, currency = "USD") {
+export function formatCurrency(value: number | string, currency = "USD") {
   if (typeof value === "string") {
     value = replaceAll(value, "$", "");
     value = replaceAll(value, ",", "");
   }
-  const parsedValue = Number.parseFloat(value);
+  const parsedValue = Number.parseFloat(value.toString());
   if (!Number.isNaN(parsedValue)) {
     return parsedValue
-      .toLocaleString(undefined, {
+      .toLocaleString("en-US", {
         style: "currency",
         currency,
       })

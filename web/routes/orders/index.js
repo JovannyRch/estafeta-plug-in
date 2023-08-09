@@ -3,7 +3,6 @@ const router = express.Router();
 import oauthMiddleware from "../../middlewares/oauthMiddleware.js";
 import estafetaRequest from "../../utils/request.js";
 
-
 router.get("/", oauthMiddleware, async (req, res) => {
   const accessToken = req.token;
   const {
@@ -29,12 +28,14 @@ router.get("/", oauthMiddleware, async (req, res) => {
     statusCode,
   });
 
+  const totalOrders = estafetaOrders?.orders.length;
+  console.log("totalOrders", totalOrders);
 
   const shopifyOrders = await estafetaRequest.getShopifyOrders(session);
 
   const ordersWithShopify = estafetaOrders?.orders?.map((order) => {
     const shopifyOrder = shopifyOrders?.data?.find(
-      (shopifyOrder) => shopifyOrder?.orderCode === order?.orderCode
+      (shopifyOrder) => `${shopifyOrder?.order_number}` === `${order?.code}`
     );
     return { ...order, shopify: shopifyOrder };
   });

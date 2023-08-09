@@ -54,9 +54,7 @@ const links = [
 
 const Sidebar = ({ collapsed = false }) => {
   const handleGoToEstafeta = () => {
-    window.open(
-      ESTAFETA_LINKS.backoffice()
-    );
+    window.open(ESTAFETA_LINKS.backofficeEstafeta);
   };
 
   return (
@@ -77,7 +75,6 @@ const Sidebar = ({ collapsed = false }) => {
       <SidebarButton onClick={handleGoToEstafeta} collapsed={collapsed}>
         <div className="icon">
           <EstafetaIcon />
-          
         </div>
         Estafeta Plug In Administrador
       </SidebarButton>
