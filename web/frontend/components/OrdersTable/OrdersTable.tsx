@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import BaseTable from "../BaseTable/Index";
 import { TableComponents } from "../BaseTable/styled-components";
 import { headers } from "./const";
@@ -12,6 +12,7 @@ import PlusIcon from "../../icons/PlusIcon";
 import ZeroState from "../ZeroState/ZeroState";
 import { Order } from "../../types/Responses/OrdersResponse";
 import { formatCreationDate, formatCurrency } from "../../utils";
+import { AppContext } from "../../context";
 
 const ActionsContainers = styled.div`
   display: flex;
@@ -33,8 +34,12 @@ const OrdersTable = ({
     onCreateShipment?.();
   };
 
-  const handleOpenOrder = (link) => {
-    window.open(link);
+  const app = useContext(AppContext);
+
+  console.log("app", app);
+
+  const handleOpenOrder = (order: Order) => {
+    window.open(`https://admin.shopify.com/store/${app?.shop?.name}/orders/${order?.shopify?.id}`);
   };
 
   if (loading) {
@@ -63,7 +68,7 @@ const OrdersTable = ({
         return (
           <TableComponents.Row key={order.code}>
             <TableComponents.Cell>
-              <Typography.Link size={15}>#{order.code}</Typography.Link>
+              <Typography.Link onClick={() => handleOpenOrder(order)} size={15}>#{order.code}</Typography.Link>
               <Spacer height={2} />
               <Typography.Label size={12}>
                 {formatCreationDate(
@@ -111,7 +116,7 @@ const OrdersTable = ({
               </Typography.Text>
               <Typography.Link
                 size={12}
-                onClick={() => handleOpenOrder(order.shopify.order_status_url)}
+                onClick={() => handleOpenOrder(order)}
               >
                 Ver orden
               </Typography.Link>

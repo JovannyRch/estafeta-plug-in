@@ -10,6 +10,7 @@ import PickUpsIcon from "../../icons/PickUpsIcon";
 import ShipmentsIcon from "../../icons/ShipmentsIcon";
 import Spacer from "../Spacer/Index";
 import EstafetaIcon from "../../icons/EstafetaIcon";
+import { ESTAFETA_LINKS } from "../../const";
 interface LinkProps {
   icon: React.ReactNode;
   title: string;
@@ -54,7 +55,7 @@ const links = [
 const Sidebar = ({ collapsed = false }) => {
   const handleGoToEstafeta = () => {
     window.open(
-      "https://estafetap10-dev.estafeta.com/EstafetaPlugIn_UI/PruebaConexion"
+      ESTAFETA_LINKS.backoffice()
     );
   };
 
@@ -76,6 +77,7 @@ const Sidebar = ({ collapsed = false }) => {
       <SidebarButton onClick={handleGoToEstafeta} collapsed={collapsed}>
         <div className="icon">
           <EstafetaIcon />
+          
         </div>
         Estafeta Plug In Administrador
       </SidebarButton>

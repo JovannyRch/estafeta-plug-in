@@ -15,6 +15,7 @@ import useData from "../hooks/useData";
 import { OrdersResponse } from "../types/Responses/OrdersResponse";
 import useRenderFlag from "../hooks/useRenderFlag";
 import { DateRange } from "../types";
+import { ESTAFETA_LINKS } from "../const";
 
 const FilterContainer = styled.div`
   display: flex;
@@ -70,7 +71,7 @@ const OrdersView = ({ title = "Órdenes" }) => {
   }, [activeTab, ordersResponse]);
 
   const handleGoToEstafeta = () => {
-    window.open("https://www.estafeta.com/herramientas/rastreo");
+    window.open(ESTAFETA_LINKS.orders());
   };
 
   const handleInputChange = (value: string) => {
@@ -101,12 +102,10 @@ const OrdersView = ({ title = "Órdenes" }) => {
   };
 
   useEffect(() => {
-    console.log("ordersResponse", ordersResponse);
     if (
       ordersResponse?.totalPage &&
       typeof ordersResponse?.totalPage === "number"
     ) {
-      console.log("ordersResponse.totalPage", ordersResponse.totalPage);
       setTotalPages(ordersResponse.totalPage);
     }
     return () => {};

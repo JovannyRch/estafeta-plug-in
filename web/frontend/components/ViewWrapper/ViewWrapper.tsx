@@ -1,46 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { Container, ViewContainer, Body } from "./styled-components";
-import Sidebar from "../Sidebar/Sidebar";
+import React, { useEffect } from "react";
+import { Container, ViewContainer, Body, AnimatedSidebar } from "./styled-components";
 import Header from "../Header/Header";
 import useShop from "../../hooks/useShop";
 import useLocalStorage from "../../hooks/useLocalStorage";
 import { CSSTransition } from "react-transition-group";
-import styled, { css, keyframes } from "styled-components";
-
-const enterAnimation = keyframes`
-  0% {
-    opacity: 0;
-    width: 50px;
-  }
-  100% {
-    opacity: 1;
-    width: 200px;
-  }
-`;
-
-const exitAnimation = keyframes`
-  0% {
-    opacity: 1;
-    width: 200px;
-  }
-  100% {
-    opacity: 0;
-    width: 50px;
-  }
-`;
-
-const AnimatedSidebar = styled(Sidebar)`
-  ${(props) =>
-    props.enter &&
-    css`
-      animation: ${enterAnimation} 0.3s forwards;
-    `}
-  ${(props) =>
-    props.exit &&
-    css`
-      animation: ${exitAnimation} 0.3s forwards;
-    `}
-`;
+import { AppContext } from "../../context";
 
 interface Props {
   children?: React.ReactNode;
@@ -48,7 +12,8 @@ interface Props {
 
 const ViewWrapper = ({ children }: Props) => {
   const { shop } = useShop();
-  const email = shop?.data[0]?.email ?? "";
+  const { email, name } = shop?.data[0] ?? {};
+
   const [storedEmail, setStoredEmail] = useLocalStorage("email", email);
 
   const [storedCollapse, setStoredCollapse] = useLocalStorage<boolean>(
@@ -56,7 +21,6 @@ const ViewWrapper = ({ children }: Props) => {
     false
   );
 
-  console.log("storedEmail", storedEmail);
   const toggleCollapse = () => setStoredCollapse(!storedCollapse);
 
   useEffect(() => {
@@ -64,7 +28,8 @@ const ViewWrapper = ({ children }: Props) => {
   }, [email, storedEmail]);
 
   return (
-    <Container>
+    <AppContext.Provider value={{shop: {email: email ?? '', name: name ?? ''}}}>
+       <Container>
       <Header email={storedEmail} toggleSidebar={toggleCollapse} />
       <Body>
         <CSSTransition
@@ -83,6 +48,7 @@ const ViewWrapper = ({ children }: Props) => {
         <ViewContainer>{children}</ViewContainer>
       </Body>
     </Container>
+    </AppContext.Provider>
   );
 };
 

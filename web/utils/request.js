@@ -2,7 +2,7 @@ import axios from "axios";
 import shopify from "../shopify.js";
 
 const IS_PRODUCTION = false;
-const TESTING_SHOP_ID = "1354745";
+const TEST_SHOP_ID = "1354745";
 
 const logUrl = (serviceUrl) => {
   console.log(
@@ -21,11 +21,11 @@ const logUrl = (serviceUrl) => {
 };
 
 const client = axios.create({
-  baseURL: "https://csrestqa.estafeta.com/Dev",
+  baseURL: process.env.ESTAFETA_API_URL || "https://csrestqa.estafeta.com/Dev",
   headers: {
     "Content-Type": "application/json",
     "Access-Control-Allow-Origin": "*",
-    apikey: "l7da86aba924ac49d0a013fb7d85983408",
+    apikey: process.env.ESTAFETA_CLIENT_ID || "l7da86aba924ac49d0a013fb7d85983408",
   },
 });
 
@@ -63,15 +63,14 @@ async function getOrders({
   totalRecords = 5,
   statusCode = "1",
 }) {
-  const filterValue = filter.length > 0 ? filter : "3234928966";
 
   const params = {
-    eSellerCode: IS_PRODUCTION ? shop : TESTING_SHOP_ID,
+    eSellerCode: IS_PRODUCTION ? shop : TEST_SHOP_ID,
     optionCode,
     page,
     creationStartDate,
     creationEndDate,
-    orderCode: filterValue,
+    orderCode: filter,
     totalRecords,
     statusCode,
   };
@@ -107,7 +106,7 @@ async function getPickups({
   }
 
   const params = {
-    eSellerCode: IS_PRODUCTION ? shop : TESTING_SHOP_ID,
+    eSellerCode: IS_PRODUCTION ? shop : TEST_SHOP_ID,
     optionCode,
     page,
     pickupStartDate: creationStartDate,
@@ -134,7 +133,7 @@ async function getShipments({
   totalRecords = 5,
 }) {
   const params = {
-    eSellerCode: IS_PRODUCTION ? shop : TESTING_SHOP_ID,
+    eSellerCode: IS_PRODUCTION ? shop : TEST_SHOP_ID,
     optionCode,
     page,
     creationStartDate,
@@ -174,7 +173,7 @@ async function getShopifyOrdersCount(session) {
 
 async function getWayBills({ accessToken, waybillCodes = "", shop }) {
   const params = {
-    eSellerCode: IS_PRODUCTION ? shop : TESTING_SHOP_ID,
+    eSellerCode: IS_PRODUCTION ? shop : TEST_SHOP_ID,
     waybillCode: waybillCodes,
   };
 

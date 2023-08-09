@@ -9,6 +9,7 @@ import PickUpStatus from "./Status";
 import ZeroState from "../ZeroState/ZeroState";
 import { Pickup } from "../../types/Responses/PickUpsResponse";
 import { formatCreationDate, formatDimensions } from "../../utils";
+import { ESTAFETA_LINKS } from "../../const";
 
 const ShipmentsContainer = styled.div`
   display: flex;
@@ -29,8 +30,8 @@ interface PickUpsTableProps {
 }
 
 const PickUpsTable = ({ data = [], loading }: PickUpsTableProps) => {
-  const handleGoToEstafeta = () => {
-    window.open("https://www.estafeta.com/herramientas/rastreo");
+  const handleGoToEstafeta = (pickUp: Pickup) => {
+    window.open(ESTAFETA_LINKS.rastreo(pickUp));
   };
 
   if (loading) {
@@ -58,7 +59,7 @@ const PickUpsTable = ({ data = [], loading }: PickUpsTableProps) => {
               {pickup.orders.map((order) => (
                 <>
                   <ShipmentsItem>
-                    <Typography.Link size={15} onClick={handleGoToEstafeta}>
+                    <Typography.Link size={15}>
                       #{order.code}
                     </Typography.Link>
                     <Typography.Label size={12}>
@@ -74,7 +75,7 @@ const PickUpsTable = ({ data = [], loading }: PickUpsTableProps) => {
               {pickup.orders.map((item) =>
                 item.waybills.map((waybill) => (
                   <ShipmentsItem>
-                    <Typography.Link size={15} onClick={handleGoToEstafeta}>
+                    <Typography.Link size={15} onClick={() => handleGoToEstafeta(pickup)}>
                       {waybill.code}
                     </Typography.Link>
                     <Typography.Label size={12}>
@@ -87,7 +88,7 @@ const PickUpsTable = ({ data = [], loading }: PickUpsTableProps) => {
             </ShipmentsContainer>
           </TableComponents.Cell>
           <TableComponents.Cell>
-            <PickUpStatus status={pickup.statusName} />
+            <PickUpStatus pickup={pickup} status={pickup.statusName} />
           </TableComponents.Cell>
         </TableComponents.Row>
       ))}

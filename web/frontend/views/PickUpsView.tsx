@@ -18,6 +18,7 @@ import PickupsConfirmationModal from "../components/PickupsConfirmationModal/Pic
 import { DateRange } from "../types";
 import InputTypeFilter from "../components/InputTypeFilter/InputTypeFilter";
 import { inputTypeValues } from "../components/InputTypeFilter/const";
+import { ESTAFETA_LINKS } from "../const";
 
 const FilterContainer = styled.div`
   display: flex;
@@ -66,7 +67,7 @@ const PickUpsView = ({ title = "Recolecciones" }) => {
       setShowModalModalSelection(false);
     }
 
-    window.open("https://www.estafeta.com/");
+    window.open(ESTAFETA_LINKS.pickups());
   };
 
   const handleInputChange = (value: string) => {

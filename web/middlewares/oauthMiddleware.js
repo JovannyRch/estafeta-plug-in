@@ -17,7 +17,7 @@ async function oauthMiddleware(req, res, next) {
 
   if (!accessToken || currentTime > tokenExpiration) {
     const response = await oAuth.getToken();
-    accessToken = response.data.access_token;
+    accessToken = response.data.access_token; 
     tokenExpiration = currentTime + response.data.expires_in * 1000;
 
     fs.writeFileSync(

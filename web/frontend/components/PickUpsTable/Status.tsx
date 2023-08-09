@@ -4,6 +4,7 @@ import styled from "styled-components";
 import Typography from "../Typography/Index";
 import Tooltip from "./Tooltip";
 import { colorMap, tooltipMap } from "./const";
+import { Pickup } from "../../types/Responses/PickUpsResponse";
 
 const Container = styled.div`
   display: flex;
@@ -23,9 +24,14 @@ const Dot = styled.div`
   border-radius: 50%;
 `;
 
-const PickUpStatus = ({ status }: { status: string }) => {
+interface Props {
+  status: string;
+  pickup: Pickup;
+}
+
+const PickUpStatus = ({ status, pickup }: Props) => {
   const handleReprogram = () => {
-    window.open("https://www.estafeta.com/herramientas/rastreo");
+    
   };
 
   const color = useMemo(() => colorMap[status] ?? "#274C89", [status]);

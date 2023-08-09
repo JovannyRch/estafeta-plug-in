@@ -1,10 +1,8 @@
 import express from "express";
 const router = express.Router();
-import { config } from "dotenv";
 import oauthMiddleware from "../../middlewares/oauthMiddleware.js";
 import estafetaRequest from "../../utils/request.js";
 
-config({ path: "./../../.env" });
 
 router.get("/", oauthMiddleware, async (req, res) => {
   const accessToken = req.token;
@@ -19,7 +17,7 @@ router.get("/", oauthMiddleware, async (req, res) => {
   } = req.query;
   const session = res.locals.shopify.session;
 
-  let orders = await estafetaRequest.getOrders({
+  let estafetaOrders = await estafetaRequest.getOrders({
     accessToken,
     creationStartDate,
     creationEndDate,
@@ -31,16 +29,18 @@ router.get("/", oauthMiddleware, async (req, res) => {
     statusCode,
   });
 
+
   const shopifyOrders = await estafetaRequest.getShopifyOrders(session);
 
-  const ordersWithShopify = orders?.orders.map((order) => {
-    const randomIndex = Math.floor(Math.random() * shopifyOrders.data.length);
-    const shopifyOrder = shopifyOrders.data[randomIndex];
+  const ordersWithShopify = estafetaOrders?.orders?.map((order) => {
+    const shopifyOrder = shopifyOrders?.data?.find(
+      (shopifyOrder) => shopifyOrder?.orderCode === order?.orderCode
+    );
     return { ...order, shopify: shopifyOrder };
   });
 
   res.json({
-    ...orders,
+    ...estafetaOrders,
     orders: ordersWithShopify,
   });
 });
