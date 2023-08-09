@@ -31,7 +31,6 @@ const DateInput = ({
   placeholder = "DD/MM/AAAA",
 }: Props) => {
   const [isOpen, setIsOpen] = useState(false);
-  console.log("value", value);
   const node = useRef();
 
   const handleClickOutside = (e) => {

@@ -47,7 +47,6 @@ const useShipments = ({ dateRange, searchValue }: Props) => {
   }, [dateRange, searchValue]);
 
   useDidUpdateEffect(() => {
-    console.log("url", url);
     refetch();
   }, [url]);
 

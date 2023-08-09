@@ -9,7 +9,6 @@ const useShop = () => {
     url: "/api/shop",
     reactQueryOptions: {
       onSuccess: (data) => {
-        console.log("shop", data);
         setShop(data);
       },
       onerror: (error) => {

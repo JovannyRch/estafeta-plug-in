@@ -27,8 +27,6 @@ const useOrders = ({ dateRange }: Props) => {
     const urlParams = new URLSearchParams(params).toString();
 
     const response = await fetch(`${URL}?${urlParams}`);
-    console.log("GET", `${URL}?${urlParams}`);
-    console.log("response", response);
   };
 
   useEffect(() => {

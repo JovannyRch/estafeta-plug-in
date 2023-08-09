@@ -62,9 +62,6 @@ const ConfirmationModal = ({
 
   const ref = useRef(null);
   const handleOverlayClick = (e) => {
-    console.log("click", e);
-    console.log("ref.current", ref.current);
-    console.log("isOpen", isOpen);
     if (ref.current && !ref.current.contains(e.target) && isOpen) {
       handleClose();
     }

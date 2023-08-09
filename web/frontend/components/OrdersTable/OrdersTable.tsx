@@ -36,10 +36,10 @@ const OrdersTable = ({
 
   const app = useContext(AppContext);
 
-  console.log("app", app);
-
   const handleOpenOrder = (order: Order) => {
-    window.open(`https://admin.shopify.com/store/${app?.shop?.name}/orders/${order?.shopify?.id}`);
+    window.open(
+      `https://admin.shopify.com/store/${app?.shop?.name}/orders/${order?.shopify?.id}`
+    );
   };
 
   if (loading) {
@@ -68,7 +68,9 @@ const OrdersTable = ({
         return (
           <TableComponents.Row key={order.code}>
             <TableComponents.Cell>
-              <Typography.Link onClick={() => handleOpenOrder(order)} size={15}>#{order.code}</Typography.Link>
+              <Typography.Link onClick={() => handleOpenOrder(order)} size={15}>
+                #{order.code}
+              </Typography.Link>
               <Spacer height={2} />
               <Typography.Label size={12}>
                 {formatCreationDate(
@@ -114,10 +116,7 @@ const OrdersTable = ({
               <Typography.Text size={12} weight={500}>
                 {formatCurrency(`${order.shopify.total_price}`)}
               </Typography.Text>
-              <Typography.Link
-                size={12}
-                onClick={() => handleOpenOrder(order)}
-              >
+              <Typography.Link size={12} onClick={() => handleOpenOrder(order)}>
                 Ver orden
               </Typography.Link>
             </TableComponents.Cell>

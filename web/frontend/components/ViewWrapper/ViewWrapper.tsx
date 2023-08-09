@@ -1,5 +1,10 @@
 import React, { useEffect } from "react";
-import { Container, ViewContainer, Body, AnimatedSidebar } from "./styled-components";
+import {
+  Container,
+  ViewContainer,
+  Body,
+  AnimatedSidebar,
+} from "./styled-components";
 import Header from "../Header/Header";
 import useShop from "../../hooks/useShop";
 import useLocalStorage from "../../hooks/useLocalStorage";
@@ -28,26 +33,28 @@ const ViewWrapper = ({ children }: Props) => {
   }, [email, storedEmail]);
 
   return (
-    <AppContext.Provider value={{shop: {email: email ?? '', name: name ?? ''}}}>
-       <Container>
-      <Header email={storedEmail} toggleSidebar={toggleCollapse} />
-      <Body>
-        <CSSTransition
-          in={!storedCollapse}
-          timeout={300}
-          classNames="my-node"
-          onEnter={() => setStoredCollapse(false)}
-          onExited={() => setStoredCollapse(true)}
-        >
-          <AnimatedSidebar
-            collapsed={storedCollapse}
-            enter={!storedCollapse}
-            exit={storedCollapse}
-          />
-        </CSSTransition>
-        <ViewContainer>{children}</ViewContainer>
-      </Body>
-    </Container>
+    <AppContext.Provider
+      value={{ shop: { email: email ?? "", name: name ?? "" } }}
+    >
+      <Container>
+        <Header email={storedEmail} toggleSidebar={toggleCollapse} />
+        <Body>
+          <CSSTransition
+            in={!storedCollapse}
+            timeout={300}
+            classNames="my-node"
+            onEnter={() => setStoredCollapse(false)}
+            onExited={() => setStoredCollapse(true)}
+          >
+            <AnimatedSidebar
+              collapsed={storedCollapse}
+              enter={!storedCollapse}
+              exit={storedCollapse}
+            />
+          </CSSTransition>
+          <ViewContainer>{children}</ViewContainer>
+        </Body>
+      </Container>
     </AppContext.Provider>
   );
 };
