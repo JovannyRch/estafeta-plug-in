@@ -9,6 +9,7 @@ interface Props {
   value?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   styles?: React.CSSProperties;
+  onlyNumbers?: boolean;
 }
 
 const SearchInput = ({
@@ -17,11 +18,17 @@ const SearchInput = ({
   value,
   onChange,
   styles = {},
+  onlyNumbers,
 }: Props) => {
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.value.match(/^[0-9]*$/)) {
-      onChange?.(e);
+    if (onlyNumbers) {
+      if (e.target.value.match(/^[0-9]*$/)) {
+        onChange?.(e);
+      }
+      return;
     }
+
+    onChange?.(e);
   };
 
   return (

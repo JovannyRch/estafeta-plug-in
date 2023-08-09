@@ -57,6 +57,8 @@ const PickUpsView = ({ title = "Recolecciones" }) => {
     url: "/api/pickups",
   });
 
+  const [optionCode, setOptionCode] = useState(filters.optionCode);
+
   const [showModalModalSelection, setShowModalModalSelection] =
     useLocalStorage<boolean>(LOCAL_STORAGE_KEY, true);
 
@@ -104,8 +106,18 @@ const PickUpsView = ({ title = "Recolecciones" }) => {
 
   const handleTypeChange = (value: number) => {
     if (filters.searchValue.length > 0) {
-      updateFilters({ optionCode: value });
+      let filterValue = filters.searchValue;
+
+      if ([2, 3].includes(value)) {
+        if (!filterValue.match(/^[0-9]+$/)) {
+          filterValue = filterValue.replace(/\D/g, "");
+        }
+      }
+
+      updateFilters({ optionCode: value, searchValue: filterValue });
     }
+
+    setOptionCode(value);
   };
 
   const onCreatePickUp = () => {
@@ -127,6 +139,10 @@ const PickUpsView = ({ title = "Recolecciones" }) => {
     return () => {};
   }, [pickupsResponse]);
 
+  useEffect(() => {
+    setOptionCode(filters.optionCode);
+  }, [filters.optionCode]);
+
   return (
     <ViewWrapper>
       <Container>
@@ -142,6 +158,7 @@ const PickUpsView = ({ title = "Recolecciones" }) => {
               <SearchInput
                 width={220}
                 placeholder="Buscar"
+                onlyNumbers={optionCode !== 4}
                 value={filters.searchValue}
                 onChange={({ target }) => handleInputChange(target.value)}
                 styles={{

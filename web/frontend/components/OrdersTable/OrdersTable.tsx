@@ -52,7 +52,7 @@ const OrdersTable = ({
 
   return (
     <BaseTable headers={headers}>
-      {data.map((order, index) => {
+      {data.map((order) => {
         const customer = order.shopify?.customer;
         const fullName = [customer?.first_name, customer?.last_name]
           .filter(Boolean)

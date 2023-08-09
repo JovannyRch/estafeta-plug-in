@@ -7,16 +7,15 @@ export const Container = styled.div`
 `;
 
 export const ViewContainer = styled.div`
-  max-height: 100vh;
   overflow-y: auto;
   width: 100%;
 `;
 
 export const Body = styled.div`
   display: flex;
+  flex: 1;
+  max-height: calc(100vh - 68px);
 `;
-
-
 
 const enterAnimation = keyframes`
   0% {

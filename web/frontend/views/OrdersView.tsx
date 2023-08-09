@@ -155,6 +155,7 @@ const OrdersView = ({ title = "Órdenes" }) => {
               placeholder="Buscar por número de orden"
               value={filters.searchValue}
               onChange={({ target }) => handleInputChange(target.value)}
+              onlyNumbers
             />
 
             {renderFlag && <DateFilter onChangeFilter={handleRangeChange} />}

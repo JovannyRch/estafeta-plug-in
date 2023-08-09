@@ -8,8 +8,7 @@ export const Wrapper = styled.div`
 export const Container = styled.div`
   background-color: #475968;
   box-shadow: 4px 0px 6px 0px rgba(132, 155, 204, 0.5);
-  min-height: 100vh;
-
+  min-height: calc(100vh - 68px);
   flex: 0 0 ${(props) => (props.collapsed ? "0px" : "225px")};
   width: ${(props) => (props.collapsed ? "0px" : "225px")};
   transition: all 0.15s ease-in;
