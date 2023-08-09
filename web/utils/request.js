@@ -1,7 +1,7 @@
 import axios from "axios";
 import shopify from "../shopify.js";
 
-const IS_PRODUCTION = false;
+const IS_TESTING = true;
 const TEST_SHOP_ID = "1354745";
 
 const logUrl = (serviceUrl) => {
@@ -25,7 +25,8 @@ const client = axios.create({
   headers: {
     "Content-Type": "application/json",
     "Access-Control-Allow-Origin": "*",
-    apikey: process.env.ESTAFETA_CLIENT_ID || "l7da86aba924ac49d0a013fb7d85983408",
+    apikey:
+      process.env.ESTAFETA_CLIENT_ID || "l7da86aba924ac49d0a013fb7d85983408",
   },
 });
 
@@ -63,9 +64,8 @@ async function getOrders({
   totalRecords = 5,
   statusCode = "1",
 }) {
-
   const params = {
-    eSellerCode: IS_PRODUCTION ? shop : TEST_SHOP_ID,
+    eSellerCode: IS_TESTING ? TEST_SHOP_ID : shop,
     optionCode,
     page,
     creationStartDate,
@@ -106,7 +106,7 @@ async function getPickups({
   }
 
   const params = {
-    eSellerCode: IS_PRODUCTION ? shop : TEST_SHOP_ID,
+    eSellerCode: IS_TESTING ? TEST_SHOP_ID : shop,
     optionCode,
     page,
     pickupStartDate: creationStartDate,
@@ -133,7 +133,7 @@ async function getShipments({
   totalRecords = 5,
 }) {
   const params = {
-    eSellerCode: IS_PRODUCTION ? shop : TEST_SHOP_ID,
+    eSellerCode: IS_TESTING ? TEST_SHOP_ID : shop,
     optionCode,
     page,
     creationStartDate,
@@ -173,7 +173,7 @@ async function getShopifyOrdersCount(session) {
 
 async function getWayBills({ accessToken, waybillCodes = "", shop }) {
   const params = {
-    eSellerCode: IS_PRODUCTION ? shop : TEST_SHOP_ID,
+    eSellerCode: IS_TESTING ? TEST_SHOP_ID : shop,
     waybillCode: waybillCodes,
   };
 
