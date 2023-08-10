@@ -76,7 +76,7 @@ const PickUpsTable = ({ data = [], loading }: PickUpsTableProps) => {
           </TableComponents.Cell>
           <TableComponents.Cell>
             <Typography.Label size={15}>
-              {pickup.planningDateTime}
+              {formatCreationDate(pickup.planningDateTime)}
             </Typography.Label>
           </TableComponents.Cell>
           <TableComponents.Cell>
