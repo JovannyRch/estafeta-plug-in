@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import { getStatusData } from "./utils";
 import styled from "styled-components";
 import Typography from "../Typography/Index";
@@ -6,6 +6,7 @@ import Tooltip from "./Tooltip";
 import { colorMap, tooltipMap } from "./const";
 import { Pickup } from "../../types/Responses/PickUpsResponse";
 import { ESTAFETA_LINKS } from "../../const";
+import PickupsConfirmationModal from "../PickupsConfirmationModal/PickupsConfirmationModal";
 
 const Container = styled.div`
   display: flex;
@@ -31,6 +32,9 @@ interface Props {
 }
 
 const PickUpStatus = ({ status, pickup }: Props) => {
+  const [showConfirmationModal, setShowConfirmationModal] =
+    useState<boolean>(false);
+
   const handleReprogram = () => {
     window.open(ESTAFETA_LINKS.reprogramar(pickup.code));
   };
@@ -49,10 +53,20 @@ const PickUpStatus = ({ status, pickup }: Props) => {
       </Container>
 
       {["Cancelada", "Excepcionada"].includes(status) && (
-        <Typography.Link size={15} weight={800} onClick={handleReprogram}>
+        <Typography.Link
+          size={15}
+          weight={800}
+          onClick={() => setShowConfirmationModal(true)}
+        >
           Reprogramar
         </Typography.Link>
       )}
+      <PickupsConfirmationModal
+        isOpen={showConfirmationModal}
+        onClose={() => setShowConfirmationModal(false)}
+        onOk={handleReprogram}
+        localKey={"reprogram-pickup"}
+      />
     </Wrapper>
   );
 };
