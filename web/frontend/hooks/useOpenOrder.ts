@@ -1,32 +1,49 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAuthenticatedFetch } from "./useAuthenticatedFetch";
+
+export interface Order {
+  id: number;
+  name: string;
+  order_number: number;
+}
 
 const useOpenOrder = (shop: any) => {
   const authenticatedFetch = useAuthenticatedFetch();
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [orders, setOrders] = useState<Order[]>([]);
 
-  const openOrder = async (orderCode: string) => {
-    if (isLoading) return;
-
+  const fetchOrders = async () => {
     try {
       setIsLoading(true);
-
-      document.body.style.cursor = "wait";
-      const response = await authenticatedFetch(
-        `/api/shopify/orders?orderCode=${orderCode}`
-      );
+      const response = await authenticatedFetch(`/api/shopify/orders`);
       const data = await response.json();
 
-      window.open(
-        `https://admin.shopify.com/store/${shop?.name}/orders/${data?.id}`
-      );
+      setOrders(data);
     } catch (error) {
-      window.open(`https://admin.shopify.com/store/${shop?.name}/orders`);
+      console.log("error", error);
     } finally {
-      document.body.style.cursor = "default";
       setIsLoading(false);
     }
   };
+
+  const openOrder = async (orderCode: string) => {
+    if (isLoading) return;
+    const order = orders?.find((order) => {
+      return `${order?.order_number}` === `${orderCode}`;
+    });
+
+    if (!order) {
+      window.open(`https://admin.shopify.com/store/${shop?.name}/orders`);
+      return;
+    }
+    window.open(
+      `https://admin.shopify.com/store/${shop?.name}/orders/${order?.id}`
+    );
+  };
+
+  useEffect(() => {
+    fetchOrders();
+  }, []);
 
   return {
     openOrder,

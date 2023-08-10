@@ -1,38 +1,43 @@
 import { useState } from "react";
-import { useAppQuery } from "./useAppQuery";
 import { WaybillsResponse } from "../types/Responses/WaybillsResponse";
-import useDidUpdateEffect from "./useDidUpdateEffect";
+import { useAuthenticatedFetch } from "./useAuthenticatedFetch";
+import { base64ToBlob } from "../utils";
 
-interface Props {
-  waybillCodes: string[];
-}
-const useWaybills = ({ waybillCodes }: Props) => {
-  const [data, setData] = useState<WaybillsResponse | null>(null);
-  const { isLoading, refetch, isRefetching } = useAppQuery({
-    url: `/api/orders/waybills/?waybillCodes=${waybillCodes.join(",")}`,
-    reactQueryOptions: {
-      onSuccess: (data) => {
-        if (waybillCodes.length === 0) {
-          return;
-        }
-        setData(data);
-      },
-      onerror: (error) => {
-        console.log("error: ", error);
-      },
-    },
-    enabled: waybillCodes.length > 0,
-  });
+const useWaybills = () => {
+  const authenticatedFetch = useAuthenticatedFetch();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  useDidUpdateEffect(() => {
-    refetch();
-  }, [waybillCodes]);
+  const downloadWaybill = async (waybillCode: string) => {
+    if (isLoading) return;
 
-  return {
-    waybillsResponse: data,
-    isLoading: isLoading || isRefetching,
-    refetch,
+    try {
+      setIsLoading(true);
+      document.body.style.cursor = "wait";
+      const response = await authenticatedFetch(
+        `/api/orders/waybills/?waybillCodes=${waybillCode}`
+      );
+      const data: WaybillsResponse = await response.json();
+
+      if (data?.documentWaybill?.length === 0) {
+        return;
+      }
+
+      const waybill = data?.documentWaybill[0];
+      const pdfBlob = base64ToBlob(waybill.pdfFile);
+      const url = URL.createObjectURL(pdfBlob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `${waybillCode}.pdf`;
+      link.click();
+    } catch (e) {
+      console.log(e);
+    } finally {
+      setIsLoading(false);
+      document.body.style.cursor = "default";
+    }
   };
+
+  return { downloadWaybill };
 };
 
 export default useWaybills;

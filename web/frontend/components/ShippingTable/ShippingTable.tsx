@@ -59,44 +59,18 @@ interface ShippingTableProps {
 }
 
 const ShippingTable = ({ data = [], loading }: ShippingTableProps) => {
-  const [waybillCodes, setWaybillCodes] = useState<string[]>([]);
-  const { waybillsResponse, refetch } = useWaybills({
-    waybillCodes,
-  });
+  const { downloadWaybill } = useWaybills();
 
   const app = useContext(AppContext);
   const { openOrder } = useOpenOrder(app?.shop);
 
   const handleDownload = (waybill: Waybill) => {
-    setWaybillCodes([waybill.code]);
+    downloadWaybill(waybill.code);
   };
 
   const handleClickWaybill = (waybill: string) => {
     window.open(ESTAFETA_LINKS.numeroDeGuia(waybill));
   };
-
-  useDidUpdateEffect(() => {
-    if (waybillCodes.length > 0) {
-      refetch();
-    }
-  }, [waybillCodes]);
-
-  useDidUpdateEffect(() => {
-    if (
-      waybillsResponse !== null &&
-      waybillsResponse?.documentWaybill?.length > 0 &&
-      waybillCodes.length > 0
-    ) {
-      const waybill = waybillsResponse.documentWaybill[0];
-      const pdfBlob = base64ToBlob(waybill.pdfFile);
-      const url = URL.createObjectURL(pdfBlob);
-      const link = document.createElement("a");
-      link.href = url;
-      link.download = "file.pdf";
-      link.click();
-      setWaybillCodes([]);
-    }
-  }, [waybillsResponse, waybillCodes]);
 
   if (loading) {
     return <Loader height={400} />;
