@@ -44,9 +44,15 @@ export function capitalizeFirstLetter(string: string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-export function formatCreationDate(date: string, format = "yyyy-MM-dd") {
+export function formatCreationDate(
+  date: string,
+  format = "yyyy-MM-dd",
+  addHours = 0
+) {
   try {
-    return formatIso(parseISO(date), format);
+    const parsedDate = parseISO(date);
+    parsedDate.setHours(parsedDate.getHours() + addHours);
+    return formatIso(parsedDate, format);
   } catch (error) {
     return date;
   }

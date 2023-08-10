@@ -147,7 +147,7 @@ const colorMap = {
   Enrutada: "#274C89",
   Recolectada: "#46BB98",
   Cancelada: "#D90202",
-  Excepcionada: "#274C89",
+  Excepcionada: "#D90202",
 };
 
 export { headers, data, colorMap, tooltipMap };

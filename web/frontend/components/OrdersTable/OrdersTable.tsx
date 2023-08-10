@@ -75,7 +75,8 @@ const OrdersTable = ({
               <Typography.Label size={12}>
                 {formatCreationDate(
                   order?.shopify?.created_at ?? order?.creationDateTime ?? "",
-                  "yyyy-MM-dd 'a las' HH:mm"
+                  "yyyy-MM-dd 'a las' HH:mm",
+                  order?.shopify?.created_at ? 4 : 0
                 )}
               </Typography.Label>
               <Spacer height={6} />
