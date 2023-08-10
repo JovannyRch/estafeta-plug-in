@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import BaseTable from "../BaseTable/Index";
 import { TableComponents } from "../BaseTable/styled-components";
 import { headers } from "./const";
@@ -11,7 +11,7 @@ import { Pickup } from "../../types/Responses/PickUpsResponse";
 import { formatCreationDate, formatDimensions } from "../../utils";
 import { ESTAFETA_LINKS } from "../../const";
 import { AppContext } from "../../context";
-import useOpenOrder from "../../hooks/useOpenOrder";
+import useOrders, { Order } from "../../hooks/useOrders";
 
 const ShipmentsContainer = styled.div`
   display: flex;
@@ -33,11 +33,31 @@ interface PickUpsTableProps {
 
 const PickUpsTable = ({ data = [], loading }: PickUpsTableProps) => {
   const app = useContext(AppContext);
-  const { openOrder } = useOpenOrder(app?.shop);
+  const { openOrder, orders: shopifyOrders } = useOrders(app?.shop);
+  const [dataWithOrders, setDataWithOrders] = useState<Pickup[]>([]);
 
   const handleClickWaybill = (waybill: string) => {
     window.open(ESTAFETA_LINKS.numeroDeGuia(waybill));
   };
+
+  useEffect(() => {
+    const dataWithOrders = data.map((pickup) => {
+      const orders = pickup?.orders?.map((order) => {
+        const shopifyOrder = shopifyOrders.find(
+          (shopifyOrder) => `${shopifyOrder.order_number}` === order.code
+        );
+        return {
+          ...order,
+          shopifyOrder,
+        };
+      });
+      return {
+        ...pickup,
+        orders,
+      };
+    });
+    setDataWithOrders(dataWithOrders);
+  }, [shopifyOrders, data]);
 
   if (loading) {
     return <Loader height={400} />;
@@ -49,7 +69,7 @@ const PickUpsTable = ({ data = [], loading }: PickUpsTableProps) => {
 
   return (
     <BaseTable headers={headers}>
-      {data.map((pickup, index) => (
+      {dataWithOrders.map((pickup) => (
         <TableComponents.Row key={pickup.code}>
           <TableComponents.Cell>
             <Typography.Bold size={15}>#{pickup.code}</Typography.Bold>
@@ -71,7 +91,12 @@ const PickUpsTable = ({ data = [], loading }: PickUpsTableProps) => {
                       #{order.code}
                     </Typography.Link>
                     <Typography.Label size={12}>
-                      {formatCreationDate(order.creationDateTime)}
+                      {formatCreationDate(
+                        order.shopifyOrder?.created_at ||
+                          order.creationDateTime,
+                        "yyyy-MM-dd",
+                        order.shopifyOrder?.created_at ? 4 : 0
+                      )}
                     </Typography.Label>
                   </ShipmentsItem>
                 </>

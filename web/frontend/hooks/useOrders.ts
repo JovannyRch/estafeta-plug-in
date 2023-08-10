@@ -1,41 +1,54 @@
 import { useEffect, useState } from "react";
-import { useAppQuery } from "./useAppQuery";
-import { OrdersResponse } from "../types/Responses/OrdersResponse";
-import { DateRange } from "../types";
 import { useAuthenticatedFetch } from "./useAuthenticatedFetch";
 
-interface Props {
-  dateRange: DateRange;
+export interface Order {
+  id: number;
+  name: string;
+  order_number: number;
+  created_at: string;
 }
 
-const URL = "/api/orders";
+const useOrders = (shop: any) => {
+  const authenticatedFetch = useAuthenticatedFetch();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [orders, setOrders] = useState<Order[]>([]);
 
-const useOrders = ({ dateRange }: Props) => {
-  const [isLoading, setIsLoading] = useState(false);
-  const fetch = useAuthenticatedFetch();
-  const [ordersResponse, setOrdersResponse] = useState<OrdersResponse | null>(
-    null
-  );
+  const fetchOrders = async () => {
+    try {
+      setIsLoading(true);
+      const response = await authenticatedFetch(`/api/shopify/orders`);
+      const data = await response.json();
 
-  const fetchData = async () => {
-    setIsLoading(true);
-    const params = {
-      creationStartDate: dateRange?.creationStartDate,
-      creationEndDate: dateRange?.creationEndDate,
-    };
+      setOrders(data);
+    } catch (error) {
+      console.log("error", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
-    const urlParams = new URLSearchParams(params).toString();
+  const openOrder = async (orderCode: string) => {
+    if (isLoading) return;
+    const order = orders?.find((order) => {
+      return `${order?.order_number}` === `${orderCode}`;
+    });
 
-    const response = await fetch(`${URL}?${urlParams}`);
+    if (!order) {
+      window.open(`https://admin.shopify.com/store/${shop?.name}/orders`);
+      return;
+    }
+    window.open(
+      `https://admin.shopify.com/store/${shop?.name}/orders/${order?.id}`
+    );
   };
 
   useEffect(() => {
-    fetchData();
-  }, [dateRange]);
+    fetchOrders();
+  }, []);
 
   return {
-    ordersResponse,
-    isLoading,
+    orders,
+    openOrder,
   };
 };
 

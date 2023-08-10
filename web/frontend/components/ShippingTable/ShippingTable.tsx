@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import BaseTable from "../BaseTable/Index";
 import { TableComponents } from "../BaseTable/styled-components";
 import { headers } from "./const";
@@ -24,7 +24,7 @@ import {
 } from "../../utils";
 import { ESTAFETA_LINKS } from "../../const";
 import { AppContext } from "../../context";
-import useOpenOrder from "../../hooks/useOpenOrder";
+import useOrders, { Order } from "../../hooks/useOrders";
 const ShipmentsContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -58,11 +58,16 @@ interface ShippingTableProps {
   loading?: boolean;
 }
 
+interface ShippingWithOrders extends ShipmentOrder {
+  shopifyOrder: Order | undefined;
+}
+
 const ShippingTable = ({ data = [], loading }: ShippingTableProps) => {
   const { downloadWaybill } = useWaybills();
 
   const app = useContext(AppContext);
-  const { openOrder } = useOpenOrder(app?.shop);
+  const { openOrder, orders } = useOrders(app?.shop);
+  const [dataWithOrders, setDataWithOrders] = useState<ShippingWithOrders[]>([]);
 
   const handleDownload = (waybill: Waybill) => {
     downloadWaybill(waybill.code);
@@ -72,6 +77,15 @@ const ShippingTable = ({ data = [], loading }: ShippingTableProps) => {
     window.open(ESTAFETA_LINKS.numeroDeGuia(waybill));
   };
 
+  useEffect(() => {
+    const dataWithOrders = data.map((shipment) => {
+      const order = orders.find((order) => `${order.order_number}` === shipment.code);
+      return { ...shipment, shopifyOrder: order };
+    }
+    );
+    setDataWithOrders(dataWithOrders);
+  }, [data, orders])
+  
   if (loading) {
     return <Loader height={400} />;
   }
@@ -82,7 +96,7 @@ const ShippingTable = ({ data = [], loading }: ShippingTableProps) => {
 
   return (
     <BaseTable headers={headers}>
-      {data.map((shipment, index) => (
+      {dataWithOrders.map((shipment) => (
         <TableComponents.Row key={shipment.code}>
           <TableComponents.Cell>
             <Typography.Link onClick={() => openOrder(shipment.code)} size={15}>
@@ -91,8 +105,10 @@ const ShippingTable = ({ data = [], loading }: ShippingTableProps) => {
             <Spacer height={2} />
             <Typography.Label size={12}>
               {formatCreationDate(
+                shipment?.shopifyOrder?.created_at || 
                 shipment.creationDateTime,
-                "yyyy-MM-dd 'a las' HH:mm"
+                "yyyy-MM-dd 'a las' HH:mm",
+                shipment?.shopifyOrder?.created_at ? 4 : 0
               )}
             </Typography.Label>
           </TableComponents.Cell>

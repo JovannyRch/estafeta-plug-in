@@ -14,6 +14,12 @@ export interface Order {
   code: string;
   creationDateTime: string;
   waybills: Waybill[];
+  shopifyOrder?: {
+    id: number;
+    name: string;
+    order_number: number;
+    created_at: string;
+  };
 }
 
 export interface Waybill {

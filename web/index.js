@@ -58,7 +58,7 @@ app.use("/api/shopify/orders", async (req, res) => {
   const session = res.locals.shopify.session;
   const orders = await shopify.api.rest.Order.all({
     session: session,
-    fields: "id,order_number,name",
+    fields: "id,order_number,name,created_at",
   });
 
   res.json(orders?.data ?? []);
