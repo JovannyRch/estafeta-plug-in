@@ -88,7 +88,7 @@ const ShippingView = ({ title = "Envíos" }) => {
           </FilterContainer>
         </TopActionsContainer>
         <SyncButton onClick={handleRefresh}>
-          Sincronizar órdenes manualmente
+          Sincronizar envíos manualmente
         </SyncButton>
 
         <ShippingTable
