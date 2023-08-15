@@ -1,19 +1,19 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react'
 
 const useRenderFlag = () => {
-  const [renderFlag, setFlag] = useState(true);
+	const [renderFlag, setFlag] = useState(true)
 
-  const forceReRender = () => {
-    setFlag(false);
-  };
+	const forceReRender = () => {
+		setFlag(false)
+	}
 
-  useEffect(() => {
-    if (!renderFlag) {
-      setFlag(true);
-    }
-  }, [renderFlag]);
+	useEffect(() => {
+		if (!renderFlag) {
+			setFlag(true)
+		}
+	}, [renderFlag])
 
-  return { renderFlag, forceReRender };
-};
+	return { renderFlag, forceReRender }
+}
 
-export default useRenderFlag;
+export default useRenderFlag

@@ -1,43 +1,40 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from 'react'
 
-type ValidTypes = string | number | boolean | object | undefined;
+type ValidTypes = string | number | boolean | object | undefined
 
-const useLocalStorage = <T extends ValidTypes>(
-  key: string,
-  initialValue: T
-) => {
-  const readValue = (): T => {
-    const item = window.localStorage.getItem(key);
+const useLocalStorage = <T extends ValidTypes>(key: string, initialValue: T) => {
+	const readValue = (): T => {
+		const item = window.localStorage.getItem(key)
 
-    if (item === null) return initialValue;
+		if (item === null) return initialValue
 
-    try {
-      return JSON.parse(item);
-    } catch (error) {
-      console.warn(`Error reading localStorage key “${key}”:`, error);
-      return initialValue;
-    }
-  };
+		try {
+			return JSON.parse(item)
+		} catch (error) {
+			console.warn(`Error reading localStorage key “${key}”:`, error)
+			return initialValue
+		}
+	}
 
-  const [storedValue, setStoredValue] = useState<T>(readValue);
+	const [storedValue, setStoredValue] = useState<T>(readValue)
 
-  const setValue = (value: T) => {
-    setStoredValue(value);
-    window.localStorage.setItem(key, JSON.stringify(value));
-  };
+	const setValue = (value: T) => {
+		setStoredValue(value)
+		window.localStorage.setItem(key, JSON.stringify(value))
+	}
 
-  useEffect(() => {
-    const handleStorageChange = () => {
-      setStoredValue(readValue());
-    };
+	useEffect(() => {
+		const handleStorageChange = () => {
+			setStoredValue(readValue())
+		}
 
-    window.addEventListener("storage", handleStorageChange);
-    return () => {
-      window.removeEventListener("storage", handleStorageChange);
-    };
-  }, []);
+		window.addEventListener('storage', handleStorageChange)
+		return () => {
+			window.removeEventListener('storage', handleStorageChange)
+		}
+	}, [])
 
-  return [storedValue, setValue] as const;
-};
+	return [storedValue, setValue] as const
+}
 
-export default useLocalStorage;
+export default useLocalStorage

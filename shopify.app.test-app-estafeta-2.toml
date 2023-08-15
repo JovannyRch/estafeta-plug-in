@@ -1,0 +1,27 @@
+# Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
+
+name = "test-app-estafeta-2"
+client_id = "bfb75aa36d8787a20e1b6f29c4818c60"
+application_url = "https://bikes-pattern-songs-robertson.trycloudflare.com"
+embedded = true
+
+[access_scopes]
+# Learn more at https://shopify.dev/docs/apps/tools/cli/configuration#access_scopes
+scopes = "write_products,read_orders"
+
+[auth]
+redirect_urls = [
+  "https://bikes-pattern-songs-robertson.trycloudflare.com/auth/callback",
+  "https://bikes-pattern-songs-robertson.trycloudflare.com/auth/shopify/callback",
+  "https://bikes-pattern-songs-robertson.trycloudflare.com/api/auth/callback"
+]
+
+[webhooks]
+api_version = "2023-07"
+
+[pos]
+embedded = false
+
+[build]
+automatically_update_urls_on_dev = true
+dev_store_url = "tienda-pruebas-estafeta.myshopify.com"

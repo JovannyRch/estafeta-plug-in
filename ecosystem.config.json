@@ -1,0 +1,16 @@
+{
+	"apps": [
+		{
+			"name": "shopify-plugin",
+			"script": "./index.js",
+			"instances": 0,
+			"exec_mode": "cluster",
+			"node_args": "--max-old-space-size=2560",
+			"max_memory_restart": "2400M",
+			"env": {
+				"DEBUG": false,
+				"NODE_ENV": "production"
+			}
+		}
+	]
+}

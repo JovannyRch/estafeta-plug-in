@@ -10,12 +10,12 @@ export default function PageName() {
         title={t("PageName.title")}
         primaryAction={{
           content: t("PageName.primaryAction"),
-          onAction: () => console.log("Primary action"),
+          onAction: () => { },
         }}
         secondaryActions={[
           {
             content: t("PageName.secondaryAction"),
-            onAction: () => console.log("Secondary action"),
+            onAction: () => { },
           },
         ]}
       />

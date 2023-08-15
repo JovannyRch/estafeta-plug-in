@@ -87,7 +87,7 @@ const ConfirmationModal = ({
 
 
   return (
-    <ModalOverlay >
+    <ModalOverlay>
       <ModalContainer ref={ref}>
         {
           title && <ModalHeader>{title}</ModalHeader>

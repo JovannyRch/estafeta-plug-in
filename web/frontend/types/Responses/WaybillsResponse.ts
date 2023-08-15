@@ -1,14 +1,14 @@
 export interface WaybillsResponse {
-  documentWaybill: DocumentWaybill[];
+	documentWaybill: DocumentWaybill[]
 }
 
 export interface DocumentWaybill {
-  code: string;
-  pdfFile: string;
-  result: Result;
+	code: string
+	pdfFile: string
+	result: Result
 }
 
 export interface Result {
-  code: string;
-  Description: string;
+	code: string
+	Description: string
 }

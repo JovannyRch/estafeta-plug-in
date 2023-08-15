@@ -1,4 +1,4 @@
 export interface DateRange {
-  creationStartDate: string;
-  creationEndDate: string;
+	creationStartDate: string
+	creationEndDate: string
 }

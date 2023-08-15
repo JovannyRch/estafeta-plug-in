@@ -1,20 +1,19 @@
 # Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
 
-name = "Estafeta"
-client_id = "228f9b3648e05552580fc62e32cd8b1f"
-application_url = "https://jr-gm-liechtenstein-formal.trycloudflare.com"
+name = "app-estafeta-prod"
+client_id = "b70847e077c05cee88e44c6b1cd44772"
+application_url = "https://idea-china-sociology-face.trycloudflare.com"
 embedded = true
 
 [access_scopes]
 # Learn more at https://shopify.dev/docs/apps/tools/cli/configuration#access_scopes
 scopes = "write_products,read_orders"
-use_legacy_install_flow = true
 
 [auth]
 redirect_urls = [
-  "https://jr-gm-liechtenstein-formal.trycloudflare.com/auth/callback",
-  "https://jr-gm-liechtenstein-formal.trycloudflare.com/auth/shopify/callback",
-  "https://jr-gm-liechtenstein-formal.trycloudflare.com/api/auth/callback"
+  "https://idea-china-sociology-face.trycloudflare.com/auth/callback",
+  "https://idea-china-sociology-face.trycloudflare.com/auth/shopify/callback",
+  "https://idea-china-sociology-face.trycloudflare.com/api/auth/callback"
 ]
 
 [webhooks]

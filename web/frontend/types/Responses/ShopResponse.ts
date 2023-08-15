@@ -1,9 +1,9 @@
 export interface ShopResponse {
-  data: Shop[];
+	data: Shop[]
 }
 
 export interface Shop {
-  id: number;
-  name: string;
-  email: string;
+	id: number
+	name: string
+	email: string
 }

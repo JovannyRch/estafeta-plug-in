@@ -1,8 +1,8 @@
-import { createContext } from 'react';
+import { createContext } from 'react'
 
 export const AppContext = createContext({
-    shop: {
-        name: '',
-        email: '',
-    }
-});
+	shop: {
+		name: '',
+		email: ''
+	}
+})
