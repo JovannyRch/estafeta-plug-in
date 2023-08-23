@@ -38,7 +38,6 @@ const TopButtonsContainer = styled.div`
   justify-content: space-between;
 `;
 
-type OptionCode = 1 | 2;
 
 const OrdersView = ({ title = "Órdenes" }) => {
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
@@ -195,7 +194,6 @@ const OrdersView = ({ title = "Órdenes" }) => {
         onClose={() => setShowItemConfirmationModal(false)}
         onOk={handleCreateItemShipment}
         isOpen={showItemConfirmationModal}
-        localKey="shipments-confirmation-modal-2"
       />
     </ViewWrapper>
   );

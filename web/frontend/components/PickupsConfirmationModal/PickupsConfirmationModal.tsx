@@ -1,7 +1,7 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { styled } from "styled-components";
 import ConfirmationModal from "../ConfirmationModal/ConfirmationModal";
-import useLocalStorage from "../../hooks/useLocalStorage";
+
 const ModalMessage = styled.p`
   color: var(--tipografa, #12263c);
   text-align: center;
@@ -17,42 +17,20 @@ interface Props {
   isOpen: boolean;
   onClose?: () => void;
   onOk?: () => void;
-  localKey?: string;
 }
 
 const PickupsConfirmationModal = ({
-  localKey,
   isOpen,
   onClose,
   onOk,
 }: Props) => {
-  const [localValue, setLocalValue] = useLocalStorage<boolean>(
-    localKey ?? "",
-    false
-  );
+
 
   const handleOnOk = () => {
-    const checkbox = document.getElementById(
-      "pickups-confirmation-modal"
-    ) as HTMLInputElement;
-    if (checkbox.checked) {
-      setLocalValue(true);
-    }
-
     onOk?.();
     onClose?.();
   };
 
-  useEffect(() => {
-    if (isOpen && localValue) {
-      onOk?.();
-      onClose?.();
-    }
-  }, [isOpen, localValue]);
-
-  if (localValue) {
-    return null;
-  }
 
   return (
     <ConfirmationModal
@@ -71,11 +49,7 @@ const PickupsConfirmationModal = ({
         <br />
         ¿Deseas ser direccionado?
         <br />
-        <br />
-        <div>
-          <input type="checkbox" id="pickups-confirmation-modal" />
-          <label> No volver a mostrar este mensaje</label>
-        </div>
+      
       </ModalMessage>
     </ConfirmationModal>
   );

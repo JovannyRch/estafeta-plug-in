@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 import {
   Container,
   ViewContainer,
@@ -7,7 +7,6 @@ import {
 } from "./styled-components";
 import Header from "../Header/Header";
 import useShop from "../../hooks/useShop";
-import useLocalStorage from "../../hooks/useLocalStorage";
 import { CSSTransition } from "react-transition-group";
 import { AppContext } from "../../context";
 
@@ -17,39 +16,32 @@ interface Props {
 
 const ViewWrapper = ({ children }: Props) => {
   const { shop } = useShop();
-  const { email, name } = shop?.data[0] ?? {};
+  const { email, name, myshopify_domain } = shop?.data[0] ?? {};
 
-  const [storedEmail, setStoredEmail] = useLocalStorage("email", email);
-
-  const [storedCollapse, setStoredCollapse] = useLocalStorage<boolean>(
-    "collapse",
+  const [isCollapse, setIsCollapse] = useState<boolean>(  
     false
   );
 
-  const toggleCollapse = () => setStoredCollapse(!storedCollapse);
-
-  useEffect(() => {
-    if (email) setStoredEmail(email);
-  }, [email, storedEmail]);
+  const toggleCollapse = () => setIsCollapse(!isCollapse);
 
   return (
     <AppContext.Provider
-      value={{ shop: { email: email ?? "", name: name ?? "" } }}
+      value={{ shop: { email: email ?? "", name: name ?? "", myshopify_domain: myshopify_domain ?? '' } }}
     >
       <Container>
-        <Header email={storedEmail} toggleSidebar={toggleCollapse} />
+        <Header email={email} toggleSidebar={toggleCollapse} />
         <Body>
           <CSSTransition
-            in={!storedCollapse}
+            in={!isCollapse}
             timeout={300}
             classNames="my-node"
-            onEnter={() => setStoredCollapse(false)}
-            onExited={() => setStoredCollapse(true)}
+            onEnter={() => setIsCollapse(false)}
+            onExited={() => setIsCollapse(true)}
           >
             <AnimatedSidebar
-              collapsed={storedCollapse}
-              enter={!storedCollapse}
-              exit={storedCollapse}
+              collapsed={isCollapse}
+              enter={!isCollapse}
+              exit={isCollapse}
             />
           </CSSTransition>
           <ViewContainer>{children}</ViewContainer>

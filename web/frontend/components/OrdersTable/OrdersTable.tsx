@@ -37,8 +37,9 @@ const OrdersTable = ({
   const app = useContext(AppContext);
 
   const handleOpenOrder = (order: Order) => {
+    const domain = app?.shop?.myshopify_domain?.replace('.myshopify.com', '')
     window.open(
-      `https://admin.shopify.com/store/${app?.shop?.name}/orders/${order?.shopify?.id}`
+      `https://admin.shopify.com/store/${domain}/orders/${order?.shopify?.id}`
     );
   };
 

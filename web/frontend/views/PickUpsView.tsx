@@ -9,7 +9,6 @@ import Button from "../components/Button/Button";
 import DateFilter from "../components/DateFilter/DateFilter";
 
 import PickUpsTable from "../components/PickUpsTable/PickUpsTable";
-import useLocalStorage from "../hooks/useLocalStorage";
 
 import { Container, DropdownWithInputContainer } from "./styled-components";
 import { PickupResponse } from "../types/Responses/PickUpsResponse";
@@ -41,8 +40,6 @@ const TopButtonsContainer = styled.div`
   margin-bottom: 28px;
 `;
 
-const LOCAL_STORAGE_KEY = "show-pickup-modal-3";
-
 const PickUpsView = ({ title = "Recolecciones" }) => {
   const [showConfirmationModal, setShowConfirmationModal] =
     useState<boolean>(false);
@@ -59,16 +56,8 @@ const PickUpsView = ({ title = "Recolecciones" }) => {
 
   const [optionCode, setOptionCode] = useState(filters.optionCode);
 
-  const [showModalModalSelection, setShowModalModalSelection] =
-    useLocalStorage<boolean>(LOCAL_STORAGE_KEY, true);
-
   const handleGoToEstafeta = () => {
     setShowConfirmationModal(false);
-    const checkbox: any = document.getElementById("pickups-confirmation-modal");
-    if (checkbox && checkbox.checked) {
-      setShowModalModalSelection(false);
-    }
-
     window.open(ESTAFETA_LINKS.nuevaRecoleccion());
   };
 
@@ -121,11 +110,6 @@ const PickUpsView = ({ title = "Recolecciones" }) => {
   };
 
   const onCreatePickUp = () => {
-    if (!showModalModalSelection) {
-      handleGoToEstafeta();
-      return;
-    }
-
     setShowConfirmationModal(true);
   };
 
@@ -190,7 +174,6 @@ const PickUpsView = ({ title = "Recolecciones" }) => {
         isOpen={showConfirmationModal}
         onClose={() => setShowConfirmationModal(false)}
         onOk={handleGoToEstafeta}
-        localKey={LOCAL_STORAGE_KEY}
       />
     </ViewWrapper>
   );
